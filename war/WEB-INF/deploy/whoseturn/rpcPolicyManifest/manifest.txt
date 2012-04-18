@@ -1,4 +1,4 @@
 # Module whoseturn
 # RPC service class, partial path of RPC policy file
-edu.unlv.cs.whoseturn.client.UsersService, CA2B470D63EBBC2F42E4CFF23C3583B0.gwt.rpc
+edu.unlv.cs.whoseturn.client.UsersService, 94C27C3C3699D421A5B091FE677896CD.gwt.rpc
 edu.unlv.cs.whoseturn.client.GreetingService, A8F474AE890F87101F2BA032648890F0.gwt.rpc

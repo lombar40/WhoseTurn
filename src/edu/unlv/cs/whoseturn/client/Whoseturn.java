@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.CheckBox;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -61,7 +62,7 @@ public class Whoseturn implements EntryPoint {
 		// Focus the cursor on the name field when the app loads
 		nameField.setFocus(true);
 		
-		final Label lblNewLabel = new Label("Loading...");
+		final Label lblNewLabel = new Label("Loading logged in user....(Current disabled)");
 		rootPanel.add(lblNewLabel, 0, 0);
 		
 		Button btnLogout = new Button("Logout");
@@ -80,11 +81,78 @@ public class Whoseturn implements EntryPoint {
 			}
 		});
 		rootPanel.add(btnLogout, 10, 24);
+		
+		final HTML htmlNewHtml = new HTML("Last added user will be listed here upon query with the keystring.", true);
+		rootPanel.add(htmlNewHtml, 34, 242);
+		htmlNewHtml.setSize("354px", "221px");
+
+		
+		final TextBox txtbxUsername = new TextBox();
+		rootPanel.add(txtbxUsername, 96, 70);
+		
+		final TextBox txtbxEmail = new TextBox();
+		rootPanel.add(txtbxEmail, 96, 110);
+		
+		final CheckBox chckbxAdmin = new CheckBox("");
+		rootPanel.add(chckbxAdmin, 96, 150);
+		
+		final Label lblUsername = new Label("username");
+		rootPanel.add(lblUsername, 9, 70);
+		
+		final Label lblEmail = new Label("email");
+		rootPanel.add(lblEmail, 10, 110);
+		
+		Label lblAdmin = new Label("admin?");
+		rootPanel.add(lblAdmin, 9, 150);
+		
+		Button btnAdduser = new Button("adduser");
+		
+		btnAdduser.setText("Add User");
+		rootPanel.add(btnAdduser, 96, 179);
+		
+		final Label lblCreated = new Label("Created user with keystring:");
+		rootPanel.add(lblCreated, 34, 218);
+		lblCreated.setVisible(false);
+		
+		final Label lblKeystring = new Label("");
+		rootPanel.add(lblKeystring, 202, 218);
+		lblKeystring.setSize("53px", "18px");
 		nameField.selectAll();
 		
-		
+		btnAdduser.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				usersService.addTestUser(txtbxUsername.getText(), txtbxEmail.getText(), chckbxAdmin.getValue(),
+						new AsyncCallback<String>() {
+							public void onFailure(Throwable caught) {
+								lblCreated.setText("FAILURE");
+							}
 
-		usersService.isLoggedIn(
+							public void onSuccess(String result) {
+								lblCreated.setVisible(true);
+								lblKeystring.setText(result);
+							}
+						});
+			}
+		});
+		
+		Button btnNewButton = new Button("Query User");
+		btnNewButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				usersService.findUserByKey(lblKeystring.getText(),
+						new AsyncCallback<String>() {
+							public void onFailure(Throwable caught) {
+								lblNewLabel.setText("FAILURE");
+							}
+
+							public void onSuccess(String result) {
+								htmlNewHtml.setHTML(result);
+							}
+						});
+			}
+		});
+		btnNewButton.setText("Query User");
+		rootPanel.add(btnNewButton, 34, 467);
+		/*usersService.isLoggedIn(
 				new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable caught) {
 						lblNewLabel.setText("FAILURE");
@@ -119,7 +187,7 @@ public class Whoseturn implements EntryPoint {
 						}
 						
 					}
-				});
+				});*/
 		
 
 		// Create the popup dialog box
