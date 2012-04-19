@@ -1,0 +1,34 @@
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jstl/core ">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<html>
+<head>
+	<title>Whose Turn?</title>
+	<link rel="stylesheet" href="mobile.css" />
+</head>
+<body>
+	<div class="wrapper">
+		<h1>Whose Turn?</h1>
+		<h3>Hello ${ currentUser.nickname }!</h3>
+		<h2>Category selection</h2>
+		<h3>
+			<a href="" class="button" bgcolor="#0000FF">Car pool</a>
+			<a href="" class="button" bgcolor="#0000FF">Buy crêpes</a>
+			<a href="" class="button" bgcolor="#0000FF">Roshambo</a>
+		</h3>
+	</div>
+	
+	<div class="footer">
+		<a href="" class="button" bgcolor="#0000FF">Confirm 3 turns</a>
+		<a href="" class="button" bgcolor="#0000FF">App Settings</a>
+	</div>
+	
+</body>
+
+	</html>
+</jsp:root>

@@ -1,0 +1,37 @@
+@CHARSET "ISO-8859-1";
+
+* {
+	margin: 0;
+}
+
+body {
+	background-color: #1B1E26;
+	color: #EBF2D0;
+	font-family: sans-serif;
+	
+	padding-bottom: 6em;
+}
+
+.wrapper {
+}
+
+.footer, .push {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #2B2E36;
+}
+
+a {
+	font-weight: bold;
+	text-align: center;
+	border: 0.4em;
+	border-color: #2F5373;
+	border-style: solid;
+	margin: 0.4em;
+	
+	color: #EBF2D0;
+	text-decoration: none;
+	display: block;
+	background-color: #2F5373;
+}
