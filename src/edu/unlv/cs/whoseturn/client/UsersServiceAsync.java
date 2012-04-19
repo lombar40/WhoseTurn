@@ -1,5 +1,7 @@
 package edu.unlv.cs.whoseturn.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
@@ -22,7 +24,7 @@ public interface UsersServiceAsync {
 	void addTestUser(String username, String email, Boolean admin, AsyncCallback<String> callback)
 			throws IllegalArgumentException;
 	
-	void findUsers(AsyncCallback<Integer> callback)
+	void findUsers(AsyncCallback<List<String[]>> callback)
 			throws IllegalArgumentException;
 	
 	void findUserByKey(String key, AsyncCallback<String> callback)

@@ -1,24 +1,24 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 public class TurnItem {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String keyString;
 	
 	@Persistent
-    private Key turn;
+    private String turnKeyString;
 
 	@Persistent
-    private Key owner;
+    private String ownerKeyString;
 
 	@Persistent
     private Boolean selected;
@@ -29,28 +29,28 @@ public class TurnItem {
 	@Persistent
     private Boolean deleted;
 
-	public Key getKey() {
-		return key;
+	public String getKeyString() {
+		return keyString;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setKeyString(String keyString) {
+		this.keyString = keyString;
 	}
 
-	public Key getTurn() {
-		return turn;
+	public String getTurnKeyString() {
+		return turnKeyString;
 	}
 
-	public void setTurn(Key turn) {
-		this.turn = turn;
+	public void setTurnKeyString(String turnKeyString) {
+		this.turnKeyString = turnKeyString;
 	}
 
-	public Key getOwner() {
-		return owner;
+	public String getOwnerKeyString() {
+		return ownerKeyString;
 	}
 
-	public void setOwner(Key owner) {
-		this.owner = owner;
+	public void setOwnerKeyString(String ownerKeyString) {
+		this.ownerKeyString = ownerKeyString;
 	}
 
 	public Boolean getSelected() {

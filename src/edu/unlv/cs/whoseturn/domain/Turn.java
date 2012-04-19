@@ -3,35 +3,35 @@ package edu.unlv.cs.whoseturn.domain;
 import java.util.Date;
 import java.util.Set;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 public class Turn {
 	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String keyString;
 	
 	@Persistent
     private Date turnDateTime;
 
 	@Persistent
-    private Key category;
+    private String categoryKeyString;
     
 	@Persistent
-    private Set<Key> turnItems;
+    private Set<String> turnItems;
 
-	public Key getKey() {
-		return key;
+	public String getKeyString() {
+		return keyString;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setKeyString(String keyString) {
+		this.keyString = keyString;
 	}
 
 	public Date getTurnDateTime() {
@@ -42,24 +42,24 @@ public class Turn {
 		this.turnDateTime = turnDateTime;
 	}
 
-	public Key getCategory() {
-		return category;
+	public String getCategoryKeyString() {
+		return categoryKeyString;
 	}
 
-	public void setCategory(Key category) {
-		this.category = category;
+	public void setCategoryKeyString(String categoryKeyString) {
+		this.categoryKeyString = categoryKeyString;
 	}
 
-	public Set<Key> getTurnItems() {
+	public Set<String> getTurnItems() {
 		return turnItems;
 	}
 
-	public void setTurnItems(Set<Key> turnItems) {
+	public void setTurnItems(Set<String> turnItems) {
 		this.turnItems = turnItems;
 	}
 	
 	public void addTurnItem(TurnItem turnItem)
 	{
-		turnItems.add(turnItem.getKey());
+		turnItems.add(turnItem.getKeyString());
 	}
 }
