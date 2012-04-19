@@ -1,8 +1,10 @@
 package edu.unlv.cs.whoseturn.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.PersistenceManager;
 
@@ -22,6 +24,17 @@ import edu.unlv.cs.whoseturn.domain.PMF;
 public class UsersServiceImpl extends RemoteServiceServlet implements
 		UsersService {
 
+	private static final Map<String, String> openIdProviders;
+    static {
+        openIdProviders = new HashMap<String, String>();
+        openIdProviders.put("google", "www.google.com/accounts/o8/id");
+        openIdProviders.put("yahoo", "yahoo.com");
+        openIdProviders.put("myspace", "myspace.com");
+        openIdProviders.put("aol", "aol.com");
+        openIdProviders.put("myopenid", "myopenid.com");
+        openIdProviders.put("facebook", "facebook.com");
+    }
+    
 	public String usersServer()
 	{
 		UserService userService = UserServiceFactory.getUserService();
@@ -52,11 +65,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         return null;
 	}
 	
-	public String getLoginURL(String location)
+	public String getLoginURL(String providerName, String location)
 	{
 		UserService userService = UserServiceFactory.getUserService();
-        
-        return userService.createLoginURL(location);
+		String providerUrl = openIdProviders.get(providerName);
+        String loginUrl = userService.createLoginURL(location, null, providerUrl, null);
+        return loginUrl;
 	}
 	
 	public String getLogoutURL(String location)

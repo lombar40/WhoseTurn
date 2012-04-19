@@ -6,16 +6,7 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>edu.unlv.cs.whoseturn.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/whoseturn/greet</url-pattern>
-  </servlet-mapping>
-  
+ 
   <servlet>
     <servlet-name>usersServlet</servlet-name>
     <servlet-class>edu.unlv.cs.whoseturn.server.UsersServiceImpl</servlet-class>

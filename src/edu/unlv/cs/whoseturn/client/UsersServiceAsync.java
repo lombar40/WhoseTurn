@@ -12,7 +12,7 @@ public interface UsersServiceAsync {
 	void isLoggedIn(AsyncCallback<Boolean> callback)
 			throws IllegalArgumentException;
 	
-	void getLoginURL(String location, AsyncCallback<String> callback)
+	void getLoginURL(String providerName, String location, AsyncCallback<String> callback)
 			throws IllegalArgumentException;
 	
 	void getUsername(AsyncCallback<String> callback)

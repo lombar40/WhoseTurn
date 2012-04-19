@@ -11,7 +11,7 @@ public interface UsersService extends RemoteService {
 	String usersServer() throws IllegalArgumentException;
 	Boolean isLoggedIn() throws IllegalArgumentException;
 	String getUsername() throws IllegalArgumentException;
-	String getLoginURL(String location) throws IllegalArgumentException;
+	String getLoginURL(String providerName, String location) throws IllegalArgumentException;
 	String getLogoutURL(String location) throws IllegalArgumentException;
 	String addTestUser(String username, String email, Boolean admin) throws IllegalArgumentException;
 	List<String[]> findUsers() throws IllegalArgumentException;
