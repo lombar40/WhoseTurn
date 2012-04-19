@@ -48,18 +48,15 @@ public class Whoseturn implements EntryPoint {
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 		RootPanel rootPanel = RootPanel.get("overall");
-		
-		final Label lblKeystring = new Label("");
-		rootPanel.add(lblKeystring, 202, 218);
-		lblKeystring.setSize("53px", "18px");
+		rootPanel.setSize("100%", "100%");
 		
 		DecoratedTabPanel decoratedTabPanel = new DecoratedTabPanel();
 		rootPanel.add(decoratedTabPanel, 0, 0);
-		decoratedTabPanel.setSize("657px", "578px");
+		decoratedTabPanel.setSize("100%", "100%");
 		
 		AbsolutePanel absolutePanel = new AbsolutePanel();
 		decoratedTabPanel.add(absolutePanel, "Login", false);
-		absolutePanel.setSize("650px", "544px");
+		absolutePanel.setSize("100%", "100%");
 		
 		final Label lblNewLabel = new Label("Loading logged in user....(Current disabled)");
 		absolutePanel.add(lblNewLabel, 0, 0);
@@ -124,15 +121,15 @@ public class Whoseturn implements EntryPoint {
 				
 				AbsolutePanel absolutePanel_1 = new AbsolutePanel();
 				decoratedTabPanel.add(absolutePanel_1, "Main", false);
-				absolutePanel_1.setSize("650px", "544px");
+				absolutePanel_1.setSize("100%", "100%");
 				
 				AbsolutePanel absolutePanel_2 = new AbsolutePanel();
 				decoratedTabPanel.add(absolutePanel_2, "AdminSettings", false);
-				absolutePanel_2.setSize("649px", "540px");
+				absolutePanel_2.setSize("100%", "100%");
 				
 				AbsolutePanel absolutePanel_3 = new AbsolutePanel();
 				decoratedTabPanel.add(absolutePanel_3, "UserSettings", false);
-				absolutePanel_3.setSize("652px", "543px");
+				absolutePanel_3.setSize("100%", "100%");
 				
 				Label lblListUsers = new Label("List Users");
 				absolutePanel_3.add(lblListUsers, 46, 25);
@@ -145,42 +142,42 @@ public class Whoseturn implements EntryPoint {
 				
 				AbsolutePanel absolutePanel_4 = new AbsolutePanel();
 				decoratedTabPanel.add(absolutePanel_4, "User Profile", false);
-				absolutePanel_4.setSize("651px", "543px");
+				absolutePanel_4.setSize("100%", "100%");
 				
 				AbsolutePanel absolutePanel_5 = new AbsolutePanel();
 				decoratedTabPanel.add(absolutePanel_5, "Turn History", false);
-				absolutePanel_5.setSize("650px", "544px");
+				absolutePanel_5.setSize("100%", "100%");
 				lblCreated.setVisible(false);
 				
-				btnAdduser.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
-						usersService.addTestUser(txtbxUsername.getText(), txtbxEmail.getText(), chckbxAdmin.getValue(),
-								new AsyncCallback<String>() {
-									public void onFailure(Throwable caught) {
-										lblCreated.setText("FAILURE");
-									}
-
-									public void onSuccess(String result) {
-										lblCreated.setVisible(true);
-										lblKeystring.setText(result);
-									}
-								});
-					}
-				});
-		btnLogout.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				usersService.getLogoutURL(Window.Location.getPath(),
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								lblNewLabel.setText("FAILURE");
-							}
-
-							public void onSuccess(String result) {
-								Window.open(result, "_self", "");
-							}
-						});
-			}
-		});
+//				btnAdduser.addClickHandler(new ClickHandler() {
+//					public void onClick(ClickEvent event) {
+//						usersService.addTestUser(txtbxUsername.getText(), txtbxEmail.getText(), chckbxAdmin.getValue(),
+//								new AsyncCallback<String>() {
+//									public void onFailure(Throwable caught) {
+//										lblCreated.setText("FAILURE");
+//									}
+//
+//									public void onSuccess(String result) {
+//										lblCreated.setVisible(true);
+//										lblKeystring.setText(result);
+//									}
+//								});
+//					}
+//				});
+//		btnLogout.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				usersService.getLogoutURL(Window.Location.getPath(),
+//						new AsyncCallback<String>() {
+//							public void onFailure(Throwable caught) {
+//								lblNewLabel.setText("FAILURE");
+//							}
+//
+//							public void onSuccess(String result) {
+//								Window.open(result, "_self", "");
+//							}
+//						});
+//			}
+//		});
 		
 		
 		

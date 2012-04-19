@@ -29,6 +29,7 @@
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Whoseturn.html</welcome-file>
+    <welcome-file>WhoseturnMobile.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
