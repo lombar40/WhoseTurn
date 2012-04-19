@@ -2,6 +2,7 @@
 
 * {
 	margin: 0;
+	text-align: center;
 }
 
 body {
@@ -24,7 +25,6 @@ body {
 
 a {
 	font-weight: bold;
-	text-align: center;
 	border: 0.4em;
 	border-color: #2F5373;
 	border-style: solid;
