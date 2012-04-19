@@ -2,25 +2,25 @@ package edu.unlv.cs.whoseturn.domain;
 
 import java.util.Set;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 public class Category {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String keyString;
 
 	@Persistent
     private String name;
 
 	@Persistent
-    private Key strategy;
+    private String strategyKeyString;
 
 	@Persistent
     private int timeBoundryInHours;
@@ -29,14 +29,14 @@ public class Category {
     private Boolean deleted;
     
 	@Persistent
-    private Set<Key> turns;
+    private Set<String> turns;
 
-	public Key getKey() {
-		return key;
+	public String getKeyString() {
+		return keyString;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setKeyString(String keyString) {
+		this.keyString = keyString;
 	}
 
 	public String getName() {
@@ -47,12 +47,12 @@ public class Category {
 		this.name = name;
 	}
 
-	public Key getStrategy() {
-		return strategy;
+	public String getStrategyKeyString() {
+		return strategyKeyString;
 	}
 
-	public void setStrategy(Key strategy) {
-		this.strategy = strategy;
+	public void setStrategyKeyString(String strategyKeyString) {
+		this.strategyKeyString = strategyKeyString;
 	}
 
 	public int getTimeBoundryInHours() {
@@ -71,16 +71,16 @@ public class Category {
 		this.deleted = deleted;
 	}
 
-	public Set<Key> getTurns() {
+	public Set<String> getTurns() {
 		return turns;
 	}
 
-	public void setTurns(Set<Key> turns) {
+	public void setTurns(Set<String> turns) {
 		this.turns = turns;
 	}
 	
 	public void addTurn(Turn turn)
 	{
-		turns.add(turn.getKey());
+		turns.add(turn.getKeyString());
 	}
 }

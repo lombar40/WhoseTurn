@@ -1,5 +1,6 @@
 package edu.unlv.cs.whoseturn.server;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setDeleted(false);
         user.setEmail(email);
         user.setUsername(username);
-        user.setBadges(new HashSet<Key>());
+        user.setBadges(new HashSet<String>());
         
         Badge badge = new Badge();
         badge.setBadgeCriteria("IDUNNO");
@@ -85,7 +86,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         badge = pm.makePersistent(badge);
         
         BadgeAwarded badgeAwarded = new BadgeAwarded();
-        badgeAwarded.setBadgeType(badge.getKey());
+        badgeAwarded.setBadgeTypeKeyString(badge.getKeyString());
         badgeAwarded.setDeleted(false);
         badgeAwarded = pm.makePersistent(badgeAwarded);
         
@@ -97,22 +98,22 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
             pm.close();
         }
         
-        String m = KeyFactory.keyToString(user.getKey());
-        return m;
+        return user.getKeyString();
 	}
 	
-	public Integer findUsers()
+	public List<String[]> findUsers()
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		javax.jdo.Query query = pm.newQuery(User.class);
-		List<User> results;
-		int i = 0;
+		javax.jdo.Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+	    List<String[]> resultStringList = new ArrayList<String[]>();
+	    List<edu.unlv.cs.whoseturn.domain.User> results;
+	    
 	    try {
-	        results = (List<User>) query.execute();
+	        results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
 	        if (!results.isEmpty()) {
-	            for (User e : results) {
-	                i++;
+	            for (edu.unlv.cs.whoseturn.domain.User e : results) {
+	                resultStringList.add(new String[] {e.getUsername(), e.getEmail(), e.getAdmin().toString()});
 	            }
 	        } else {
 	            return null;
@@ -121,8 +122,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	        query.closeAll();
 	        pm.close();
 	    }
-	    
-		return i;
+		return resultStringList;
 	}
 	
 	public String findUserByKey(String key)

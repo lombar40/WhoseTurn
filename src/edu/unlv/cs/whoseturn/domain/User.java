@@ -1,20 +1,20 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
-
 @PersistenceCapable
 public class User {
-
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String keyString;
 	
 	@Persistent
     private String username;
@@ -32,14 +32,14 @@ public class User {
     private byte[] avatarBlob;
 	
 	@Persistent
-	private Set<Key> badges;
+	private Set<String> badges;
 
-	public Key getKey() {
-		return key;
+	public String getKeyString() {
+		return keyString;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setKeyString(String keyString) {
+		this.keyString = keyString;
 	}
 
 	public String getUsername() {
@@ -82,16 +82,16 @@ public class User {
 		this.avatarBlob = avatarBlob;
 	}
 
-	public Set<Key> getBadges() {
+	public Set<String> getBadges() {
 		return badges;
 	}
 
-	public void setBadges(Set<Key> badges) {
+	public void setBadges(Set<String> badges) {
 		this.badges = badges;
 	}
 	
 	public void addBadge(BadgeAwarded badge)
 	{
-		badges.add(badge.getKey());
+		badges.add(badge.getKeyString());
 	}
 }
