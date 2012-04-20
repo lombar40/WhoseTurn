@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<jsp:root xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<html>
+<head>
+	<title>Whose Turn?</title>
+	<link rel="stylesheet" href="mobile.css" />
+</head>
+<body>
+	<script type="text/javascript" language="javascript">
+		function togglePerson(object, key) {
+			if (object.getAttribute("class") == "unselected") {
+				object.setAttribute("class", "selected");
+			} else {
+				object.setAttribute("class", "unselected");
+			}
+		}
+	</script>
+	
+	<div class="wrapper">
+		<h5><a href="index">Return to category selection</a><br /></h5>
+		<h2>Participant selection</h2>
+		<h3>
+			<c:forEach var="person" varStatus="personStatus" items="${persons}">
+				<a href="" class="unselected" onclick="togglePerson(this, '${person.keyString}'); return false;">${person.username}</a>
+			</c:forEach>
+		</h3>
+	</div>
+	
+	<div class="footer">
+		<br />
+		<a href="" class="button">Whose turn?</a>
+	</div>
+	
+</body>
+
+	</html>
+</jsp:root>

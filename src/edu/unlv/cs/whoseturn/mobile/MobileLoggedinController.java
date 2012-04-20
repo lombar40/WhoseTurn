@@ -28,7 +28,8 @@ public class MobileLoggedinController extends HttpServlet {
 		
 		// HACK: Only do test data once
 		Extent<Category> extent = manager.getExtent(Category.class, false);
-		for (Category category : extent) {
+		if (extent.iterator().hasNext()) {
+//		for (Category category : extent) {
 //			manager.deletePersistent(category);
 			return;
 		}
@@ -46,6 +47,26 @@ public class MobileLoggedinController extends HttpServlet {
 		category = new Category();
 		category.setName("Roshambo");
 		manager.makePersistent(category);
+		
+		edu.unlv.cs.whoseturn.domain.User person;
+		
+		person = new edu.unlv.cs.whoseturn.domain.User();
+		person.setUsername("Ryan Or Oravec");
+		person.setDeleted(false);
+		person.setEmail("roo@test.com");
+		manager.makePersistent(person);
+		
+		person = new edu.unlv.cs.whoseturn.domain.User();
+		person.setUsername("Eddie Fogherty");
+		person.setDeleted(false);
+		person.setEmail("ef@test.com");
+		manager.makePersistent(person);
+		
+		person = new edu.unlv.cs.whoseturn.domain.User();
+		person.setUsername("George Harris");
+		person.setDeleted(false);
+		person.setEmail("gh@test.com");
+		manager.makePersistent(person);
 		
 		manager.flush();
 		manager.close();
@@ -77,42 +98,9 @@ public class MobileLoggedinController extends HttpServlet {
 		// Proceed
 		RequestDispatcher view = request.getRequestDispatcher("loggedin.jspx");
 		try {
-//			testData();
+			testData();
 			
 			doStuff(request, response);
-			
-			PersistenceManager manager = PMF.get().getPersistenceManager();
-			List<Category> categories = new ArrayList<Category>();
-//			manager.retrieveAll(categories, true);
-			
-			Extent<Category> extent = manager.getExtent(Category.class, true);
-			for (Category category : extent) {
-				categories.add(category);
-			}
-			
-			/*
-			javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.Category.class);
-			List<Object> results;
-			try {
-				results = (List<Object>)query.execute();
-				
-				for (Object result : results) {
-					if (result instanceof edu.unlv.cs.whoseturn.domain.Category)
-					{
-						edu.unlv.cs.whoseturn.domain.Category category = (edu.unlv.cs.whoseturn.domain.Category)result;
-						categories.add(category);
-						dbgtext += "added " + category.getName() + "\n";
-					}
-				}
-			} finally {
-				query.closeAll();
-				manager.close();
-			}
-			*/
-			
-			request.setAttribute("categories", categories);
-			
-//			request.setAttribute("dbgtext", dbgtext);
 			view.forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
@@ -122,9 +110,41 @@ public class MobileLoggedinController extends HttpServlet {
 	}
 	
 	private void doStuff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// Model who is logged in
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         
         request.setAttribute("currentUser", user);
+		
+        // List categories
+        
+		PersistenceManager manager = PMF.get().getPersistenceManager();
+		List<Category> categories = new ArrayList<Category>();
+		
+		Extent<Category> extent = manager.getExtent(Category.class, true);
+		for (Category category : extent) {
+			categories.add(category);
+		}
+		
+		/*
+		javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.Category.class);
+		List<Object> results;
+		try {
+			results = (List<Object>)query.execute();
+			
+			for (Object result : results) {
+				if (result instanceof edu.unlv.cs.whoseturn.domain.Category)
+				{
+					edu.unlv.cs.whoseturn.domain.Category category = (edu.unlv.cs.whoseturn.domain.Category)result;
+					categories.add(category);
+				}
+			}
+		} finally {
+			query.closeAll();
+			manager.close();
+		}
+		*/
+		
+		request.setAttribute("categories", categories);
 	}
 }

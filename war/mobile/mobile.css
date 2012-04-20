@@ -51,3 +51,13 @@ a:active {
 a:focus, a:hover {
 	border-color: #169EE4;
 }
+
+a.selected {
+	background-color: #169EE4;
+	border-color: #169EE4;
+}
+
+a.selected:focus, a.selected:hover {
+	border-color: #4FB8EE;
+}
+
