@@ -25,6 +25,9 @@ public class Turn {
     
 	@Persistent
     private Set<String> turnItems;
+	
+	@Persistent
+	private Integer numberOfUsers;
 
 	public String getKeyString() {
 		return keyString;
@@ -61,5 +64,13 @@ public class Turn {
 	public void addTurnItem(TurnItem turnItem)
 	{
 		turnItems.add(turnItem.getKeyString());
+	}
+	
+	public Integer getNumberOfUsers(){
+		return numberOfUsers;
+	}
+	
+	public void setNumberOfUsers(Integer numberOfUsers){
+		this.numberOfUsers = numberOfUsers;
 	}
 }
