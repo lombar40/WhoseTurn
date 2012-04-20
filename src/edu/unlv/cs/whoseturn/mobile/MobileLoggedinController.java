@@ -22,7 +22,7 @@ import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
 
 @SuppressWarnings("serial")
-public class MobileServlet extends HttpServlet {
+public class MobileLoggedinController extends HttpServlet {
 	public void testData() {
 		PersistenceManager manager = PMF.get().getPersistenceManager();
 		
@@ -75,7 +75,7 @@ public class MobileServlet extends HttpServlet {
 		}
 		
 		// Proceed
-		RequestDispatcher view = request.getRequestDispatcher("loggedinpage.jspx");
+		RequestDispatcher view = request.getRequestDispatcher("loggedin.jspx");
 		try {
 //			testData();
 			

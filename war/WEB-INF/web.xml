@@ -17,11 +17,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Mobile Servlet</servlet-name>
-		<servlet-class>edu.unlv.cs.whoseturn.mobile.MobileServlet</servlet-class>
+		<servlet-name>MobileLoggedin</servlet-name>
+		<servlet-class>edu.unlv.cs.whoseturn.mobile.MobileLoggedinController</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Mobile Servlet</servlet-name>
+		<servlet-name>MobileLoggedin</servlet-name>
 		<url-pattern>/mobile/index</url-pattern>
 	</servlet-mapping>
 
