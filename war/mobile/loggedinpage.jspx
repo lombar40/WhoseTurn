@@ -19,15 +19,17 @@
 		<h2>Category selection</h2>
 		<h3>
 			<c:forEach var="category" varStatus="categoryStatus" items="${categories}">
-				<a href="" class="button">${category.name}</a>
+				<a href="category?keyString=${category.keyString}" class="button">${category.name}</a>
 			</c:forEach>
 		</h3>
 	</div>
 	
+	${dbgtext}
+	
 	<div class="footer">
 		<br />
-		<a href="" class="button" bgcolor="#0000FF">Confirm 3 turns</a>
-		<a href="" class="button" bgcolor="#0000FF">App Settings</a>
+		<a href="" class="button">Confirm 3 turns</a>
+		<a href="" class="button">App Settings</a>
 	</div>
 	
 </body>

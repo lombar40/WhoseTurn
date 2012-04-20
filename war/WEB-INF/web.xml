@@ -22,7 +22,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Mobile Servlet</servlet-name>
-		<url-pattern>/mobile</url-pattern>
+		<url-pattern>/mobile/index</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

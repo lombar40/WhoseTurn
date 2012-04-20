@@ -1,6 +1,7 @@
 package edu.unlv.cs.whoseturn.mobile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,11 +26,11 @@ public class MobileServlet extends HttpServlet {
 	public void testData() {
 		PersistenceManager manager = PMF.get().getPersistenceManager();
 		
-		// HACK: Delete all categories, then add test categories.
+		// HACK: Only do test data once
 		Extent<Category> extent = manager.getExtent(Category.class, false);
 		for (Category category : extent) {
-			manager.deletePersistent(category);
-//			return;
+//			manager.deletePersistent(category);
+			return;
 		}
 		
 		Category category;
@@ -45,6 +46,9 @@ public class MobileServlet extends HttpServlet {
 		category = new Category();
 		category.setName("Roshambo");
 		manager.makePersistent(category);
+		
+		manager.flush();
+		manager.close();
 	}
 	
 	@Override
@@ -73,22 +77,42 @@ public class MobileServlet extends HttpServlet {
 		// Proceed
 		RequestDispatcher view = request.getRequestDispatcher("loggedinpage.jspx");
 		try {
-			testData();
+//			testData();
 			
 			doStuff(request, response);
 			
 			PersistenceManager manager = PMF.get().getPersistenceManager();
-			List<Category> categories = new LinkedList<Category>();
+			List<Category> categories = new ArrayList<Category>();
 //			manager.retrieveAll(categories, true);
 			
-			Extent<Category> extent = manager.getExtent(Category.class, false);
+			Extent<Category> extent = manager.getExtent(Category.class, true);
 			for (Category category : extent) {
 				categories.add(category);
 			}
 			
+			/*
+			javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.Category.class);
+			List<Object> results;
+			try {
+				results = (List<Object>)query.execute();
+				
+				for (Object result : results) {
+					if (result instanceof edu.unlv.cs.whoseturn.domain.Category)
+					{
+						edu.unlv.cs.whoseturn.domain.Category category = (edu.unlv.cs.whoseturn.domain.Category)result;
+						categories.add(category);
+						dbgtext += "added " + category.getName() + "\n";
+					}
+				}
+			} finally {
+				query.closeAll();
+				manager.close();
+			}
+			*/
+			
 			request.setAttribute("categories", categories);
 			
-			request.setAttribute("testatt", "booze");
+//			request.setAttribute("dbgtext", dbgtext);
 			view.forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
