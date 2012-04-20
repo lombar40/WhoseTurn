@@ -4,6 +4,8 @@ import java.util.List;
 
 import edu.unlv.cs.whoseturn.shared.FieldVerifier;
 
+import edu.unlv.cs.whoseturn.client.views.View1;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,6 +16,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -30,9 +33,11 @@ import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DecoratedStackPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.MenuBar;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -47,7 +52,7 @@ public class WhoseturnMobile implements EntryPoint {
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel rootPanel = RootPanel.get("overall");
+		final RootPanel rootPanel = RootPanel.get("overall");
 		rootPanel.setSize("100%", "100%");
 		
 	
@@ -58,6 +63,16 @@ public class WhoseturnMobile implements EntryPoint {
 		AbsolutePanel absolutePanel = new AbsolutePanel();
 		stackPanel.add(absolutePanel, "Confirmations", false);
 		absolutePanel.setSize("100%", "100%");
+		
+		Button btnButton = new Button("button1");
+		btnButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				System.out.println("button1 clicked handled");
+				RootPanel.get("overall").clear();
+				RootPanel.get("overall").add((new View1()).asWidget());
+			}
+		});
+		absolutePanel.add(btnButton, 105, 42);
 		
 		AbsolutePanel absolutePanel_1 = new AbsolutePanel();
 		stackPanel.add(absolutePanel_1, "Main", false);
