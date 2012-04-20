@@ -15,16 +15,20 @@
 <body>
 	<script type="text/javascript" language="javascript">
 		function togglePerson(object, key) {
-			if (object.getAttribute("class") == "unselected") {
-				object.setAttribute("class", "selected");
-			} else {
-				object.setAttribute("class", "unselected");
-			}
+			
+			newAttribute = object.getAttribute("class") == "selected" ? "unselected" : "selected";
+			object.setAttribute("class", newAttribute);
 		}
 	</script>
 	
 	<div class="wrapper">
-		<h5><a href="index">Return to category selection</a><br /></h5>
+		<h5><a href="index" class="button">Return to category selection</a><br /></h5>
+		<h1>${currentCategory.name}</h1>
+		
+		<h3>
+			Strategy <a href="" class="inlinebutton">S:P ratios <font size="1">(Change)</font></a>
+		</h3>
+		
 		<h2>Participant selection</h2>
 		<h3>
 			<c:forEach var="person" varStatus="personStatus" items="${persons}">

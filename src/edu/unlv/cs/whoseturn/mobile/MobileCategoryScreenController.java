@@ -41,6 +41,19 @@ public class MobileCategoryScreenController extends HttpServlet {
 	}
 	
 	private void doStuff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PersistenceManager manager = PMF.get().getPersistenceManager();
+		
+		// Find which category
+		String key = request.getParameter("keyString");
+		
+		Object keyStringObject = manager.getObjectById(Category.class, key);
+		if (!(keyStringObject instanceof Category)) {
+			return;
+		}
+		Category category = (Category)keyStringObject;
+		
+		request.setAttribute("currentCategory", category);
+		
 		// Model who is logged in
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
@@ -49,7 +62,6 @@ public class MobileCategoryScreenController extends HttpServlet {
 		
         // List users
         
-		PersistenceManager manager = PMF.get().getPersistenceManager();
 		List<edu.unlv.cs.whoseturn.domain.User> users = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
 //		
 //		Extent<Category> extent = manager.getExtent(Category.class, true);
