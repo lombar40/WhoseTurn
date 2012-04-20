@@ -7,7 +7,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class View1 {
+/**
+ * POC that changes to view2 when the button is clicked.
+ */
+public class View1 implements View {
+	@Override
 	public Widget asWidget(){
 		FlowPanel panel = new FlowPanel();
 		Button button1 = new Button();
