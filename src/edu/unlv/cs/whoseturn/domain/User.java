@@ -1,6 +1,5 @@
 package edu.unlv.cs.whoseturn.domain;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.jdo.annotations.Extension;

@@ -13,10 +13,13 @@ public class BadgeAwarded {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String keyString;
+
+	@Persistent
+	private Integer count;
 	
 	@Persistent
-    private String badgeTypeKeyString;
-
+	private Integer badgeId;
+	
 	@Persistent
     private Boolean deleted;
 
@@ -28,20 +31,28 @@ public class BadgeAwarded {
 		this.keyString = keyString;
 	}
 
-	public String getBadgeTypeKeyString() {
-		return badgeTypeKeyString;
-	}
-
-	public void setBadgeTypeKeyString(String badgeTypeKeyString) {
-		this.badgeTypeKeyString = badgeTypeKeyString;
-	}
-
 	public Boolean getDeleted() {
 		return deleted;
 	}
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public Integer getBadgeId() {
+		return badgeId;
+	}
+
+	public void setBadgeId(Integer badgeId) {
+		this.badgeId = badgeId;
 	}
 	
 }

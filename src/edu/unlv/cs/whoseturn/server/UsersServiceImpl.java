@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -34,18 +33,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         openIdProviders.put("myopenid", "myopenid.com");
         openIdProviders.put("facebook", "facebook.com");
     }
-    
-	public String usersServer()
-	{
-		UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-        
-        if (user != null) {
-            return user.getNickname();
-        } else {
-            return userService.createLoginURL("");
-        }
-	}
 	
 	public Boolean isLoggedIn()
 	{
@@ -56,36 +43,51 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	
 	public String getUsername()
 	{
-		UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-
-        if(user != null)
-        	return user.getEmail();
+		UserService userService = UserServiceFactory.getUserService();	// Get the user auth service
+        User user = userService.getCurrentUser();						// Get the logged in user
         
-        return null;
+        // Ensure the user is logged in
+        if(user == null)
+        	return "UserNotLoggedIn";
+
+        PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
+        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");	// Create a query to find the user based off the email
+		query.declareParameters("String emailParam");	// Declare the parameter for search
+		
+		// Execute the query with the email paramter
+		@SuppressWarnings("unchecked")
+		List<edu.unlv.cs.whoseturn.domain.User> results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute(user.getEmail());
+		
+		// Check to make sure only one user was found and return the username
+        if(results.size() == 1)
+        	return results.get(0).getUsername();
+        else if(results.size() == 0)
+        	return "UserNotFound";
+        else
+        	return "ErrorFindingUser";
 	}
 	
 	public String getLoginURL(String providerName, String location)
 	{
 		UserService userService = UserServiceFactory.getUserService();
 		String providerUrl = openIdProviders.get(providerName);
-        String loginUrl = userService.createLoginURL(location, null, providerUrl, null);
-        return loginUrl;
+        return userService.createLoginURL(location, null, providerUrl, null);
 	}
 	
 	public String getLogoutURL(String location)
 	{
 		UserService userService = UserServiceFactory.getUserService();
 		
-		return userService.createLogoutURL(location);
-
+		return userService.createLogoutURL(location, userService.getCurrentUser().getAuthDomain());
 	}
 	
-	public String addTestUser(String username, String email, Boolean admin)
+	@SuppressWarnings("unchecked")
+	public String addNewUser(String username, String email, Boolean admin)
 	{
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
+		PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
+        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();	// Creates a new user object to add
+        
+        // Set properties of the user
         user.setAdmin(admin);
         user.setAvatarBlob(null);
         user.setDeleted(false);
@@ -93,32 +95,49 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setUsername(username);
         user.setBadges(new HashSet<String>());
         
-        Badge badge = new Badge();
-        badge.setBadgeCriteria("IDUNNO");
-        badge.setBadgeName("TESTBADGE");
-        badge.setDeleted(false);
-        badge = pm.makePersistent(badge);
+        // Creation of the user's default badges
+		Query query = pm.newQuery(Badge.class);	// Query the database for all badge types
+	    List<Badge> results;	// Prepare a results list
+	    BadgeAwarded tempBadgeAwarded;	// Prepare a temporary badgeAwarded to be used for the user
+
+	    // Execute the query and set the results
+        results = (List<Badge>) query.execute();
         
-        BadgeAwarded badgeAwarded = new BadgeAwarded();
-        badgeAwarded.setBadgeTypeKeyString(badge.getKeyString());
-        badgeAwarded.setDeleted(false);
-        badgeAwarded = pm.makePersistent(badgeAwarded);
+        // Make sure badges were found
+        if (!results.isEmpty()) {
+        	// Loop through all the badge types and create a BadgeAwarded for this user with count set to 0
+            for (Badge e : results) {
+            	tempBadgeAwarded = new BadgeAwarded();
+            	tempBadgeAwarded.setBadgeId(e.getBadgeId());
+            	tempBadgeAwarded.setCount(0);
+            	tempBadgeAwarded.setDeleted(false);
+            	pm.makePersistent(tempBadgeAwarded);
+                user.addBadge(tempBadgeAwarded);
+            }
+        }
         
-        user.addBadge(badgeAwarded);
-        
+        // Persist the new user
         try {
             pm.makePersistent(user);
         } finally {
+        	
+        	query.closeAll();
             pm.close();
         }
         
         return user.getKeyString();
 	}
 	
+	public String addGuest(String username)
+	{
+        return addNewUser(username, null, false);
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<String[]> findUsers()
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		javax.jdo.Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
 
 	    List<String[]> resultStringList = new ArrayList<String[]>();
 	    List<edu.unlv.cs.whoseturn.domain.User> results;
@@ -137,14 +156,5 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	        pm.close();
 	    }
 		return resultStringList;
-	}
-	
-	public String findUserByKey(String key)
-	{
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Key k = KeyFactory.stringToKey(key);
-		edu.unlv.cs.whoseturn.domain.User user = pm.getObjectById(edu.unlv.cs.whoseturn.domain.User.class, k);
-		
-		return "Username: "+user.getUsername()+"<br />Email: "+user.getEmail()+"<br />Admin: "+user.getAdmin().toString();
 	}
 }

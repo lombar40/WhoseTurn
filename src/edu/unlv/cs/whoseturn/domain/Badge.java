@@ -15,6 +15,9 @@ public class Badge {
 	private String keyString;
 	
 	@Persistent
+	private Integer badgeId;
+	
+	@Persistent
     private String badgeName;
 
 	@Persistent
@@ -53,5 +56,13 @@ public class Badge {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public Integer getBadgeId() {
+		return badgeId;
+	}
+
+	public void setBadgeId(Integer badgeId) {
+		this.badgeId = badgeId;
 	}
 }
