@@ -1,64 +1,84 @@
 package edu.unlv.cs.whoseturn.shared;
 
 import com.google.gwt.user.client.ui.Label;
+import java.util.regex.*;
+//import javax.mail.internet.AddressException;
+//import javax.mail.internet.InternetAddress;
 
 /**
- * <p>
- * FieldVerifier validates that the name the user enters is valid.
- * </p>
- * <p>
- * This class is in the <code>shared</code> package because we use it in both
- * the client code and on the server. On the client, we verify that the name is
- * valid before sending an RPC request so the user doesn't have to wait for a
- * network round trip to get feedback. On the server, we verify that the name is
- * correct to ensure that the input is correct regardless of where the RPC
- * originates.
- * </p>
- * <p>
- * When creating a class that is used on both the client and the server, be sure
- * that all code is translatable and does not use native JavaScript. Code that
- * is not translatable (such as code that interacts with a database or the file
- * system) cannot be compiled into client side JavaScript. Code that uses native
- * JavaScript (such as Widgets) cannot be run on the server.
- * </p>
+ * FieldVerifier validates that the data the user enters is valid.
  */
 public class FieldVerifier 
-{
-
+{	
 	/**
-	 * Verifies that the specified name is valid for our service.
-	 * 
-	 * In this example, we only require that the name is at least four
-	 * characters. In your application, you can use more complex checks to ensure
-	 * that usernames, passwords, email addresses, URLs, and other fields have the
-	 * proper syntax.
-	 * 
-	 * @param name the name to validate
+	 * Verifies that the e-mail is possibly valid and doesn't already exist.
+	 * @param email the email to validate
+	 * @param display the label that displays a possible error message
 	 * @return true if valid, false if invalid
 	 */
-	public static boolean isValidName(String name) {
-		if (name == null) {
-			return false;
-		}
-		return name.length() > 3;
-	}
-	
 	public static boolean isEmailValid(String email, Label display)
 	{
+		email.toLowerCase().trim();
+		
 		if (email.isEmpty())
 		{
-			display.setText("Can't be Null");
+			display.setText("E-mail cannot be empty.");
 			return false;
 		}
+		
+		// I APPARENTLY CAN"T DO THIS STUFF IN THE CLIENT
+		
+		/*try 
+		{
+			InternetAddress emailAddress = new InternetAddress(email);
+			emailAddress.validate();
+			
+			return true;
+			//if (!hasNameAndDomain(email)) 
+			//{
+		        //return false;
+		    //}
+		} 
+		catch (AddressException e) 
+		{
+			display.setText("Invalid e-mail address");
+			return false;
+		}*/
+		
+		// END NON CLIENT STUFF
+		
+		// A cheap e-mail quality check
+		//if (!email.matches("^[0-9A-Z\\.]{1,10}$")) 
+		
+		
 		return true;
 	}
 
-	public static boolean isUsernameValid(String username) 
+	/**
+	 * Verifies that the username doesn't already exist.
+	 * @param username the username to validate
+	 * @param display the label that displays a possible error message
+	 * @return true if valid, false if invalid
+	 */
+	public static boolean isUsernameValid(String username, Label display) 
 	{
+		// Clear the name of any whitespace
+		username.trim();
+		
+		// The username can't be null
 		if (username.isEmpty())
 		{
+			display.setText("Username cannot be empty");
 			return false;
 		}
+		
+		// The username can't be longer than 30 characters
+		if (username.length() > 30)
+		{
+			display.setText("Username must be under 30 characters");
+			return false;
+		}
+      
 		return true;
 	}
 }

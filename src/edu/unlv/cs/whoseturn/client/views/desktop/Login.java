@@ -95,15 +95,15 @@ public class Login implements View {
 			public void onClick(ClickEvent event) 
 			{
 				// Checks if the e-mail has a chance to be valid and if it already exists.
-				if (!FieldVerifier.isEmailValid(txtbxEmail.getText(), lblKeystring))
+				/*if (!FieldVerifier.isEmailValid(txtbxEmail.getText(), lblKeystring))
 				{
 					return;
 				}
 				// Checks to see if the user name already exists
-				if (!FieldVerifier.isUsernameValid(txtbxUsername.getText()))
+				if (!FieldVerifier.isUsernameValid(txtbxUsername.getText(), lblKeystring))
 				{
 					return;
-				}
+				}*/
 				usersService.addNewUser(txtbxUsername.getText(),
 						txtbxEmail.getText(), chckbxAdmin.getValue(),
 						new AsyncCallback<String>() 
@@ -115,8 +115,10 @@ public class Login implements View {
 
 							public void onSuccess(String result) 
 							{
+								// Result is an error message
+								//lblKeystring.setText(result);
 								lblCreated.setVisible(true);
-								lblKeystring.setText(result);
+								//lblKeystring.setText(result);
 							}
 						});
 			}

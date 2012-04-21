@@ -54,7 +54,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");	// Create a query to find the user based off the email
 		query.declareParameters("String emailParam");	// Declare the parameter for search
 		
-		// Execute the query with the email paramter
+		// Execute the query with the email parameter
 		@SuppressWarnings("unchecked")
 		List<edu.unlv.cs.whoseturn.domain.User> results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute(user.getEmail());
 		
@@ -80,10 +80,29 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		
 		return userService.createLogoutURL(location, userService.getCurrentUser().getAuthDomain());
 	}
-	
+	/**
+	 * Verifies 
+	 */
 	@SuppressWarnings("unchecked")
 	public String addNewUser(String username, String email, Boolean admin)
 	{
+		// Valid email
+		// Invalid email
+		// Email exists
+		
+		// String code = Call Verifier.email
+		
+		// Valid username
+		// Invalid email
+		// Username exists
+		
+		// code = verifier.username
+		
+		// if (!code)
+		{
+			//return code;
+		}
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
         edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();	// Creates a new user object to add
         
