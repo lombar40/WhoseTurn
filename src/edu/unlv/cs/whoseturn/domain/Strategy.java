@@ -80,6 +80,7 @@ public class Strategy {
 	
 	public void chipsSalsaRatioOnly() {
 		double[] totalArray;
+		
 		double lowestRatio;
 		String userToDrive;
 		totalArray = new double[numUsersParticipating];
