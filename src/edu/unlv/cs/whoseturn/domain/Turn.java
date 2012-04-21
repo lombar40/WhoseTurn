@@ -62,4 +62,9 @@ public class Turn {
 	{
 		turnItems.add(turnItem.getKeyString());
 	}
+	
+	public Integer getNumberOfUsers(){
+		return turnItems.size();
+	}
+	
 }
