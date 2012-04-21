@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.client.views.View2;
+import edu.unlv.cs.whoseturn.client.views.ViewImpl2;
 
 /**
  * This is a navigation bar that will be seen by regular users.
@@ -26,7 +26,7 @@ public class NavigationBarUser implements View {
 			public void onClick(ClickEvent event) {
 				System.out.println("view1.button1 clicked handled");
 				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new View2()).asWidget());
+				RootPanel.get("overall").add((new ViewImpl2()).asWidget());
 			}
 		});
 		

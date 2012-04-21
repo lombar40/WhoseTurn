@@ -8,8 +8,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.client.views.View1;
-import edu.unlv.cs.whoseturn.client.views.View2;
 import edu.unlv.cs.whoseturn.client.views.desktop.AdminPanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
@@ -19,6 +17,7 @@ import edu.unlv.cs.whoseturn.client.views.desktop.UserAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.Main;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserDisplay;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserEdit;
+import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
 
 /**
  * This is a navigation bar that will be seen by admin users.

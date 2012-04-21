@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 /**
  * Used as a temporary placeholder during development process.
  */
-public class View2 extends AbstractNavigationView implements NavigationView {
+public class ViewImpl2 extends AbstractNavigationView implements NavigationView {
 	
 	@Override
 	public Widget bodyAsWidget(){
@@ -22,7 +22,7 @@ public class View2 extends AbstractNavigationView implements NavigationView {
 		button1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new View1()).asWidget());
+				RootPanel.get("overall").add((new ViewImpl1()).asWidget());
 			}
 		});
 		panel.add(button1);

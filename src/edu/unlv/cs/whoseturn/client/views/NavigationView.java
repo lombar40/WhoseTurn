@@ -12,5 +12,4 @@ public interface NavigationView extends View {
 	 * @return
 	 */
 	public Widget bodyAsWidget();
-	
 }

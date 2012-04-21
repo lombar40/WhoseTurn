@@ -14,6 +14,18 @@ import edu.unlv.cs.whoseturn.client.views.desktop.navigation.NavigationBarAdmin;
  */
 public abstract class AbstractNavigationView implements NavigationView {
 	
+	/**
+	 * The status view portion of the navigation view.
+	 */
+	private StatusBar statusBar;
+	
+	/**
+	 * Default constructor.
+	 */
+	public AbstractNavigationView() {
+		statusBar = new StatusBarImpl();
+	}
+	
 	@Override
 	public Widget asWidget(){
 		/**
@@ -28,12 +40,22 @@ public abstract class AbstractNavigationView implements NavigationView {
 		mainPanel.add(adminPanel.asWidget());
 		// TODO Change the above to use logic, to determine which navigation bar to use, based on if the user is an admin or not.
 		
-		/**
-		 * The body of the view.
-		 */
+		// The body of the view.
 		mainPanel.add(bodyAsWidget());
+		
+		// Add status bar to the bottom of the navigation view.
+		mainPanel.add(statusBar.asWidget());
 		
 		return mainPanel;
 	}
-
+	
+	/**
+	 * Sets the status of the navigation bar.
+	 * 
+	 * @param status as a string.
+	 */
+	public void setStatus(String status){
+		statusBar.setStatus(status);
+	}
+	
 }

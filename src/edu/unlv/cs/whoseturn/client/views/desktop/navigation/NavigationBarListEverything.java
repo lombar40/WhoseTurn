@@ -8,13 +8,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.client.views.View1;
-import edu.unlv.cs.whoseturn.client.views.View2;
 import edu.unlv.cs.whoseturn.client.views.desktop.AdminPanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
-import edu.unlv.cs.whoseturn.client.views.desktop.TurnDisplay;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.Main;

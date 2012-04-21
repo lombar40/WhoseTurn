@@ -24,7 +24,7 @@ public class Logout extends AbstractNavigationView implements NavigationView {
 		// screen.
 		final Label lblNewLabel = new Label("Placeholder for logout.");
 		loginPanel.add(lblNewLabel);
-
+		
 		return loginPanel;
 	}
 }

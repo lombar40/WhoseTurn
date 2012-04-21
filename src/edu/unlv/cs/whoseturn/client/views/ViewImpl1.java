@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Used as a temporary placeholder during development process.
  */
-public class View1 extends AbstractNavigationView implements NavigationView {
+public class ViewImpl1 extends AbstractNavigationView implements NavigationView {
 	
 	/**
 	 * @wbp.parser.entryPoint
@@ -26,7 +26,7 @@ public class View1 extends AbstractNavigationView implements NavigationView {
 			public void onClick(ClickEvent event) {
 				System.out.println("view1.button1 clicked handled");
 				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new View2()).asWidget());
+				RootPanel.get("overall").add((new ViewImpl2()).asWidget());
 			}
 		});
 		
