@@ -53,6 +53,8 @@ public class Badge {
 	
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 	
+	
+	// Getters and Setters.
 	public String getKeyString() {
 		return keyString;
 	}

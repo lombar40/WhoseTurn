@@ -31,6 +31,8 @@ public class Category {
 	@Persistent
     private Set<String> turns;
 
+	
+	// Getters and Setters.
 	public String getKeyString() {
 		return keyString;
 	}

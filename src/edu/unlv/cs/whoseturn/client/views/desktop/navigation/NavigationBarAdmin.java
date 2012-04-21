@@ -11,6 +11,7 @@ import edu.unlv.cs.whoseturn.client.views.View;
 import edu.unlv.cs.whoseturn.client.views.desktop.AdminPanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
+import edu.unlv.cs.whoseturn.client.views.desktop.CategoryList;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserAdd;
@@ -78,7 +79,7 @@ public class NavigationBarAdmin implements View {
 		listCategory.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new CategoryAdd()).asWidget());
+				RootPanel.get("overall").add((new CategoryList()).asWidget());
 			}
 		});
 		navigationBar.add(listCategory);
@@ -112,15 +113,15 @@ public class NavigationBarAdmin implements View {
 		/**
 		 * Links to profileManagement.
 		 */
-		Button profileManagementNavItem = new Button();
-		profileManagementNavItem.setText("Profile Management");
-		profileManagementNavItem.addClickHandler(new ClickHandler() {
+		Button editUserNavItem = new Button();
+		editUserNavItem.setText("Profile Management");
+		editUserNavItem.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootPanel.get("overall").clear();
 				RootPanel.get("overall").add((new UserEdit()).asWidget());
 			}
 		});
-		navigationBar.add(profileManagementNavItem);
+		navigationBar.add(editUserNavItem);
 		
 		/**
 		 * Links to create user.
