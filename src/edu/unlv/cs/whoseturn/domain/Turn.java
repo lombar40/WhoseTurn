@@ -26,6 +26,7 @@ public class Turn {
 	@Persistent
     private Set<String> turnItems;
 
+	// Getters and Setters.
 	public String getKeyString() {
 		return keyString;
 	}

@@ -20,6 +20,8 @@ public class Strategy {
 	@Persistent
     private Boolean deleted;
 
+	
+	// Getters and Setters.
 	public String getKeyString() {
 		return keyString;
 	}

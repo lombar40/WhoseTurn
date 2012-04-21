@@ -18,17 +18,19 @@ import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
 import edu.unlv.cs.whoseturn.client.views.View;
 
 /**
- * POC that changes to view2 when the button is clicked.
+ * View used to allow users to login. We extend the view interface because we do
+ * not want the navigation bar to appear until a user is logged in.
  */
 public class Login implements View {
-	
+
 	private final UsersServiceAsync usersService = GWT
 			.create(UsersService.class);
+
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
-	public Widget asWidget(){
+	public Widget asWidget() {
 		String url = GWT.getHostPageBaseURL();
 		if (!GWT.isProdMode())
 			url += "?gwt.codesvr=127.0.0.1:9997";

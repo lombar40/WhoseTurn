@@ -7,7 +7,9 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Class used to represent Badges that are awarded to users. 
+ */
 /////////////////////////////////////// ** List of Badges ** ///////////////////////////////////////
 ////	BadgeID		Badge Name					Badge Criterion									////		
 ////	1000		Jackass						User submitted a turn with only himself.		////
@@ -29,7 +31,6 @@ import javax.jdo.annotations.PrimaryKey;
 ////	1021		MythBusters					User is Matthew Sowders							////
 ////																							////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 @PersistenceCapable
 public class Badge {
 
@@ -52,6 +53,8 @@ public class Badge {
 	
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 	
+	
+	// Getters and Setters.
 	public String getKeyString() {
 		return keyString;
 	}

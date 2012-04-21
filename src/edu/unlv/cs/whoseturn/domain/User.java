@@ -43,6 +43,7 @@ public class User {
 		return keyString;
 	}
 
+	// Getters and Setters.
 	public void setKeyString(String keyString) {
 		this.keyString = keyString;
 	}
