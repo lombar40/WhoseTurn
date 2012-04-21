@@ -15,7 +15,6 @@
 
 	<!-- Specify the app entry point class.                         -->
 	<entry-point class='edu.unlv.cs.whoseturn.client.Whoseturn' />
-	<entry-point class='edu.unlv.cs.whoseturn.client.WhoseturnMobile' />
 
 	<!-- Specify the paths for translatable code                    -->
 	<source path='client' />

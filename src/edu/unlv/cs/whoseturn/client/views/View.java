@@ -12,4 +12,5 @@ public interface View {
 	 * @return A panel as a widget.
 	 */
 	public Widget asWidget();
+	
 }

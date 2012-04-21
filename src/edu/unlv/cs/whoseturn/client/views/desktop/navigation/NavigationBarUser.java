@@ -1,4 +1,4 @@
-package edu.unlv.cs.whoseturn.client.views;
+package edu.unlv.cs.whoseturn.client.views.desktop.navigation;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -7,21 +7,21 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.unlv.cs.whoseturn.client.views.View;
+import edu.unlv.cs.whoseturn.client.views.View2;
+
 /**
- * Used as a temporary placeholder during development process.
+ * This is a navigation bar that will be seen by regular users.
  */
-public class View1 extends AbstractNavigationView implements NavigationView {
-	
+public class NavigationBarUser implements View {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
-	public Widget bodyAsWidget(){
-		
-		// The body of the view.
-		FlowPanel panel = new FlowPanel();
+	public Widget asWidget(){
+		FlowPanel navigationBar = new FlowPanel();
 		Button button1 = new Button();
-		button1.setText("View1 - Place holder, this will have to be implemented into its own panel.");
+		button1.setText("View1");
 		button1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				System.out.println("view1.button1 clicked handled");
@@ -30,9 +30,8 @@ public class View1 extends AbstractNavigationView implements NavigationView {
 			}
 		});
 		
-		panel.add(button1);
+		navigationBar.add(button1);
 		
-		return panel;
+		return navigationBar;
 	}
-	
 }

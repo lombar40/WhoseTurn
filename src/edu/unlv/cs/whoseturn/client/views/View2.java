@@ -8,23 +8,25 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
- * POC that changes to view1 when the button is clicked.
+ * Used as a temporary placeholder during development process.
  */
-public class View2 implements View {
+public class View2 extends AbstractNavigationView implements NavigationView {
+	
 	@Override
-	public Widget asWidget(){
+	public Widget bodyAsWidget(){
+		
+		// The body of the view.
 		FlowPanel panel = new FlowPanel();
 		Button button1 = new Button();
-		button1.setText("View2");
+		button1.setText("View2 - Place holder, this will have to be implemented into its own panel.");
 		button1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				System.out.println("view2.button1 clicked handled");
 				RootPanel.get("overall").clear();
 				RootPanel.get("overall").add((new View1()).asWidget());
 			}
 		});
 		panel.add(button1);
-		
 		return panel;
 	}
+	
 }
