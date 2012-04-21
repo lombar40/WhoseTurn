@@ -31,6 +31,9 @@ public class User {
     private byte[] avatarBlob;
 	
 	@Persistent
+	private Integer penaltyCount;
+	
+	@Persistent
     private Set<String> turnItems;
 	
 	@Persistent
@@ -88,10 +91,6 @@ public class User {
 		return turnItems;
 	}
 
-	public void setTurnItems(Set<String> turnItems) {
-		this.turnItems = turnItems;
-	}
-
 	public Set<String> getBadges() {
 		return badges;
 	}
@@ -100,8 +99,28 @@ public class User {
 		this.badges = badges;
 	}
 	
-	public void addBadge(BadgeAwarded badge)
-	{
+	public void addBadge(BadgeAwarded badge) {
 		badges.add(badge.getKeyString());
+	}
+	
+	public void addTurnItem(TurnItem turnItem) {
+		turnItems.add(turnItem.getKeyString());
+	}
+	
+	public void setTurnItems(Set<String> turnItems) {
+		this.turnItems = turnItems;
+	}
+
+	public Integer getPenaltyCount() {
+		return penaltyCount;
+	}
+
+	public void setPenaltyCount(Integer penaltyCount) {
+		this.penaltyCount = penaltyCount;
+	}
+	
+	public void addPenaltyCount() {
+		this.penaltyCount++;
+		
 	}
 }

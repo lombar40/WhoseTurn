@@ -25,9 +25,6 @@ public class Turn {
     
 	@Persistent
     private Set<String> turnItems;
-	
-	@Persistent
-	private Integer numberOfUsers;
 
 	public String getKeyString() {
 		return keyString;
@@ -67,10 +64,7 @@ public class Turn {
 	}
 	
 	public Integer getNumberOfUsers(){
-		return numberOfUsers;
+		return turnItems.size();
 	}
 	
-	public void setNumberOfUsers(Integer numberOfUsers){
-		this.numberOfUsers = numberOfUsers;
-	}
 }
