@@ -115,8 +115,8 @@ public class Login implements View {
 
 							public void onSuccess(String result) 
 							{
-								// Result is an error message
-								//lblKeystring.setText(result);
+								// Result is an error message or the key if successful
+								lblKeystring.setText(result);
 								lblCreated.setVisible(true);
 								//lblKeystring.setText(result);
 							}

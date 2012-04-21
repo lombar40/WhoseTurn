@@ -18,6 +18,7 @@ import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.domain.Badge;
 import edu.unlv.cs.whoseturn.domain.BadgeAwarded;
 import edu.unlv.cs.whoseturn.domain.PMF;
+import edu.unlv.cs.whoseturn.shared.FieldVerifier;
 
 @SuppressWarnings("serial")
 public class UsersServiceImpl extends RemoteServiceServlet implements
@@ -48,7 +49,9 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         
         // Ensure the user is logged in
         if(user == null)
+        {
         	return "UserNotLoggedIn";
+        }
 
         PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
         Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");	// Create a query to find the user based off the email
@@ -59,12 +62,17 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		List<edu.unlv.cs.whoseturn.domain.User> results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute(user.getEmail());
 		
 		// Check to make sure only one user was found and return the username
-        if(results.size() == 1)
+        if (results.size() == 1)
+        {
         	return results.get(0).getUsername();
-        else if(results.size() == 0)
+        }
+        if (results.size() == 0)
+        {
         	return "UserNotFound";
-        else
-        	return "ErrorFindingUser";
+        }
+
+        // Something went wrong if we're down here
+        return "ErrorFindingUser";
 	}
 	
 	public String getLoginURL(String providerName, String location)
@@ -86,21 +94,32 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	@SuppressWarnings("unchecked")
 	public String addNewUser(String username, String email, Boolean admin)
 	{
-		// Valid email
-		// Invalid email
-		// Email exists
+		// Get rid of any leading and trailing whitespace in the username and email address
+		username.trim();
+		email.trim();
 		
-		// String code = Call Verifier.email
+		String errorMessage; // The error message to be displayed when the username or email is invalid
 		
-		// Valid username
-		// Invalid email
-		// Username exists
+		// A valid email will return "Valid"
+		// An invalid email will return "Invalid e-mail address"
+		// A duplicate email will return "E-mail address already exists."
+		errorMessage = FieldVerifier.isEmailValid(email);
 		
-		// code = verifier.username
-		
-		// if (!code)
+		// If the email address isn't "Valid", there was an error so return
+		if (errorMessage != "Valid")
 		{
-			//return code;
+			return errorMessage;
+		}
+		
+		// A Valid username will return "Valid"
+		// An invalid username will return "Invalid username"
+		// A duplicate username will return "Username already exists"
+		errorMessage = FieldVerifier.isUsernameValid(username);
+		
+		// If the username isn't "Valid", there was an error so return
+		if (errorMessage != "Valid")
+		{
+			return errorMessage;
 		}
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
@@ -123,9 +142,11 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         results = (List<Badge>) query.execute();
         
         // Make sure badges were found
-        if (!results.isEmpty()) {
+        if (!results.isEmpty()) 
+        {
         	// Loop through all the badge types and create a BadgeAwarded for this user with count set to 0
-            for (Badge e : results) {
+            for (Badge e : results) 
+            {
             	tempBadgeAwarded = new BadgeAwarded();
             	tempBadgeAwarded.setBadgeId(e.getBadgeId());
             	tempBadgeAwarded.setCount(0);
@@ -136,10 +157,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         }
         
         // Persist the new user
-        try {
+        try 
+        {
             pm.makePersistent(user);
-        } finally {
-        	
+        } 
+        finally 
+        {
         	query.closeAll();
             pm.close();
         }

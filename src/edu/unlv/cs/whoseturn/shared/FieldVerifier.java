@@ -1,84 +1,95 @@
 package edu.unlv.cs.whoseturn.shared;
 
-import com.google.gwt.user.client.ui.Label;
-import java.util.regex.*;
-//import javax.mail.internet.AddressException;
-//import javax.mail.internet.InternetAddress;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import org.apache.commons.validator.routines.EmailValidator;
+import edu.unlv.cs.whoseturn.domain.PMF;
+
 
 /**
  * FieldVerifier validates that the data the user enters is valid.
  */
 public class FieldVerifier 
 {	
+	private static String errorMessage; // The message to be displayed when an error occurs
+	
 	/**
 	 * Verifies that the e-mail is possibly valid and doesn't already exist.
 	 * @param email the email to validate
-	 * @param display the label that displays a possible error message
 	 * @return true if valid, false if invalid
 	 */
-	public static boolean isEmailValid(String email, Label display)
+	@SuppressWarnings("unchecked")
+	public static String isEmailValid(String email)
 	{
-		email.toLowerCase().trim();
-		
+		// The email can't be null
 		if (email.isEmpty())
 		{
-			display.setText("E-mail cannot be empty.");
-			return false;
+			errorMessage = "E-mail cannot be empty.";
+			return errorMessage;
 		}
 		
-		// I APPARENTLY CAN"T DO THIS STUFF IN THE CLIENT
+		// Apache Commons email validator
+		// Gets it valid enough so only things of the form "bob@domain.com" get through
+		EmailValidator validator = EmailValidator.getInstance();
+		boolean isValid = validator.isValid(email);
 		
-		/*try 
+		// For one reason or another (invalid characters, no domain, no "@", etc.), the email address is invalid
+		if (!isValid)
 		{
-			InternetAddress emailAddress = new InternetAddress(email);
-			emailAddress.validate();
-			
-			return true;
-			//if (!hasNameAndDomain(email)) 
-			//{
-		        //return false;
-		    //}
-		} 
-		catch (AddressException e) 
-		{
-			display.setText("Invalid e-mail address");
-			return false;
-		}*/
+			errorMessage = "Invalid e-mail address";
+			return errorMessage;
+		}
 		
-		// END NON CLIENT STUFF
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+	    //List<String[]> resultStringList = new ArrayList<String[]>();
+	    List<edu.unlv.cs.whoseturn.domain.User> results;
+	    
+	    results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+	   	if (!results.isEmpty()) 
+	   	{
+	            for (edu.unlv.cs.whoseturn.domain.User e : results) 
+	            {
+	                if (email == e.getEmail())
+	                {
+	                	errorMessage = "Email already exists";
+	                	return errorMessage;
+	                }
+	            }
+	   	}
 		
-		// A cheap e-mail quality check
-		//if (!email.matches("^[0-9A-Z\\.]{1,10}$")) 
-		
-		
-		return true;
+		// If we're here, the email is new and (hopefully) valid
+		errorMessage = "Valid";
+		return errorMessage;
 	}
 
 	/**
 	 * Verifies that the username doesn't already exist.
 	 * @param username the username to validate
-	 * @param display the label that displays a possible error message
 	 * @return true if valid, false if invalid
 	 */
-	public static boolean isUsernameValid(String username, Label display) 
+	public static String isUsernameValid(String username)
 	{
-		// Clear the name of any whitespace
-		username.trim();
-		
-		// The username can't be null
-		if (username.isEmpty())
+		// The username can't be less than 3 characters
+		if (username.length() < 3)
 		{
-			display.setText("Username cannot be empty");
-			return false;
+			errorMessage = "Username must have at least 3 characters";
+			return errorMessage;
 		}
 		
 		// The username can't be longer than 30 characters
 		if (username.length() > 30)
 		{
-			display.setText("Username must be under 30 characters");
-			return false;
+			errorMessage = "Username must be under 30 characters";
+			return errorMessage;
 		}
       
-		return true;
+		// If we're here, the username is new and within the specified bounds
+		errorMessage = "Valid";
+		return errorMessage;
 	}
 }

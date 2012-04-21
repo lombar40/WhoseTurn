@@ -16,21 +16,27 @@ public class User {
 	private String keyString;
 	
 	@Persistent
+	// The displayed username of the user
     private String username;
 
 	@Persistent
+	// The email address associated with the user
     private String email;
 
 	@Persistent
+	// If true, the user has administrative powers
     private Boolean admin;
 	
 	@Persistent
+	// If true, the user is "deleted" from the database (soft delete)
     private Boolean deleted;
 
 	@Persistent
+	// The avatar associated with the user
     private byte[] avatarBlob;
 	
 	@Persistent
+	// All of the badges associated with the user
 	private Set<String> badges;
 
 	public String getKeyString() {
