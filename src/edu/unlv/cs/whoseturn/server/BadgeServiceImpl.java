@@ -203,7 +203,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 						}
 					}		
 				}
-				// Pick Up Stage badge
+				// Pick Up Sticks badge
 				if (!turn_item.getSelected()){
 					for (int i = 0; i < badgeSet.size(); i++){
 						// get key for the BadgeAwarded entity and retrieve the object
@@ -255,7 +255,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 						}
 					}		
 				}
-				// Lucky no. 7 badge
+				// Lucky No. 7 badge
 				if (!turn_item.getSelected()){
 					for (int i = 0; i < badgeSet.size(); i++){
 						// get key for the BadgeAwarded entity and retrieve the object

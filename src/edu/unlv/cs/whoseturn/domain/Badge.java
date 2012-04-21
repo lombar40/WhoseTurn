@@ -7,6 +7,29 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// ** List of Badges ** ///////////////////////////////////////
+////	BadgeID		Badge Name					Badge Criterion									////		
+////	1000		Jackass						User submitted a turn with only one person.		////
+////	1001		Corner Stone				Selected out of group of 4						////
+////	1002		Don't Cross The Streams		Not selected out of group of 4					////
+////	1003		Human Sacrifice				Selected out of group of 5						////
+////	1004		Not The Thumb				Not selected out of group of 5					////
+////	1005		Six Minute Abs				Selected out of group of 6						////
+////	1006		Pick Up Sticks				Not selected out of group of 6					////
+////	1007		Crapped Out					Selected out of group of 7						////
+////	1008		Lucky No. 7					Not selected out of group of 7					////
+////	1009		Snow White					Selected out of group of 8						////
+////	1010		Dwarf						Not selected out of group of 8					////
+////	1011		FML							Selected out of group of more than 8			////
+////	1012		Statistically Speaking		Not selected out of group of more than 8		////
+////	1013		Saint						User has no lies for 50 turns.					////
+////	1014		Socialite					User is part of a turn with more than 10 people	////
+////	1020		StormShadow					User is Chris Jones								////
+////	1021		MythBusters					User is Matthew Sowders							////
+////																							////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 @PersistenceCapable
 public class Badge {
 
