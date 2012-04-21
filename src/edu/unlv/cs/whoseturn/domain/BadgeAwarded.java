@@ -46,6 +46,10 @@ public class BadgeAwarded {
 	public void setCount(Integer count) {
 		this.count = count;
 	}
+	
+	public void increaseBadgeCount() {
+		this.count++;
+	}
 
 	public Integer getBadgeId() {
 		return badgeId;

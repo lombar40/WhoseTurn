@@ -23,7 +23,7 @@ public class Category {
     private String strategyKeyString;
 
 	@Persistent
-    private int timeBoundryInHours;
+    private int timeBoundaryInHours;
 
 	@Persistent
     private Boolean deleted;
@@ -55,12 +55,12 @@ public class Category {
 		this.strategyKeyString = strategyKeyString;
 	}
 
-	public int getTimeBoundryInHours() {
-		return timeBoundryInHours;
+	public int getTimeBoundaryInHours() {
+		return timeBoundaryInHours;
 	}
 
-	public void setTimeBoundryInHours(int timeBoundryInHours) {
-		this.timeBoundryInHours = timeBoundryInHours;
+	public void setTimeBoundaryInHours(int timeBoundaryInHours) {
+		this.timeBoundaryInHours = timeBoundaryInHours;
 	}
 
 	public Boolean getDeleted() {
