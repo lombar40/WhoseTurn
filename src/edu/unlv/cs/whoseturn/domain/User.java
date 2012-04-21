@@ -31,6 +31,9 @@ public class User {
     private byte[] avatarBlob;
 	
 	@Persistent
+    private Set<String> turnItems;
+	
+	@Persistent
 	private Set<String> badges;
 
 	public String getKeyString() {
@@ -79,6 +82,14 @@ public class User {
 
 	public void setAvatarBlob(byte[] avatarBlob) {
 		this.avatarBlob = avatarBlob;
+	}
+	
+	public Set<String> getTurnItems() {
+		return turnItems;
+	}
+
+	public void setTurnItems(Set<String> turnItems) {
+		this.turnItems = turnItems;
 	}
 
 	public Set<String> getBadges() {
