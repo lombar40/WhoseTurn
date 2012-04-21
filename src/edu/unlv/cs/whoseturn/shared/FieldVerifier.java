@@ -1,5 +1,7 @@
 package edu.unlv.cs.whoseturn.shared;
 
+import com.google.gwt.user.client.ui.Label;
+
 /**
  * <p>
  * FieldVerifier validates that the name the user enters is valid.
@@ -20,7 +22,8 @@ package edu.unlv.cs.whoseturn.shared;
  * JavaScript (such as Widgets) cannot be run on the server.
  * </p>
  */
-public class FieldVerifier {
+public class FieldVerifier 
+{
 
 	/**
 	 * Verifies that the specified name is valid for our service.
@@ -38,5 +41,24 @@ public class FieldVerifier {
 			return false;
 		}
 		return name.length() > 3;
+	}
+	
+	public static boolean isEmailValid(String email, Label display)
+	{
+		if (email.isEmpty())
+		{
+			display.setText("Can't be Null");
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean isUsernameValid(String username) 
+	{
+		if (username.isEmpty())
+		{
+			return false;
+		}
+		return true;
 	}
 }

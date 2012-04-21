@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
 import edu.unlv.cs.whoseturn.client.views.View;
+import edu.unlv.cs.whoseturn.shared.FieldVerifier;
 
 /**
  * POC that changes to view2 when the button is clicked.
@@ -89,16 +90,31 @@ public class Login implements View {
 		lblKeystring.setSize("53px", "18px");
 		lblCreated.setVisible(false);
 
-		btnAdduser.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		btnAdduser.addClickHandler(new ClickHandler() 
+		{
+			public void onClick(ClickEvent event) 
+			{
+				// Checks if the e-mail has a chance to be valid and if it already exists.
+				if (!FieldVerifier.isEmailValid(txtbxEmail.getText(), lblKeystring))
+				{
+					return;
+				}
+				// Checks to see if the user name already exists
+				if (!FieldVerifier.isUsernameValid(txtbxUsername.getText()))
+				{
+					return;
+				}
 				usersService.addNewUser(txtbxUsername.getText(),
 						txtbxEmail.getText(), chckbxAdmin.getValue(),
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
+						new AsyncCallback<String>() 
+						{
+							public void onFailure(Throwable caught) 
+							{
 								lblCreated.setText("FAILURE");
 							}
 
-							public void onSuccess(String result) {
+							public void onSuccess(String result) 
+							{
 								lblCreated.setVisible(true);
 								lblKeystring.setText(result);
 							}
