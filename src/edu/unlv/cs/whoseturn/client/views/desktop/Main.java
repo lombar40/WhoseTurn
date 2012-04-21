@@ -15,21 +15,21 @@ import com.google.gwt.user.client.ui.Widget;
 
 import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
-import edu.unlv.cs.whoseturn.client.views.View;
+import edu.unlv.cs.whoseturn.client.views.AbstractNavigationView;
+import edu.unlv.cs.whoseturn.client.views.NavigationView;
 
 /**
  * POC that changes to view2 when the button is clicked.
  */
-public class Main implements View {
+public class Main extends AbstractNavigationView implements NavigationView {
 
-	private final UsersServiceAsync usersService = GWT
-			.create(UsersService.class);
+	private final UsersServiceAsync usersService = GWT.create(UsersService.class);
 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
-	public Widget asWidget() {
+	public Widget bodyAsWidget() {
 		final DecoratedTabPanel mainDecoratedTabPanel = new DecoratedTabPanel();
 		mainDecoratedTabPanel.setSize("664px", "575px");
 
@@ -42,8 +42,7 @@ public class Main implements View {
 		viewMyProfilePanel.setSize("651px", "525px");
 
 		final AbsolutePanel viewMyTurnHistoryPanel = new AbsolutePanel();
-		mainDecoratedTabPanel.add(viewMyTurnHistoryPanel, "My Turn History",
-				false);
+		mainDecoratedTabPanel.add(viewMyTurnHistoryPanel, "My Turn History", false);
 		viewMyTurnHistoryPanel.setSize("650px", "525px");
 
 		final AbsolutePanel testingPanel = new AbsolutePanel();
@@ -60,8 +59,7 @@ public class Main implements View {
 		textArea.setVisibleLines(10);
 		textArea.setSize("336px", "205px");
 
-		Label lblQueriesTheDatabase = new Label(
-				"Queries the database for all users");
+		Label lblQueriesTheDatabase = new Label("Queries the database for all users");
 		testingPanel.add(lblQueriesTheDatabase, 10, 10);
 		mainDecoratedTabPanel.selectTab(0);
 
@@ -69,15 +67,13 @@ public class Main implements View {
 			public void onClick(ClickEvent event) {
 				usersService.findUsers(new AsyncCallback<List<String[]>>() {
 					public void onFailure(Throwable caught) {
-						// lblNewLabel.setText("FAILURE");
+						textArea.setText("FAILURE");
 					}
 
 					public void onSuccess(List<String[]> result) {
 						textArea.setText("");
 						for (String[] row : result) {
-							textArea.setText(textArea.getText() + "Username: "
-									+ row[0] + "\nEmail: " + row[1]
-									+ "\nAdmin: " + row[2] + "\n\n");
+							textArea.setText(textArea.getText() + "Username: " + row[0] + "\nEmail: " + row[1] + "\nAdmin: " + row[2] + "\n\n");
 						}
 
 					}

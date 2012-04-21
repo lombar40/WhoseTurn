@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.Login;
 import edu.unlv.cs.whoseturn.client.views.desktop.Main;
-import edu.unlv.cs.whoseturn.client.views.desktop.ProfileManagement;
+import edu.unlv.cs.whoseturn.client.views.desktop.UserEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserNotFound;
 
 /**
@@ -58,7 +58,7 @@ public class Whoseturn implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				lblTestLabel.setText("sendingToProfileManagement");
 				mainPanel.clear();
-				mainPanel.add((new ProfileManagement()).asWidget());
+				mainPanel.add((new UserEdit()).asWidget());
 			}
 		});
 		navPanel.add(btnProfileSettings, 50, 0);
