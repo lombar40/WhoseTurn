@@ -55,12 +55,12 @@ public class Category {
 		this.strategyKeyString = strategyKeyString;
 	}
 
-	public int getTimeBoundryInHours() {
+	public int getTimeBoundaryInHours() {
 		return timeBoundaryInHours;
 	}
 
-	public void setTimeBoundryInHours(int timeBoundryInHours) {
-		this.timeBoundaryInHours = timeBoundryInHours;
+	public void setTimeBoundaryInHours(int timeBoundaryInHours) {
+		this.timeBoundaryInHours = timeBoundaryInHours;
 	}
 
 	public Boolean getDeleted() {

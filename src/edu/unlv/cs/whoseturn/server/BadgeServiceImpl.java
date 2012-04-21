@@ -23,7 +23,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 	
 	/**
-	 * Checks to see if the user submitted a turn with only one person.
+	 * Checks to see if the user submitted a turn with only himself.
 	 * Awards the Jackass badge to the submitter.
 	 * @param turn The turn to check.
 	 */

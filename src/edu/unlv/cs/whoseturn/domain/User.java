@@ -119,7 +119,7 @@ public class User {
 		this.penaltyCount = penaltyCount;
 	}
 	
-	public void addPenaltyCount() {
+	public void increasePenaltyCount() {
 		this.penaltyCount++;
 		
 	}

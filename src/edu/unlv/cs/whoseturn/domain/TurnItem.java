@@ -19,12 +19,15 @@ public class TurnItem {
 
 	@Persistent
     private String ownerKeyString;
+	
+	@Persistent
+	private String categoryKeyString;
 
 	@Persistent
     private Boolean selected;
 
 	@Persistent
-    private int vote;
+    private Integer vote;
 
 	@Persistent
     private Boolean deleted;
@@ -61,7 +64,7 @@ public class TurnItem {
 		this.selected = selected;
 	}
 
-	public int getVote() {
+	public Integer getVote() {
 		return vote;
 	}
 
@@ -75,5 +78,13 @@ public class TurnItem {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public String getCategoryKeyString() {
+		return categoryKeyString;
+	}
+
+	public void setCategoryKeyString(String categoryKeyString) {
+		this.categoryKeyString = categoryKeyString;
 	}
 }

@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////// ** List of Badges ** ///////////////////////////////////////
 ////	BadgeID		Badge Name					Badge Criterion									////		
-////	1000		Jackass						User submitted a turn with only one person.		////
+////	1000		Jackass						User submitted a turn with only himself.		////
 ////	1001		Corner Stone				Selected out of group of 4						////
 ////	1002		Don't Cross The Streams		Not selected out of group of 4					////
 ////	1003		Human Sacrifice				Selected out of group of 5						////
