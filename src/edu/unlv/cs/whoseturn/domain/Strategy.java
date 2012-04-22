@@ -1,6 +1,7 @@
 package edu.unlv.cs.whoseturn.domain;
 
 import java.util.Date;
+import java.util.Random;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -58,7 +59,7 @@ public class Strategy {
 			case 'leastRecentlyGone':
 				driver = driverRatioWithLies(users, category);
 			default:
-					driver = chooseRandomUser(users, category);
+				driver = chooseRandomUser(users);
 		}
 	return driver;
 	}
@@ -125,8 +126,6 @@ public class Strategy {
 		List<String> turnItemsKeyStrings;
 		List<TurnItems> turnItems;
 		List<Date> dateList;
-		Integer tempTurnCount;
-		Integer tempSelectedCount;
 		Date tempTurnDate;
 		Date currentTurnDate;
 		
@@ -149,7 +148,6 @@ public class Strategy {
 		
 		Integer index = 0;
 		Integer differenceOfDates;
-		//int differenceOfDates;
 		Date tempCurrentDate = dateList.index(0);
 		Date tempTurnDate;
 		
@@ -165,8 +163,12 @@ public class Strategy {
 		
 		return users.index(i);
 		}
+	
+	public User chooseRandomUser(users){
+		Random generator = new Random();
+		int randomIndex = generator.nextInt(user.size());
 		
-		
-		
+		return users.index(randomIndex);
+		}
 }
 	
