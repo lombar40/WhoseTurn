@@ -17,8 +17,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.domain.Badge;
 import edu.unlv.cs.whoseturn.domain.BadgeAwarded;
+import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.Strategy;
+import edu.unlv.cs.whoseturn.domain.Turn;
+import edu.unlv.cs.whoseturn.domain.TurnItem;
 import edu.unlv.cs.whoseturn.shared.EntryVerifier;
 
 /**
@@ -465,6 +468,34 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		PersistenceManager pm = PMF.get().getPersistenceManager(); // Get the
 																	// persistence
 																	// manager
+		
+		Query wipeQuery = pm.newQuery(Badge.class);
+		List<Badge> wipeBadgeResults = (List<Badge>) wipeQuery.execute();
+		pm.deletePersistentAll(wipeBadgeResults);
+		
+		wipeQuery = pm.newQuery(BadgeAwarded.class);
+		List<BadgeAwarded> wipeBadgeAwardedResults = (List<BadgeAwarded>) wipeQuery.execute();
+		pm.deletePersistentAll(wipeBadgeAwardedResults);
+		
+		wipeQuery = pm.newQuery(Category.class);
+		List<Category> wipeCategoryResults = (List<Category>) wipeQuery.execute();
+		pm.deletePersistentAll(wipeCategoryResults);
+		
+		wipeQuery = pm.newQuery(Strategy.class);
+		List<Strategy> wipeStrategyResults = (List<Strategy>) wipeQuery.execute();
+		pm.deletePersistentAll(wipeStrategyResults);
+		
+		wipeQuery = pm.newQuery(Turn.class);
+		List<Turn> wipeTurnResults = (List<Turn>) wipeQuery.execute();
+		pm.deletePersistentAll(wipeTurnResults);
+		
+		wipeQuery = pm.newQuery(TurnItem.class);
+		List<TurnItem> wipeTurnItemResults = (List<TurnItem>) wipeQuery.execute();
+		pm.deletePersistentAll(wipeTurnItemResults);
+		
+		wipeQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		List<edu.unlv.cs.whoseturn.domain.User> wipeUserResults = (List<edu.unlv.cs.whoseturn.domain.User>) wipeQuery.execute();
+		pm.deletePersistentAll(wipeUserResults);
 
 		// Create badges
 		Badge badge = new Badge();
@@ -503,21 +534,21 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 
 		strategy = new Strategy();
 		strategy.setDeleted(false);
-		strategy.setStrategyName("Lowest Ratio With Penalty");
+		strategy.setStrategyName("Completely Random");
 		strategy.setStrategyId(3);
 		pm.makePersistent(strategy);
-
-		strategy = new Strategy();
-		strategy.setDeleted(false);
-		strategy.setStrategyName("Completely Random");
-		strategy.setStrategyId(4);
-		pm.makePersistent(strategy);
+		
+//		strategy = new Strategy();
+//		strategy.setDeleted(false);
+//		strategy.setStrategyName("Lowest Ratio With Penalty");
+//		strategy.setStrategyId(4);
+//		pm.makePersistent(strategy);
 
 		// Create test users
 		// TODO - JAO Why are we sleeping here? Is this a hack for the Async
 		// stuff?
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -530,7 +561,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		user.setAvatarBlob(null);
 		user.setDeleted(false);
 		user.setEmail("lombar40@unlv.nevada.edu");
-		user.setUsername("ryan");
+		user.setUsername("RyanLombardo");
 		user.setOwnerKeyString("");
 		user.setPenaltyCount(0);
 		user.setBadges(new HashSet<String>());
@@ -571,7 +602,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		user.setAvatarBlob(null);
 		user.setDeleted(false);
 		user.setEmail("test@example.com");
-		user.setUsername("test");
+		user.setUsername("TestUser");
 		user.setOwnerKeyString("");
 		user.setPenaltyCount(0);
 		user.setBadges(new HashSet<String>());
