@@ -12,25 +12,25 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Displays the details of a turn.
  */
 public class TurnDisplay extends AbstractNavigationView implements
-		NavigationView {
+        NavigationView {
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		// The body of the view.
-		
-		AbsolutePanel panel = new AbsolutePanel();
-		panel.setSize("1000px", "500px");
-		
-		Label labelPlaceHolder = new Label();
-		panel.add(labelPlaceHolder);
-		labelPlaceHolder.setText("Turn Display");
-		
-		ToggleButton tglbtnUpText = new ToggleButton("Toggle Button");
-		panel.add(tglbtnUpText, 65, 51);
-		
-		return panel;
-	}
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        // The body of the view.
+
+        AbsolutePanel panel = new AbsolutePanel();
+        panel.setSize("1000px", "500px");
+
+        Label labelPlaceHolder = new Label();
+        panel.add(labelPlaceHolder);
+        labelPlaceHolder.setText("Turn Display");
+
+        ToggleButton tglbtnUpText = new ToggleButton("Toggle Button");
+        panel.add(tglbtnUpText, 65, 51);
+
+        return panel;
+    }
 }

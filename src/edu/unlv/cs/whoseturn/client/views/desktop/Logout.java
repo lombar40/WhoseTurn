@@ -12,19 +12,19 @@ import edu.unlv.cs.whoseturn.client.views.NavigationView;
  */
 public class Logout extends AbstractNavigationView implements NavigationView {
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		final AbsolutePanel loginPanel = new AbsolutePanel();
-		loginPanel.setSize("1000px", "500px");
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        final AbsolutePanel loginPanel = new AbsolutePanel();
+        loginPanel.setSize("1000px", "500px");
 
-		// TODO Allow users to logout, which should take them back to the login
-		// screen.
-		final Label lblNewLabel = new Label("Placeholder for logout.");
-		loginPanel.add(lblNewLabel);
-		
-		return loginPanel;
-	}
+        // TODO Allow users to logout, which should take them back to the login
+        // screen.
+        final Label lblNewLabel = new Label("Placeholder for logout.");
+        loginPanel.add(lblNewLabel);
+
+        return loginPanel;
+    }
 }

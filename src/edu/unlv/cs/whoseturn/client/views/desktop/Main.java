@@ -23,61 +23,69 @@ import edu.unlv.cs.whoseturn.client.views.NavigationView;
  */
 public class Main extends AbstractNavigationView implements NavigationView {
 
-	private final UsersServiceAsync usersService = GWT.create(UsersService.class);
+    /**
+     * The user service.
+     */
+    private final UsersServiceAsync usersService = GWT
+            .create(UsersService.class);
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		final DecoratedTabPanel turnDecoratedTabPanel = new DecoratedTabPanel();
-		turnDecoratedTabPanel.setSize("1000px", "500px");
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        final DecoratedTabPanel turnDecoratedTabPanel = new DecoratedTabPanel();
+        turnDecoratedTabPanel.setSize("1000px", "500px");
 
-		final AbsolutePanel findDriverPanel = new AbsolutePanel();
-		turnDecoratedTabPanel.add(findDriverPanel, "Find Driver", false);
-		findDriverPanel.setSize("990px", "450px");
+        final AbsolutePanel findDriverPanel = new AbsolutePanel();
+        turnDecoratedTabPanel.add(findDriverPanel, "Find Driver", false);
+        findDriverPanel.setSize("990px", "450px");
 
-		final AbsolutePanel viewMyTurnHistoryPanel = new AbsolutePanel();
-		turnDecoratedTabPanel.add(viewMyTurnHistoryPanel, "My Turn History", false);
-		viewMyTurnHistoryPanel.setSize("990px", "450px");
+        final AbsolutePanel viewMyTurnHistoryPanel = new AbsolutePanel();
+        turnDecoratedTabPanel.add(viewMyTurnHistoryPanel, "My Turn History",
+                false);
+        viewMyTurnHistoryPanel.setSize("990px", "450px");
 
-		final AbsolutePanel testingPanel = new AbsolutePanel();
-		turnDecoratedTabPanel.add(testingPanel, "Testing", false);
-		testingPanel.setSize("990px", "450px");
-		
-		Button btnNewButton = new Button("Query Users");
-		testingPanel.add(btnNewButton, 10, 286);
-		btnNewButton.setSize("91px", "30px");
+        final AbsolutePanel testingPanel = new AbsolutePanel();
+        turnDecoratedTabPanel.add(testingPanel, "Testing", false);
+        testingPanel.setSize("990px", "450px");
 
-		btnNewButton.setText("Query User");
+        Button btnNewButton = new Button("Query Users");
+        testingPanel.add(btnNewButton, 10, 286);
+        btnNewButton.setSize("91px", "30px");
 
-		final TextArea textArea = new TextArea();
-		testingPanel.add(textArea, 10, 65);
-		textArea.setVisibleLines(10);
-		textArea.setSize("336px", "205px");
+        btnNewButton.setText("Query User");
 
-		Label lblQueriesTheDatabase = new Label("Queries the database for all users");
-		testingPanel.add(lblQueriesTheDatabase, 10, 10);
-		turnDecoratedTabPanel.selectTab(0);
+        final TextArea textArea = new TextArea();
+        testingPanel.add(textArea, 10, 65);
+        textArea.setVisibleLines(10);
+        textArea.setSize("336px", "205px");
 
-		btnNewButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				usersService.findUsers(new AsyncCallback<List<String[]>>() {
-					public void onFailure(Throwable caught) {
-						textArea.setText("FAILURE");
-					}
+        Label lblQueriesTheDatabase = new Label(
+                "Queries the database for all users");
+        testingPanel.add(lblQueriesTheDatabase, 10, 10);
+        turnDecoratedTabPanel.selectTab(0);
 
-					public void onSuccess(List<String[]> result) {
-						textArea.setText("");
-						for (String[] row : result) {
-							textArea.setText(textArea.getText() + "Username: " + row[0] + "\nEmail: " + row[1] + "\nAdmin: " + row[2] + "\n\n");
-						}
+        btnNewButton.addClickHandler(new ClickHandler() {
+            public void onClick(final ClickEvent event) {
+                usersService.findUsers(new AsyncCallback<List<String[]>>() {
+                    public void onFailure(final Throwable caught) {
+                        textArea.setText("FAILURE");
+                    }
 
-					}
-				});
-			}
-		});
+                    public void onSuccess(final List<String[]> result) {
+                        textArea.setText("");
+                        for (String[] row : result) {
+                            textArea.setText(textArea.getText() + "Username: "
+                                    + row[0] + "\nEmail: " + row[1]
+                                    + "\nAdmin: " + row[2] + "\n\n");
+                        }
 
-		return turnDecoratedTabPanel;
-	}
+                    }
+                });
+            }
+        });
+
+        return turnDecoratedTabPanel;
+    }
 }
