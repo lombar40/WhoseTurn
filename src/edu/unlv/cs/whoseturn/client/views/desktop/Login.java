@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
 import edu.unlv.cs.whoseturn.client.views.View;
+import edu.unlv.cs.whoseturn.shared.FieldVerifier;
 
 /**
  * View used to allow users to login. We extend the view interface because we do
@@ -91,18 +92,35 @@ public class Login implements View {
 		lblKeystring.setSize("53px", "18px");
 		lblCreated.setVisible(false);
 
-		btnAdduser.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		btnAdduser.addClickHandler(new ClickHandler() 
+		{
+			public void onClick(ClickEvent event) 
+			{
+				// Checks if the e-mail has a chance to be valid and if it already exists.
+				/*if (!FieldVerifier.isEmailValid(txtbxEmail.getText(), lblKeystring))
+				{
+					return;
+				}
+				// Checks to see if the user name already exists
+				if (!FieldVerifier.isUsernameValid(txtbxUsername.getText(), lblKeystring))
+				{
+					return;
+				}*/
 				usersService.addNewUser(txtbxUsername.getText(),
 						txtbxEmail.getText(), chckbxAdmin.getValue(),
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
+						new AsyncCallback<String>() 
+						{
+							public void onFailure(Throwable caught) 
+							{
 								lblCreated.setText("FAILURE");
 							}
 
-							public void onSuccess(String result) {
-								lblCreated.setVisible(true);
+							public void onSuccess(String result) 
+							{
+								// Result is an error message or the key if successful
 								lblKeystring.setText(result);
+								lblCreated.setVisible(true);
+								//lblKeystring.setText(result);
 							}
 						});
 			}

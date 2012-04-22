@@ -1,42 +1,116 @@
 package edu.unlv.cs.whoseturn.shared;
 
-/**
- * <p>
- * FieldVerifier validates that the name the user enters is valid.
- * </p>
- * <p>
- * This class is in the <code>shared</code> package because we use it in both
- * the client code and on the server. On the client, we verify that the name is
- * valid before sending an RPC request so the user doesn't have to wait for a
- * network round trip to get feedback. On the server, we verify that the name is
- * correct to ensure that the input is correct regardless of where the RPC
- * originates.
- * </p>
- * <p>
- * When creating a class that is used on both the client and the server, be sure
- * that all code is translatable and does not use native JavaScript. Code that
- * is not translatable (such as code that interacts with a database or the file
- * system) cannot be compiled into client side JavaScript. Code that uses native
- * JavaScript (such as Widgets) cannot be run on the server.
- * </p>
- */
-public class FieldVerifier {
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import org.apache.commons.validator.routines.EmailValidator;
+import edu.unlv.cs.whoseturn.domain.PMF;
+
+
+/**
+ * FieldVerifier validates that the data the user enters is valid.
+ */
+public class FieldVerifier 
+{	
+	private static String errorMessage; // The message to be displayed when an error occurs
+	
 	/**
-	 * Verifies that the specified name is valid for our service.
-	 * 
-	 * In this example, we only require that the name is at least four
-	 * characters. In your application, you can use more complex checks to ensure
-	 * that usernames, passwords, email addresses, URLs, and other fields have the
-	 * proper syntax.
-	 * 
-	 * @param name the name to validate
+	 * Verifies that the e-mail is possibly valid and doesn't already exist.
+	 * @param email the email to validate
 	 * @return true if valid, false if invalid
 	 */
-	public static boolean isValidName(String name) {
-		if (name == null) {
-			return false;
+	@SuppressWarnings("unchecked")
+	public static String isEmailValid(String email)
+	{
+		// The email can't be null
+		if (email.isEmpty())
+		{
+			errorMessage = "E-mail cannot be empty.";
+			return errorMessage;
 		}
-		return name.length() > 3;
+		
+		// Apache Commons email validator
+		// Gets it valid enough so only things of the form "bob@domain.com" get through
+		EmailValidator validator = EmailValidator.getInstance();
+		boolean isValid = validator.isValid(email);
+		
+		// For one reason or another (invalid characters, no domain, no "@", etc.), the email address is invalid
+		if (!isValid)
+		{
+			errorMessage = "Invalid e-mail address";
+			return errorMessage;
+		}
+		
+		
+		// The following checks for a duplicate email address in the database of current users
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+	    List<edu.unlv.cs.whoseturn.domain.User> results;
+	    
+	    results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+	   	if (!results.isEmpty()) 
+	   	{
+	            for (edu.unlv.cs.whoseturn.domain.User e : results) 
+	            {
+	                if (email.equals(e.getEmail()))
+	                {
+	                	errorMessage = "Email already exists";
+	                	return errorMessage;
+	                }
+	            }
+	   	}
+		
+		// If we're here, the email is new and (hopefully) valid
+		errorMessage = "Valid";
+		return errorMessage;
+	}
+
+	/**
+	 * Verifies that the username doesn't already exist.
+	 * @param username the username to validate
+	 * @return true if valid, false if invalid
+	 */
+	@SuppressWarnings("unchecked")
+	public static String isUsernameValid(String username)
+	{
+		// The username can't be less than 3 characters
+		if (username.length() < 3)
+		{
+			errorMessage = "Username must have at least 3 characters";
+			return errorMessage;
+		}
+		
+		// The username can't be longer than 30 characters
+		if (username.length() > 30)
+		{
+			errorMessage = "Username must be under 30 characters";
+			return errorMessage;
+		}
+		
+		// The following checks for a duplicate username in the database of current users
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+		List<edu.unlv.cs.whoseturn.domain.User> results;
+			    
+		results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+		if (!results.isEmpty()) 
+		{
+			for (edu.unlv.cs.whoseturn.domain.User e : results) 
+			{
+				if (username.equals(e.getUsername()))
+				{
+					errorMessage = "Username already exists";
+					return errorMessage;
+				}
+			}
+		}
+      
+		// If we're here, the username is new and within the specified bounds
+		errorMessage = "Valid";
+		return errorMessage;
 	}
 }
