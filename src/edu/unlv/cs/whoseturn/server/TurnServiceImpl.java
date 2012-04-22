@@ -26,6 +26,7 @@ import edu.unlv.cs.whoseturn.domain.TurnItem;
  * Category Service which allows the client to get information from the server
  * regarding categories.
  */
+@SuppressWarnings("serial")
 public class TurnServiceImpl extends RemoteServiceServlet implements
 		TurnService {
 

@@ -111,6 +111,7 @@ public class CategoryAdd extends AbstractNavigationView implements
                                 btnAdd.setEnabled(true);
                                 if (result != "Success") {
                                     txtbxName.setFocus(true);
+                                    setStatus(result);
                                     lblErrorLabel.setText(result);
                                 } else {
                                     txtbxName.setText("");

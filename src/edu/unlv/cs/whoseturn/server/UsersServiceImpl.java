@@ -465,10 +465,11 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initializeServer() {
-		PersistenceManager pm = PMF.get().getPersistenceManager(); // Get the
-																	// persistence
-																	// manager
 		
+		// Get the persistence manager
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		// Wipe the database
 		Query wipeQuery = pm.newQuery(Badge.class);
 		List<Badge> wipeBadgeResults = (List<Badge>) wipeQuery.execute();
 		pm.deletePersistentAll(wipeBadgeResults);
@@ -497,62 +498,80 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		List<edu.unlv.cs.whoseturn.domain.User> wipeUserResults = (List<edu.unlv.cs.whoseturn.domain.User>) wipeQuery.execute();
 		pm.deletePersistentAll(wipeUserResults);
 
+		
 		// Create badges
+		List<Badge> badgeList = new ArrayList<Badge>();
 		Badge badge = new Badge();
 		badge.setBadgeCriteria("Test badge 1");
 		badge.setBadgeId(1);
 		badge.setBadgeName("Test1");
 		badge.setDeleted(false);
-		pm.makePersistent(badge);
+		badgeList.add(pm.makePersistent(badge));
 
 		badge = new Badge();
 		badge.setBadgeCriteria("Test badge 2");
 		badge.setBadgeId(2);
 		badge.setBadgeName("Test2");
 		badge.setDeleted(false);
-		pm.makePersistent(badge);
+		badgeList.add(pm.makePersistent(badge));
 
 		badge = new Badge();
 		badge.setBadgeCriteria("Test badge 3");
 		badge.setBadgeId(3);
 		badge.setBadgeName("Test3");
 		badge.setDeleted(false);
-		pm.makePersistent(badge);
+		badgeList.add(pm.makePersistent(badge));
 
 		// Create strategies
+		List<Strategy> strategyList = new ArrayList<Strategy>();
 		Strategy strategy = new Strategy();
 		strategy.setDeleted(false);
 		strategy.setStrategyName("Least Recently Gone");
 		strategy.setStrategyId(1);
-		pm.makePersistent(strategy);
+		strategyList.add(pm.makePersistent(strategy));
 
 		strategy = new Strategy();
 		strategy.setDeleted(false);
 		strategy.setStrategyName("Lowest Ratio");
 		strategy.setStrategyId(2);
-		pm.makePersistent(strategy);
+		strategyList.add(pm.makePersistent(strategy));
 
 		strategy = new Strategy();
 		strategy.setDeleted(false);
 		strategy.setStrategyName("Completely Random");
 		strategy.setStrategyId(3);
-		pm.makePersistent(strategy);
+		strategyList.add(pm.makePersistent(strategy));
 		
 //		strategy = new Strategy();
 //		strategy.setDeleted(false);
 //		strategy.setStrategyName("Lowest Ratio With Penalty");
 //		strategy.setStrategyId(4);
 //		pm.makePersistent(strategy);
+		
+		// Create test categories
+		Category category = new Category();
+		category.setDeleted(false);
+		category.setName("DriveLRG");
+		category.setStrategyKeyString(strategyList.get(0).getKeyString());
+		category.setTimeBoundaryInHours(24);
+		pm.makePersistent(category);
+		
+		category = new Category();
+		category.setDeleted(false);
+		category.setName("IceCreamLR");
+		category.setStrategyKeyString(strategyList.get(1).getKeyString());
+		category.setTimeBoundaryInHours(24);
+		pm.makePersistent(category);
+		
+		category = new Category();
+		category.setDeleted(false);
+		category.setName("BeerCR");
+		category.setStrategyKeyString(strategyList.get(2).getKeyString());
+		category.setTimeBoundaryInHours(24);
+		pm.makePersistent(category);
 
 		// Create test users
-		// TODO - JAO Why are we sleeping here? Is this a hack for the Async
-		// stuff?
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		// Creates a new user object to add
 		edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
 
@@ -569,20 +588,14 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		/**
 		 * Creation of the user's default badges.
 		 */
-		Query query = pm.newQuery(Badge.class); // Query the database for all
-												// badge types
-		List<Badge> results; // Prepare a results list
+		
 		BadgeAwarded tempBadgeAwarded; // Prepare a temporary badgeAwarded to be
 										// used for the user
-
-		// Execute the query and set the results
-		results = (List<Badge>) query.execute();
-
 		// Make sure badges were found
-		if (!results.isEmpty()) {
+		if (!badgeList.isEmpty()) {
 			// Loop through all the badge types and create a BadgeAwarded for
 			// this user with count set to 0
-			for (Badge e : results) {
+			for (Badge e : badgeList) {
 				tempBadgeAwarded = new BadgeAwarded();
 				tempBadgeAwarded.setBadgeId(e.getBadgeId());
 				tempBadgeAwarded.setCount(0);
@@ -593,7 +606,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		}
 
 		pm.makePersistent(user);
-		query.closeAll();
 
 		user = new edu.unlv.cs.whoseturn.domain.User();
 
@@ -607,18 +619,11 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		user.setPenaltyCount(0);
 		user.setBadges(new HashSet<String>());
 
-		// Creation of the user's default badges
-		query = pm.newQuery(Badge.class); // Query the database for all badge
-											// types
-
-		// Execute the query and set the results
-		results = (List<Badge>) query.execute();
-
 		// Make sure badges were found
-		if (!results.isEmpty()) {
+		if (!badgeList.isEmpty()) {
 			// Loop through all the badge types and create a BadgeAwarded for
 			// this user with count set to 0
-			for (Badge e : results) {
+			for (Badge e : badgeList) {
 				tempBadgeAwarded = new BadgeAwarded();
 				tempBadgeAwarded.setBadgeId(e.getBadgeId());
 				tempBadgeAwarded.setCount(0);
@@ -629,8 +634,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		}
 
 		pm.makePersistent(user);
-
-		query.closeAll();
+		
 		pm.close();
 	}
 }

@@ -70,7 +70,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
         try {
             for (Category category : categories) {
                 if (categoryName.equals(category.getName())) {
-                    pm.deletePersistent(category);
+                    category.setDeleted(true);
                     message = "Success";
                 }
             }
