@@ -18,6 +18,7 @@ public class UserDisplay extends AbstractNavigationView implements
 	@Override
 	public Widget bodyAsWidget() {
 		FlowPanel panel = new FlowPanel();
+		panel.setSize("1000px", "500px");
 		
 		Label labelPlaceHolder = new Label();
 		labelPlaceHolder.setText("User Display");

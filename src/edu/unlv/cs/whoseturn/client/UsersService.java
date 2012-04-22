@@ -8,22 +8,51 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("users")
 public interface UsersService extends RemoteService {
+
 	/**
-	 * Checks to see if user is logged in.
+	 * Used to add a guest to the database.
 	 * 
-	 * @return boolean value, true if they are logged in.
+	 * @param username Username of the guest.
+	 * @return Result as a string.
 	 * @throws IllegalArgumentException
 	 */
-	Boolean isLoggedIn() throws IllegalArgumentException;
-	
+	String addGuest(String username) throws IllegalArgumentException;
+
 	/**
-	 * Get the users name.
+	 * Add a new user to the database.
 	 * 
-	 * @return User's name as a string.
+	 * @param username The user to add.
+	 * @param email The user's email address. If they are a guest, this is blank.
+	 * @param admin Boolean of if they are an admin or not. True for admin status.
+	 * @return Returns the user's key string (their id) or an error code.
 	 * @throws IllegalArgumentException
 	 */
-	String getUsername() throws IllegalArgumentException;
-	
+	String addNewUser(String username, String email, Boolean admin) throws IllegalArgumentException;
+
+	/**
+	 * Get a list of all guests.
+	 * 
+	 * @return A list of all the users as a string array.
+	 * @throws IllegalArgumentException
+	 */
+	List<String> findAllGuests() throws IllegalArgumentException;
+
+	/**
+	 * Get a list of my guests.
+	 * 
+	 * @return A list of all the users as a string array.
+	 * @throws IllegalArgumentException
+	 */
+	List<String> findMyGuests() throws IllegalArgumentException;
+
+	/**
+	 * Get a list of all users.
+	 * 
+	 * @return A list of all the users as a string array.
+	 * @throws IllegalArgumentException
+	 */
+	List<String[]> findUsers() throws IllegalArgumentException;
+
 	/**
 	 * Get the login url.
 	 * 
@@ -44,29 +73,26 @@ public interface UsersService extends RemoteService {
 	String getLogoutURL(String location) throws IllegalArgumentException;
 	
 	/**
-	 * Add a new user to the database.
+	 * Get the users name.
 	 * 
-	 * @param username The user to add.
-	 * @param email The user's email address. If they are a guest, this is blank.
-	 * @param admin Boolean of if they are an admin or not. True for admin status.
-	 * @return Returns the user's key string (their id) or an error code.
+	 * @return User's name as a string.
 	 * @throws IllegalArgumentException
 	 */
-	String addNewUser(String username, String email, Boolean admin) throws IllegalArgumentException;
-	
+	String getUsername() throws IllegalArgumentException;
+
 	/**
-	 * Get a list of all users.
+	 * Used to initialize the database with some information to be used.
 	 * 
-	 * @return A list of all the users as a string array.
 	 * @throws IllegalArgumentException
 	 */
-	List<String[]> findUsers() throws IllegalArgumentException;
-	
+	void initializeServer() throws IllegalArgumentException;
+
 	/**
+	 * Checks to see if user is logged in.
 	 * 
-	 * @param usrename
-	 * @return
+	 * @return boolean value, true if they are logged in.
 	 * @throws IllegalArgumentException
 	 */
-	String addGuest(String usrename) throws IllegalArgumentException;
+	Boolean isLoggedIn() throws IllegalArgumentException;
+	
 }

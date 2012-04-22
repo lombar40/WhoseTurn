@@ -33,7 +33,8 @@ public class UserNotFound implements View {
 		final String finalURL = url;
 
 		final AbsolutePanel userNotFoundPanel = new AbsolutePanel();
-
+		userNotFoundPanel.setSize("1000px", "500px");
+		
 		Label lblNotloggedin = new Label(
 				"This e-mail address was not found in our database. Please contact an administrator to be invited.");
 		userNotFoundPanel.add(lblNotloggedin);

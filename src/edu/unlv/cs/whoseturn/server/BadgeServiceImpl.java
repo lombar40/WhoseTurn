@@ -17,18 +17,22 @@ import edu.unlv.cs.whoseturn.domain.Turn;
 import edu.unlv.cs.whoseturn.domain.TurnItem;
 import edu.unlv.cs.whoseturn.domain.User;
 
-@SuppressWarnings("serial")
+/**
+ * The badge service, used to associating and reading badges a user has.
+ */
 public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeService {
 
+	/**
+	 * Allows the class to be serialized.
+	 */
+	private static final long serialVersionUID = 3341571143301810951L;
+	
+	/**
+	 * Persistence Manager, used for CRUD with the db.
+	 */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 
-	/**
-	 * Checks to see if the user submitted a turn with only himself. Awards the
-	 * Jackass badge to the submitter.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void Jackass(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
 
@@ -61,25 +65,12 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if everybody in the turn was selected. Awards the Team
-	 * Cheater badge to the submitting user.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void TeamCheater(Turn turn) {
 		;
 	}
 
-	/**
-	 * Checks to see if the user was selected or not out of a group of 4. Awards
-	 * the Corner Stone badge if selected. Awards the Don't Cross The Streams
-	 * badge if not selected.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void CornerStone(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
 
@@ -130,14 +121,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if the user was selected or not out of a group of 5. Awards
-	 * the Human Sacrifice badge if selected. Awards the Not The Thumb badge if
-	 * not selected.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void HumanSacrifice(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
 
@@ -188,14 +172,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if the user was selected or not out of a group of 6. Awards
-	 * the Six Minute Abs badge if selected. Awards the Pick Up Sticks badge if
-	 * not selected.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void SixMinuteAbs(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
 
@@ -247,14 +224,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if the user was selected or not out of a group of 7. Awards
-	 * the Crapped Out badge if selected. Awards the Lucky No. 7 badge if not
-	 * selected.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void CrappedOut(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
 
@@ -305,13 +275,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if the user was selected or not out of a group of 8. Awards
-	 * the Snow White badge if selected. Awards the Dwarf badge if not selected.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void SnowWhite(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
 
@@ -361,14 +325,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if the user was selected or not out of a group of more than
-	 * 8 people. Awards the FML badge if selected. Awards the Statistically
-	 * Speaking badge if not selected.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void FML(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
 
@@ -417,13 +374,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if the user has never lied for 50 turns. Awards the Saint
-	 * badge.
-	 * 
-	 * @param user
-	 *            The user to check.
-	 */
+	@Override
 	public void Saint(User user) {
 		Integer countTurns = user.getTurnItems().size();
 		Set<String> badgeSet = user.getBadges();
@@ -448,13 +399,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		pm.close();
 	}
 
-	/**
-	 * Checks to see if the users have participated in a turn with more than 10
-	 * people. Awards the Socialite badge.
-	 * 
-	 * @param turn
-	 *            The turn to check.
-	 */
+	@Override
 	public void Socialite(Turn turn) {
 		Integer number_of_users = turn.getNumberOfUsers();
 
@@ -484,45 +429,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		}
 	}
 
-	/**
-	 * Checks to see if the user has been selected for 5 turns in a row. Awards
-	 * the SOL badge.
-	 * 
-	 * @param user
-	 */
-	/*
-	 * Not sure if feasible right now, may have to scrap public void
-	 * SOLBadge(User user){ int consecutive_count = 0; boolean consecutive =
-	 * false; Set<String> badgeSet = user.getBadges();
-	 * 
-	 * for (String turnItemKeyString : user.getTurnItems()){ // get key for the
-	 * TurnItem and retrieve the object Key turnItemKey =
-	 * KeyFactory.stringToKey(turnItemKeyString); TurnItem turnItem =
-	 * pm.getObjectById(TurnItem.class, turnItemKey);
-	 * 
-	 * if (turnItem.getSelected()){ consecutive = true; consecutive_count++; }
-	 * if (!turnItem.getSelected()){ consecutive = false; consecutive_count = 0;
-	 * }
-	 * 
-	 * // Badge condition check if (consecutive && consecutive_count >= 5){ for
-	 * (int i = 0; i < badgeSet.size(); i++){ // get key for the BadgeAwarded
-	 * entity and retrieve the object Key badgeKey =
-	 * KeyFactory.stringToKey(badgeSet.iterator().next()); BadgeAwarded
-	 * userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
-	 * 
-	 * if (userBadge.getBadgeId().equals(1015)){ userBadge.increaseBadgeCount();
-	 * break; } } } }
-	 * 
-	 * pm.close(); }
-	 */
-
-	/**
-	 * Checks to see if the user is Chris Jones. Awards the StormShadow badge if
-	 * true.
-	 * 
-	 * @param user
-	 *            The user to check.
-	 */
+	@Override
 	public void StormShadow(User user) {
 		Set<String> badgeSet = user.getBadges();
 
@@ -542,13 +449,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		}
 	}
 
-	/**
-	 * Checks to see if the user is Matthew Sowders. Awards the MythBusters
-	 * badge if true.
-	 * 
-	 * @param user
-	 *            The user to check.
-	 */
+	@Override
 	public void MythBusters(User user) {
 		Set<String> badgeSet = user.getBadges();
 		if (user.getUsername().equals("Matthew Sowders")) {
@@ -565,15 +466,12 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		}
 	}
 
-	/**
-	 * This method initiates the calculation of all badges.
-	 * 
-	 * @param turn
-	 *            The turn that's just been submitted.
-	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public void calculateBadges(Turn turn) {
-		// Retrieve a list of all users in the database for badge calculation.
+		/**
+		 * Retrieve a list of all users in the database for badge calculation.
+		 */
 		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
 		List<edu.unlv.cs.whoseturn.domain.User> userList;
 

@@ -8,10 +8,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import edu.unlv.cs.whoseturn.client.views.View;
+import edu.unlv.cs.whoseturn.client.views.desktop.AddGuest;
 import edu.unlv.cs.whoseturn.client.views.desktop.AdminPanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryList;
+import edu.unlv.cs.whoseturn.client.views.desktop.ListAllGuests;
+import edu.unlv.cs.whoseturn.client.views.desktop.ListMyGuests;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserAdd;
@@ -24,6 +27,9 @@ import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
  * This is a navigation bar that will be seen by admin users.
  */
 public class NavigationBarAdmin implements View {
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public Widget asWidget(){
 		
@@ -31,6 +37,7 @@ public class NavigationBarAdmin implements View {
 		 * A panel used for navigating between various views of our program.
 		 */
 		FlowPanel navigationBar = new FlowPanel();
+		navigationBar.setSize("1000px", "200");
 		
 		/**
 		 * Links to admin pane.
@@ -218,6 +225,33 @@ public class NavigationBarAdmin implements View {
 			}
 		});
 		navigationBar.add(listTurnNavItem);
+		
+		Button btnMyGuests = new Button("My Guests");
+		btnMyGuests.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootPanel.get("overall").clear();
+				RootPanel.get("overall").add((new ListMyGuests()).asWidget());
+			}
+		});
+		navigationBar.add(btnMyGuests);
+		
+		Button btnAllGuests = new Button("All Guests");
+		btnAllGuests.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootPanel.get("overall").clear();
+				RootPanel.get("overall").add((new ListAllGuests()).asWidget());
+			}
+		});
+		navigationBar.add(btnAllGuests);
+		
+		Button btnAddGuest = new Button("Add Guest");
+		btnAddGuest.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootPanel.get("overall").clear();
+				RootPanel.get("overall").add((new AddGuest()).asWidget());
+			}
+		});
+		navigationBar.add(btnAddGuest);
 		
 		return navigationBar;
 	}

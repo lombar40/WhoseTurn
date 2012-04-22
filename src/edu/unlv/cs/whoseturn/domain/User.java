@@ -34,6 +34,9 @@ public class User {
 	private Integer penaltyCount;
 	
 	@Persistent
+	private String ownerKeyString;
+	
+	@Persistent
     private Set<String> turnItems;
 	
 	@Persistent
@@ -123,5 +126,13 @@ public class User {
 	public void increasePenaltyCount() {
 		this.penaltyCount++;
 		
+	}
+
+	public String getOwnerKeyString() {
+		return ownerKeyString;
+	}
+
+	public void setOwnerKeyString(String ownerKeyString) {
+		this.ownerKeyString = ownerKeyString;
 	}
 }

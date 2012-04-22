@@ -1,20 +1,28 @@
 package edu.unlv.cs.whoseturn.client.views.desktop;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.unlv.cs.whoseturn.client.UsersService;
+import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
 import edu.unlv.cs.whoseturn.client.views.AbstractNavigationView;
 import edu.unlv.cs.whoseturn.client.views.NavigationView;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
  * Adds a user to the database.
  */
 public class UserAdd extends AbstractNavigationView implements NavigationView {
+
+	private final UsersServiceAsync usersService = GWT
+			.create(UsersService.class);
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -23,52 +31,65 @@ public class UserAdd extends AbstractNavigationView implements NavigationView {
 	public Widget bodyAsWidget() {
 		// The body of the view.
 		AbsolutePanel panel = new AbsolutePanel();
+		panel.setSize("1000px", "500px");
 		
-		Label labelPlaceHolder = new Label();
-		labelPlaceHolder.setText("User Add");
-		panel.add(labelPlaceHolder, 10, 10);
-		
-		TextBox textBox = new TextBox();
-		panel.add(textBox, 134, 82);
-		textBox.setSize("161px", "16px");
-		
-		Label lblNewLabel = new Label("keyString:");
-		panel.add(lblNewLabel, 46, 49);
-		
+		Label lblLbltitle = new Label("User Add");
+		lblLbltitle.setStyleName("SectionHeader");
+		panel.add(lblLbltitle);
+
+		final TextBox txtbxUsername = new TextBox();
+		panel.add(txtbxUsername, 98, 42);
+		txtbxUsername.setSize("161px", "16px");
+
 		Label lblUsername = new Label("UserName:");
-		panel.add(lblUsername, 46, 82);
-		lblUsername.setSize("64px", "16px");
-		
+		panel.add(lblUsername, 10, 42);
+
 		Label lblEmail = new Label("Email:");
-		panel.add(lblEmail, 72, 130);
-		lblEmail.setSize("56px", "16px");
-		
-		Label lblPenaltycount = new Label("PenaltyCount");
-		panel.add(lblPenaltycount, 30, 158);
-		lblPenaltycount.setSize("85px", "16px");
-		
-		CheckBox chckbxDeleted = new CheckBox("Deleted");
-		panel.add(chckbxDeleted, 134, 232);
-		
-		CheckBox chckbxAdmin = new CheckBox("Admin");
-		panel.add(chckbxAdmin, 134, 207);
-		chckbxAdmin.setSize("70px", "19px");
-		
-		Label label_4 = new Label("111222333");
-		panel.add(label_4, 134, 49);
-		label_4.setSize("56px", "16px");
-		
-		TextBox textBox_1 = new TextBox();
-		panel.add(textBox_1, 134, 120);
-		textBox_1.setSize("165px", "20px");
-		
-		TextBox textBox_2 = new TextBox();
-		panel.add(textBox_2, 134, 158);
-		textBox_2.setSize("165px", "20px");
-		
+		panel.add(lblEmail, 10, 80);
+
+		final CheckBox chckbxAdmin = new CheckBox("");
+		panel.add(chckbxAdmin, 98, 118);
+
+		final Label lblError = new Label("");
+		lblError.setStyleName("serverResponseLabelError");
+		panel.add(lblError, 141, 148);
+
+		final TextBox txtbxEmail = new TextBox();
+		panel.add(txtbxEmail, 98, 80);
+		txtbxEmail.setSize("161px", "20px");
+
 		Button btnAdd = new Button("Add");
-		panel.add(btnAdd, 134, 257);
-		
+		panel.add(btnAdd, 98, 143);
+
+		Label lblAdmin = new Label("Admin:");
+		panel.add(lblAdmin, 10, 118);
+
+		final Label lblSuccess = new Label("Successfully added user.");
+		panel.add(lblSuccess, 141, 148);
+		lblSuccess.setVisible(false);
+
+		btnAdd.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				lblError.setText("");
+				lblSuccess.setVisible(false);
+
+				usersService.addNewUser(txtbxUsername.getText(),
+						txtbxEmail.getText(), chckbxAdmin.getValue(),
+						new AsyncCallback<String>() {
+							public void onFailure(Throwable caught) {
+								lblError.setText("There was an unknown error.");
+							}
+
+							public void onSuccess(String result) {
+								if (!result.equals("Success"))
+									lblError.setText(result);
+								else
+									lblSuccess.setVisible(true);
+							}
+						});
+			}
+		});
+
 		return panel;
 	}
 }

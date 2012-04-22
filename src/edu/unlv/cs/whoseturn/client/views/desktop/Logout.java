@@ -18,7 +18,7 @@ public class Logout extends AbstractNavigationView implements NavigationView {
 	@Override
 	public Widget bodyAsWidget() {
 		final AbsolutePanel loginPanel = new AbsolutePanel();
-		loginPanel.setSize("455px", "237px");
+		loginPanel.setSize("1000px", "500px");
 
 		// TODO Allow users to logout, which should take them back to the login
 		// screen.

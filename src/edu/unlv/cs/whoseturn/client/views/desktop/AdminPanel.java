@@ -18,6 +18,7 @@ public class AdminPanel extends AbstractNavigationView implements
 	@Override
 	public Widget bodyAsWidget() {
 		FlowPanel panel = new FlowPanel();
+		panel.setSize("1000px", "500px");
 		Label labelPlaceHolder = new Label();
 		labelPlaceHolder.setText("Admin Panel");
 		panel.add(labelPlaceHolder);
