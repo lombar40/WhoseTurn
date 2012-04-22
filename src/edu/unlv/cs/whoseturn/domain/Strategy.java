@@ -48,33 +48,40 @@ public class Strategy {
 		this.deleted = deleted;
 	}
 
+	/**
+	 * findDriver is called from another function located in a service call on the client layer
+	 * @param a list of users
+	 * @param category 
+	 * @return a String which will represent the selected driver of Whose Turn
+	 */
 	public void findDriver(List<User> users, Category category){
 		
 		User driver;
 		String strategy;
+		strategy = category.getStrategyKeyString();
 		
 		switch (strategy){
+			case 'leastRecentlyGone':
+				driver = leastRecentlyGone(users, category);
+				break;
 			case 'lowestRatio':
 				driver = lowestRatio(users, category);
-			case 'leastRecentlyGone':
-				driver = driverRatioWithLies(users, category);
+				break;
 			default:
 				driver = chooseRandomUser(users);
+				break;
 		}
 	return driver;
 	}
 	/**
-	 * Algorithm which chooses the user to drive, based explicitly on
-	 * the amount of times they drove/gone; the user with the least ratio
-	 * will be chosen to handle the driving responsibilities
+	 * Algorithm which chooses a user based explicitly on
+	 * the amount of times they were selected/turnItems; the user with the least ratio
+	 * will be chosen to handle all driving responsibilities
 	 * 
-	 *
-	 * @param a list of users, as well as a category are passed into the driveRatioOnly
+	 * @param a list of users, as well as a category are passed into the lowestRatio
 	 *        method to handle and retrieve the amount of times the user participated in
 	 *        such a category.
-	 * @param category will represent a driving algorithm, based on ratios and/or penalties,
-	 * 		  chips & salsa, based on ratios and/penalties, and an ice cream algorithm, based
-	 * 		  based on ratios and/or algorithms as well.
+	 * @param category will represent a drive, chips & salsa, or ice cream
 	 * @return a User, which then will be used to access the a string representing the user name
 	 */
 	public User lowestRatio(users, category){
@@ -122,6 +129,19 @@ public class Strategy {
 		return users.index(i);
 		}
 	
+	/**
+	 * Algorithm which chooses a user based explicitly on turnDateTime from Turn.java, the user which
+	 * has the oldest date will be selected to drive. The Date objects will be compared
+	 * using the predefined compareTo method, which determines differences in milliseconds.
+	 * Elementary comparisons between a default currentTurnDate and a tempTurnDate, will be used
+	 * to determine which of the users has the earliest of Dates once the for loop terminates
+	 * 
+	 * @param a list of users, as well as a category are passed into the leastRecentlyGone
+	 *        method to handle and retrieve the amount of times the user participated in
+	 *        such a category.
+	 * @param category will represent a drive, chips & salsa, or ice cream
+	 * @return a User, which then will be used to access the a string representing the user name
+	 */
 	public User leastRecentlyGone(users, category){
 		List<String> turnItemsKeyStrings;
 		List<TurnItems> turnItems;
@@ -164,6 +184,15 @@ public class Strategy {
 		return users.index(i);
 		}
 	
+	/**
+	 * Algorithm which chooses a user based explicitly on the predefined random generator
+	 * The Random object will use the nextInt() method to generate an integer value, which
+	 * given a parameter of the the number of users will choose a number in such 0 to n-1 range
+	 * 
+	 * @param a list of users	
+	 * @return a User at the arbitrarily generated index, which then will be used to access a string
+	 * representing the user name
+	 */
 	public User chooseRandomUser(users){
 		Random generator = new Random();
 		int randomIndex = generator.nextInt(user.size());
