@@ -47,6 +47,12 @@ import javax.jdo.annotations.PrimaryKey;
  * 
  * 1014 | Socialite | User is part of a turn with more than 10 people
  * 
+ * 1015 | Rookie | User has participated in 10 turns
+ * 
+ * 1016 | Veteran | User has participated in 100 turns
+ * 
+ * 1017 | Elite | User has participated in 250 turns
+ * 
  * 1020 | StormShadow | User is Chris Jones
  * 
  * 1021 | MythBusters | User is Matthew Sowders
@@ -69,13 +75,13 @@ public class Badge {
 	private Integer badgeId;
 
 	/**
-	 * The name of the badge. e.g. Jackass (for Jackass badge)
+	 * The name of the badge (e.g. Jackass for the Jackass badge).
 	 */
 	@Persistent
 	private String badgeName;
 
 	/**
-	 * A description about the badge. E.g. How it is awarded.
+	 * A description about the badge (i.e. how it's awarded).
 	 */
 	@Persistent
 	private String badgeCriteria;
@@ -102,7 +108,7 @@ public class Badge {
 	}
 
 	/**
-	 * Sets teh keyString.
+	 * Sets the keyString.
 	 * 
 	 * @param keyString
 	 *            The key string as a string.
