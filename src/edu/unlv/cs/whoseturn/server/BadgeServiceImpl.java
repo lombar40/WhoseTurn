@@ -31,7 +31,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
     /**
      * Persistence Manager, used for CRUD with the db.
      */
-    PersistenceManager pm = PMF.get().getPersistenceManager();
+    private PersistenceManager pm = PMF.get().getPersistenceManager();
 
     @Override
     public final void Jackass(final Turn turn) {

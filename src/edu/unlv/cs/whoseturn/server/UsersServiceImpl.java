@@ -124,9 +124,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
                 .getCurrentUser().getAuthDomain());
     }
 
-    /**
-     * Verifies
-     */
     @SuppressWarnings("unchecked")
     @Override
     public final String addNewUser(final String username, final String email,

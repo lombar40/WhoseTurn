@@ -12,7 +12,7 @@ import edu.unlv.cs.whoseturn.domain.PMF;
  */
 public class EntryVerifier {
     /**
-     * The message to be displayed when an error occurs
+     * The message to be displayed when an error occurs.
      */
     private static String errorMessage;
 
