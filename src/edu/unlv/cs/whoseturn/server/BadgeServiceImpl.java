@@ -18,7 +18,7 @@ import edu.unlv.cs.whoseturn.domain.TurnItem;
 import edu.unlv.cs.whoseturn.domain.User;
 
 /**
- * The badge service, used to associating and reading badges a user has.
+ * The badge service, used to go through the badge checks and reward users.
  */
 public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeService {
 
@@ -103,9 +103,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 				// Don't Cross The Streams badge
 				if (!turn_item.getSelected()) {
 					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
+						// get key for the BadgeAwarded entity and retrieve the object.
 						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
@@ -129,9 +127,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		for (String turn_key : turn_items) {
 			Key turnItemKey = KeyFactory.stringToKey(turn_key);
 			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			/**
-			 * Get the key of the user who owns this turn item and then get the user.
-			 */
+			
+			// Get the key of the user who owns this turn item and then get the user.
 			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
 			Set<String> badgeSet = user.getBadges();
@@ -191,9 +188,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 				// Six Minute Abs badge
 				if (turn_item.getSelected()) {
 					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
+						// get key for the BadgeAwarded entity and retrieve the object.
 						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
@@ -206,9 +201,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 				// Pick Up Sticks badge
 				if (!turn_item.getSelected()) {
 					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
+						// get key for the BadgeAwarded entity and retrieve the object.
 						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
@@ -243,9 +236,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 				// Crapped Out badge
 				if (turn_item.getSelected()) {
 					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
+						// get key for the BadgeAwarded entity and retrieve the object.
 						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
@@ -378,24 +369,32 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 	public void Saint(User user) {
 		Integer countTurns = user.getTurnItems().size();
 		Set<String> badgeSet = user.getBadges();
+		BadgeAwarded userSaintBadge = null;
+		boolean noLies = false;
 
 		if (countTurns >= 50) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
 				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
-
-				if (userBadge.getBadgeId().equals(1013)) {
-					// check if user does not have any liar badges
-					// if true, award Saint badge
-					if (userBadge.getCount().equals(0)) {
-						userBadge.increaseBadgeCount();
-						break;
+				
+				if (userBadge.getBadgeId().equals(1013)){
+					userSaintBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+				}
+				
+				// check if user does not have any liar badges
+				if (userBadge.getBadgeId().equals(1000)) {
+					if (userBadge.getCount().equals(0)){
+						noLies = true;
 					}
 				}
 			}
 		}
-
+		
+		if (noLies && userSaintBadge != null && userSaintBadge.getCount() == 0){
+			userSaintBadge.increaseBadgeCount();
+		}
+		
 		pm.close();
 	}
 
@@ -415,63 +414,160 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 				Set<String> badgeSet = user.getBadges();
 
 				for (int i = 0; i < badgeSet.size(); i++) {
-					// get key for the BadgeAwarded entity and retrieve the
-					// object
+					// get key for the BadgeAwarded entity and retrieve the object
 					Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-					if (badge.getBadgeId().equals(1014)) {
+					if (badge.getBadgeId().equals(1014) && badge.getCount() == 0) {
 						badge.increaseBadgeCount();
 						break;
 					}
 				}
 			}
 		}
+		
+		pm.close();
+	}
+
+	@Override
+	public void Rookie(User user){
+		Integer number_of_turns = user.getTurnItems().size();
+		
+		if (number_of_turns == 10){
+			Set<String> badgeSet = user.getBadges();
+			
+			for (int i = 0; i < badgeSet.size(); i++){
+				// get key for the BadgeAwarded entity and retrieve the object
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+				
+				if (userBadge.getBadgeId().equals(1015) && userBadge.getCount() == 0){
+					userBadge.increaseBadgeCount();
+					break;
+				}
+			}	
+		}
+		
+		pm.close();
+	}
+	
+	@Override
+	public void Veteran(User user){
+		Integer number_of_turns = user.getTurnItems().size();
+		
+		if (number_of_turns == 100){
+			Set<String> badgeSet = user.getBadges();
+			
+			for (int i = 0; i < badgeSet.size(); i++){
+				// get key for the BadgeAwarded entity and retrieve the object
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+				
+				if (userBadge.getBadgeId().equals(1016) && userBadge.getCount() == 0){
+					userBadge.increaseBadgeCount();
+					break;
+				}
+			}	
+		}
+		
+		pm.close();
+	}
+	
+	@Override
+	public void Elite(User user){
+		Integer number_of_turns = user.getTurnItems().size();
+		
+		if (number_of_turns == 250){
+			Set<String> badgeSet = user.getBadges();
+			
+			for (int i = 0; i < badgeSet.size(); i++){
+				// get key for the BadgeAwarded entity and retrieve the object
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+				
+				if (userBadge.getBadgeId().equals(1017) && userBadge.getCount() == 0){
+					userBadge.increaseBadgeCount();
+					break;
+				}
+			}	
+		}
+		
+		pm.close();
+	}
+	
+	@Override
+	public void WhoseTurnMaster(User user){
+		Set<String> badgeSet = user.getBadges();
+		BadgeAwarded masterBadge = null;
+		boolean hasEveryBadge = true;
+		
+		for (int i = 0; i < badgeSet.size(); i++){
+			// get key for the BadgeAwarded entity and retrieve the object
+			Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
+			BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+			
+			if (userBadge.getBadgeId().equals(1018)){
+				masterBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+			}
+			
+			if (userBadge.getCount() == 0 
+					&& !(userBadge.getBadgeId().equals(1018) 
+							|| userBadge.getBadgeId().equals(1020) 
+							|| userBadge.getBadgeId().equals(1021))){
+				hasEveryBadge = false;
+			}
+		}
+		
+		if (hasEveryBadge && masterBadge != null && masterBadge.getCount() == 0){
+			masterBadge.increaseBadgeCount();
+		}
+		
+		pm.close();
 	}
 
 	@Override
 	public void StormShadow(User user) {
 		Set<String> badgeSet = user.getBadges();
 
-		if (user.getUsername().equals("Chris Jones")) {
+		if (user.getUsername().equals("ChrisJones")) {
 			for (int i = 0; i < badgeSet.size(); i++) {
-				/**
-				 * Get key for the BadgeAwarded entity and retrieve the object
-				 */
+				// get key for the BadgeAwarded entity and retrieve the object.
 				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-				if (userBadge.getBadgeId().equals(1020)) {
+				if (userBadge.getBadgeId().equals(1020) && userBadge.getCount() == 0) {
 					userBadge.increaseBadgeCount();
 					break;
 				}
 			}
 		}
+		
+		pm.close();
 	}
 
 	@Override
 	public void MythBusters(User user) {
 		Set<String> badgeSet = user.getBadges();
-		if (user.getUsername().equals("Matthew Sowders")) {
+		if (user.getUsername().equals("MatthewSowders")) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
 				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
 				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-				if (userBadge.getBadgeId().equals(1021)) {
+				if (userBadge.getBadgeId().equals(1021) && userBadge.getCount() == 0) {
 					userBadge.increaseBadgeCount();
 					break;
 				}
 			}
 		}
+		
+		pm.close();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void calculateBadges(Turn turn) {
-		/**
-		 * Retrieve a list of all users in the database for badge calculation.
-		 */
+		// Retrieve a list of all users in the database for badge calculation.
 		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
 		List<edu.unlv.cs.whoseturn.domain.User> userList;
 
@@ -496,6 +592,10 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		// Initiate badge calculation for the users.
 		for (User user : userList) {
 			Saint(user);
+			Rookie(user);
+			Veteran(user);
+			Elite(user);
+			WhoseTurnMaster(user);
 			StormShadow(user);
 			MythBusters(user);
 		}

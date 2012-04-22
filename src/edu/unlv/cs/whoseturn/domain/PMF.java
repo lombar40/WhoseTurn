@@ -8,23 +8,24 @@ import javax.jdo.PersistenceManagerFactory;
  */
 public final class PMF {
 
-	/**
-	 * The PMF.
-	 */
-	private static final PersistenceManagerFactory pmfInstance = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+    /**
+     * The PMF.
+     */
+    private static final PersistenceManagerFactory pmfInstance = JDOHelper
+            .getPersistenceManagerFactory("transactions-optional");
 
-	/**
-	 * Default constructor, needed for singleton pattern.
-	 */
-	private PMF() {
-	}
+    /**
+     * Default constructor, needed for singleton pattern.
+     */
+    private PMF() {
+    }
 
-	/**
-	 * Handle to the factory.
-	 * 
-	 * @return handle our the factory.
-	 */
-	public static PersistenceManagerFactory get() {
-		return pmfInstance;
-	}
+    /**
+     * Handle to the factory.
+     * 
+     * @return handle our the factory.
+     */
+    public static PersistenceManagerFactory get() {
+        return pmfInstance;
+    }
 }
