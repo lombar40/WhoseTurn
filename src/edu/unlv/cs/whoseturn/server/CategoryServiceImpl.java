@@ -32,7 +32,14 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		category.setName("Drive");
 		pm.makePersistent(category);
 	}
-
+	
+	/**
+	 * After verifying the parameters are valid, the category will be added to the database
+	 * @param categoryName The name of the category to be added
+	 * @param strategy The initial strategy the category is associated with
+	 * @param timeBoundary The amount of time until a new instance of this category can be issued
+	 * @return The error message if invalid, Valid if such
+	 */
 	@Override
 	public String addCategory(String categoryName, String strategy, Integer timeBoundary) {
 		categoryName.trim(); // Get rid of any whitespace before and after the name
@@ -41,12 +48,20 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		 * The error message to display when an invalid category is submitted (or success if valid)
 		 */
 		String message;
-		String strategyKeyString = "TODO"; // Get keystring refering to the supplied strategy
+		String strategyKeyString = "TODO"; // Get keystring referring to the supplied strategy
 
-		//
-		//
-		//
+		// A Valid categoryName will return "Valid"
+		// An invalid categoryName will return "Category must be more (less) than 2 (40) characters long
+		// A duplicate categoryName will return "Category already exists"
 		message = EntryVerifier.isCategoryValid(categoryName);
+		
+		if (message != "Valid") {
+			return message;
+		}		
+		
+		// A Valid timeBoundary will return "Valid"
+		// An invalid timeBoundary will return "A time boundary must be greater (less) than 1 (48) hour(s)
+		message = EntryVerifier.isTimeValid(timeBoundary);
 		
 		if (message != "Valid") {
 			return message;

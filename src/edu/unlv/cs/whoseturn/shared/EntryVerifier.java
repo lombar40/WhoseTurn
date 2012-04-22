@@ -67,7 +67,7 @@ public class EntryVerifier
 	}
 
 	/**
-	 * Verifies that the username doesn't already exist.
+	 * Verifies that the username is valid doesn't already exist.
 	 * @param username the username to validate
 	 * @return true if valid, false if invalid
 	 */
@@ -118,6 +118,11 @@ public class EntryVerifier
 		return "Valid";
 	}
 	
+	/**
+	 * Verifies that the category is valid and doesn't already exist.
+	 * @param category The category to be checked.
+	 * @return true is valid, false if invalid
+	 */
 	@SuppressWarnings("unchecked")
 	public static String isCategoryValid(String category) {
 		// The category can't be less than 3 characters
@@ -159,6 +164,27 @@ public class EntryVerifier
 		}
 		
 		// If we're here, the category is new and has proper character constraints
+		return "Valid";
+	}
+
+	public static String isTimeValid(Integer timeBoundary) {
+		// The time boundary can't be empty
+		if (timeBoundary == null) {
+			errorMessage = "The time boundary can't be empty";
+			return errorMessage;
+		}
+				
+		// The time boundary can't be less than 1 hour
+		if (timeBoundary.intValue() < 1) {
+			errorMessage = "The time boundary must be at least 1 hour";
+			return errorMessage;
+		}
+				
+		// The time boundary can't be more than 24 hours
+		if (timeBoundary.intValue() > 24) {
+			errorMessage = "The time boundary can't be greater than 2 days (48 hours)";
+			return errorMessage;
+		}
 		return "Valid";
 	}
 }

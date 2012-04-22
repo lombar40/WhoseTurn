@@ -120,7 +120,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	}
 
 	/**
-	 * Verifies
+	 * After verifying the user's information is valid, the user will
+	 * be added to the database.
+	 * @param username The username of the user.
+	 * @param email The email address associated with the user
+	 * @param admin Flag determining administrator status
+	 * @return Success or an error message
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
