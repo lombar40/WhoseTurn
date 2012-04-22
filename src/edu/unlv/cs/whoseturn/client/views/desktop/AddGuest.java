@@ -16,64 +16,68 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
- * Displays a User's profile.
+ * Allows for a guest to be added to the system.
  */
 public class AddGuest extends AbstractNavigationView implements NavigationView {
 
-	private final UsersServiceAsync usersService = GWT
-			.create(UsersService.class);
+    /**
+     * The user service.
+     */
+    private final UsersServiceAsync usersService = GWT
+            .create(UsersService.class);
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		AbsolutePanel addGuestPanel = new AbsolutePanel();
-		addGuestPanel.setSize("1000px", "500px");
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        AbsolutePanel addGuestPanel = new AbsolutePanel();
+        addGuestPanel.setSize("1000px", "500px");
 
-		Label lblTitle = new Label();
-		lblTitle.setStyleName("SectionHeader");
-		lblTitle.setText("Add Guest");
-		addGuestPanel.add(lblTitle);
+        Label lblTitle = new Label();
+        lblTitle.setStyleName("SectionHeader");
+        lblTitle.setText("Add Guest");
+        addGuestPanel.add(lblTitle);
 
-		Label lblUsername = new Label("Username:");
-		addGuestPanel.add(lblUsername, 10, 56);
+        Label lblUsername = new Label("Username:");
+        addGuestPanel.add(lblUsername, 10, 56);
 
-		final TextBox txtbxUsername = new TextBox();
-		addGuestPanel.add(txtbxUsername, 75, 47);
+        final TextBox txtbxUsername = new TextBox();
+        addGuestPanel.add(txtbxUsername, 75, 47);
 
-		Button btnAddGuest = new Button("Add Guest");
-		addGuestPanel.add(btnAddGuest, 75, 87);
+        Button btnAddGuest = new Button("Add Guest");
+        addGuestPanel.add(btnAddGuest, 75, 87);
 
-		final Label lblErrorLabel = new Label("");
-		lblErrorLabel.setStyleName("serverResponseLabelError");
-		addGuestPanel.add(lblErrorLabel, 159, 91);
+        final Label lblErrorLabel = new Label("");
+        lblErrorLabel.setStyleName("serverResponseLabelError");
+        addGuestPanel.add(lblErrorLabel, 159, 91);
 
-		final Label lblSuccessfullyAddedGuest = new Label(
-				"Successfully added guest");
-		addGuestPanel.add(lblSuccessfullyAddedGuest, 159, 91);
-		lblSuccessfullyAddedGuest.setVisible(false);
+        final Label lblSuccessfullyAddedGuest = new Label(
+                "Successfully added guest");
+        addGuestPanel.add(lblSuccessfullyAddedGuest, 159, 91);
+        lblSuccessfullyAddedGuest.setVisible(false);
 
-		btnAddGuest.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				lblErrorLabel.setText("");
-				lblSuccessfullyAddedGuest.setVisible(false);
-				usersService.addGuest(txtbxUsername.getText(),
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								// TODO
-							}
+        btnAddGuest.addClickHandler(new ClickHandler() {
+            public void onClick(final ClickEvent event) {
+                lblErrorLabel.setText("");
+                lblSuccessfullyAddedGuest.setVisible(false);
+                usersService.addGuest(txtbxUsername.getText(),
+                        new AsyncCallback<String>() {
+                            public void onFailure(final Throwable caught) {
+                                // TODO
+                            }
 
-							public void onSuccess(String result) {
-								if (!result.equals("Success"))
-									lblErrorLabel.setText(result);
-								else
-									lblSuccessfullyAddedGuest.setVisible(true);
-							}
-						});
-			}
-		});
+                            public void onSuccess(final String result) {
+                                if (!result.equals("Success")) {
+                                    lblErrorLabel.setText(result);
+                                } else {
+                                    lblSuccessfullyAddedGuest.setVisible(true);
+                                }
+                            }
+                        });
+            }
+        });
 
-		return addGuestPanel;
-	}
+        return addGuestPanel;
+    }
 }

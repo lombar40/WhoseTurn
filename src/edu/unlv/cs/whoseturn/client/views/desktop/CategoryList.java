@@ -18,45 +18,47 @@ import com.google.gwt.user.client.ui.ListBox;
  * Lists all categories in the database.
  */
 public class CategoryList extends AbstractNavigationView implements
-		NavigationView {
-	
-	private final CategoryServiceAsync categoryService = GWT
-			.create(CategoryService.class);
+        NavigationView {
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		// The body of the view.
-		AbsolutePanel categoryListPanel = new AbsolutePanel();
-		categoryListPanel.setSize("1000px", "500px");
-		
-		Label lblTitle = new Label();
-		lblTitle.setStyleName("SectionHeader");
-		lblTitle.setText("Category List");
-		categoryListPanel.add(lblTitle);
-		
-		final ListBox categoryListBox = new ListBox();
-		categoryListPanel.add(categoryListBox, 10, 40);
-		categoryListBox.setSize("381px", "450px");
-		categoryListBox.setVisibleItemCount(5);
-		
-		categoryService.getAllCategories(
-				new AsyncCallback<List<String>>() {
-					public void onFailure(Throwable caught) {
-						// TODO
-					}
+    /**
+     * The category service.
+     */
+    private final CategoryServiceAsync categoryService = GWT
+            .create(CategoryService.class);
 
-					public void onSuccess(List<String> results) {
-						if(results != null)
-						{
-							for(int i=0; i < results.size(); i++)
-								categoryListBox.addItem(results.get(i));
-						}
-					}
-				});
-		
-		return categoryListPanel;
-	}
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        // The body of the view.
+        AbsolutePanel categoryListPanel = new AbsolutePanel();
+        categoryListPanel.setSize("1000px", "500px");
+
+        Label lblTitle = new Label();
+        lblTitle.setStyleName("SectionHeader");
+        lblTitle.setText("Category List");
+        categoryListPanel.add(lblTitle);
+
+        final ListBox categoryListBox = new ListBox();
+        categoryListPanel.add(categoryListBox, 10, 40);
+        categoryListBox.setSize("381px", "450px");
+        categoryListBox.setVisibleItemCount(5);
+
+        categoryService.getAllCategories(new AsyncCallback<List<String>>() {
+            public void onFailure(final Throwable caught) {
+                // TODO
+            }
+
+            public void onSuccess(final List<String> results) {
+                if (results != null) {
+                    for (int i = 0; i < results.size(); i++) {
+                        categoryListBox.addItem(results.get(i));
+                    }
+                }
+            }
+        });
+
+        return categoryListPanel;
+    }
 }

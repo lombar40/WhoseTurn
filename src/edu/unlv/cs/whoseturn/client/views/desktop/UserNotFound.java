@@ -19,45 +19,49 @@ import edu.unlv.cs.whoseturn.client.views.View;
  */
 public class UserNotFound implements View {
 
-	private final UsersServiceAsync usersService = GWT
-			.create(UsersService.class);
+    /**
+     * The user service.
+     */
+    private final UsersServiceAsync usersService = GWT
+            .create(UsersService.class);
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget asWidget() {
-		String url = GWT.getHostPageBaseURL();
-		if (!GWT.isProdMode())
-			url += "?gwt.codesvr=127.0.0.1:9997";
-		final String finalURL = url;
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget asWidget() {
+        String url = GWT.getHostPageBaseURL();
+        if (!GWT.isProdMode()) {
+            url += "?gwt.codesvr=127.0.0.1:9997";
+        }
+        final String finalURL = url;
 
-		final AbsolutePanel userNotFoundPanel = new AbsolutePanel();
-		userNotFoundPanel.setSize("1000px", "500px");
-		
-		Label lblNotloggedin = new Label(
-				"This e-mail address was not found in our database. Please contact an administrator to be invited.");
-		userNotFoundPanel.add(lblNotloggedin);
+        final AbsolutePanel userNotFoundPanel = new AbsolutePanel();
+        userNotFoundPanel.setSize("1000px", "500px");
 
-		Button btnUserNotFoundLogout = new Button("Logout");
-		btnUserNotFoundLogout.setText("Return to Login");
-		userNotFoundPanel.add(btnUserNotFoundLogout);
+        Label lblNotloggedin = new Label(
+                "This e-mail address was not found in our database. Please contact an administrator to be invited.");
+        userNotFoundPanel.add(lblNotloggedin);
 
-		btnUserNotFoundLogout.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				usersService.getLogoutURL(finalURL,
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								//
-							}
+        Button btnUserNotFoundLogout = new Button("Logout");
+        btnUserNotFoundLogout.setText("Return to Login");
+        userNotFoundPanel.add(btnUserNotFoundLogout);
 
-							public void onSuccess(String result) {
-								Window.open(result, "_self", "");
-							}
-						});
-			}
-		});
+        btnUserNotFoundLogout.addClickHandler(new ClickHandler() {
+            public void onClick(final ClickEvent event) {
+                usersService.getLogoutURL(finalURL,
+                        new AsyncCallback<String>() {
+                            public void onFailure(final Throwable caught) {
+                                //
+                            }
 
-		return userNotFoundPanel;
-	}
+                            public void onSuccess(final String result) {
+                                Window.open(result, "_self", "");
+                            }
+                        });
+            }
+        });
+
+        return userNotFoundPanel;
+    }
 }

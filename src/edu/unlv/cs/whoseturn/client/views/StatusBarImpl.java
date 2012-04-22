@@ -9,41 +9,41 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class StatusBarImpl implements StatusBar {
 
-	/**
-	 * String that contains the status to display in the status view.
-	 */
-	private String status = "";
-	
-	/**
-	 * Default Constructor.
-	 */
-	public StatusBarImpl() {
-		//status = "";
-		status = "Status bar test";
-	}
-	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget asWidget(){
-		
-		// The body of the view.
-		FlowPanel panel = new FlowPanel();
-		Label statusLabel = new Label();
-		statusLabel.setText(status);
-		panel.add(statusLabel);
-		return panel;
-	}
-	
-	@Override
-	public String getStatus() {
-		return status;
-	}
+    /**
+     * String that contains the status to display in the status view.
+     */
+    private String status = "";
 
-	@Override
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
+    /**
+     * Default Constructor.
+     */
+    public StatusBarImpl() {
+        // status = "";
+        status = "Status bar test";
+    }
+
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget asWidget() {
+
+        // The body of the view.
+        FlowPanel panel = new FlowPanel();
+        Label statusLabel = new Label();
+        statusLabel.setText(status);
+        panel.add(statusLabel);
+        return panel;
+    }
+
+    @Override
+    public final String getStatus() {
+        return status;
+    }
+
+    @Override
+    public final void setStatus(final String status) {
+        this.status = status;
+    }
+
 }

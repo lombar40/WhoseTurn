@@ -18,46 +18,48 @@ import edu.unlv.cs.whoseturn.client.views.NavigationView;
  * Lists all categories in the database.
  */
 public class ListAllGuests extends AbstractNavigationView implements
-		NavigationView {
+        NavigationView {
 
-	private final UsersServiceAsync usersService = GWT
-			.create(UsersService.class);
-	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		// The body of the view.
-		AbsolutePanel allGuestsList = new AbsolutePanel();
-		allGuestsList.setSize("1000px", "500px");
+    /**
+     * The user service.
+     */
+    private final UsersServiceAsync usersService = GWT
+            .create(UsersService.class);
 
-		Label labelTitle = new Label();
-		labelTitle.setStyleName("SectionHeader");
-		labelTitle.setText("All Guests");
-		allGuestsList.add(labelTitle);
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        // The body of the view.
+        AbsolutePanel allGuestsList = new AbsolutePanel();
+        allGuestsList.setSize("1000px", "500px");
 
-		final ListBox guestListBox = new ListBox();
-		allGuestsList.add(guestListBox, 10, 40);
-		guestListBox.setSize("310px", "450px");
-		guestListBox.setVisibleItemCount(5);
+        Label labelTitle = new Label();
+        labelTitle.setStyleName("SectionHeader");
+        labelTitle.setText("All Guests");
+        allGuestsList.add(labelTitle);
 
-		usersService.findAllGuests(new AsyncCallback<List<String>>() {
-			public void onFailure(Throwable caught) {
-				// TODO
-			}
+        final ListBox guestListBox = new ListBox();
+        allGuestsList.add(guestListBox, 10, 40);
+        guestListBox.setSize("310px", "450px");
+        guestListBox.setVisibleItemCount(5);
 
-			public void onSuccess(List<String> results) {
-				if(results != null)
-				{
-					for (int i = 0; i < results.size(); i++) {
-						guestListBox.addItem(results.get(i));
-					}
-				}
-			}
-		});
-		
-		return allGuestsList;
-	}
+        usersService.findAllGuests(new AsyncCallback<List<String>>() {
+            public void onFailure(final Throwable caught) {
+                // TODO
+            }
+
+            public void onSuccess(final List<String> results) {
+                if (results != null) {
+                    for (int i = 0; i < results.size(); i++) {
+                        guestListBox.addItem(results.get(i));
+                    }
+                }
+            }
+        });
+
+        return allGuestsList;
+    }
 
 }

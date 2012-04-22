@@ -11,19 +11,20 @@ import edu.unlv.cs.whoseturn.client.views.NavigationView;
  * Displays a User's profile.
  */
 public class UserDisplay extends AbstractNavigationView implements
-		NavigationView {
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		FlowPanel panel = new FlowPanel();
-		panel.setSize("1000px", "500px");
-		
-		Label labelPlaceHolder = new Label();
-		labelPlaceHolder.setText("User Display");
-		panel.add(labelPlaceHolder);
-		
-		return panel;
-	}
+        NavigationView {
+
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        FlowPanel panel = new FlowPanel();
+        panel.setSize("1000px", "500px");
+
+        Label labelPlaceHolder = new Label();
+        labelPlaceHolder.setText("User Display");
+        panel.add(labelPlaceHolder);
+
+        return panel;
+    }
 }

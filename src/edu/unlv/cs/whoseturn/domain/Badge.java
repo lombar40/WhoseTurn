@@ -13,7 +13,8 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Class used to represent Badges that are awarded to users.
  * 
- * List of Badges: (Extra returns are to allow autoformat to keep things aligned properly.)
+ * List of Badges: (Extra returns are to allow autoformat to keep things aligned
+ * properly.)
  * 
  * BadgeID | Badge Name | Badge Criterion
  * 
@@ -54,137 +55,137 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Badge {
 
-	/**
-	 * This is the primary key for the badge.
-	 */
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-	private String keyString;
+    /**
+     * This is the primary key for the badge.
+     */
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+    private String keyString;
 
-	/**
-	 * Used for reference purposes.
-	 */
-	@Persistent
-	private Integer badgeId;
+    /**
+     * Used for reference purposes.
+     */
+    @Persistent
+    private Integer badgeId;
 
-	/**
-	 * The name of the badge. e.g. Jackass (for Jackass badge)
-	 */
-	@Persistent
-	private String badgeName;
+    /**
+     * The name of the badge. e.g. Jackass (for Jackass badge)
+     */
+    @Persistent
+    private String badgeName;
 
-	/**
-	 * A description about the badge. E.g. How it is awarded.
-	 */
-	@Persistent
-	private String badgeCriteria;
+    /**
+     * A description about the badge. E.g. How it is awarded.
+     */
+    @Persistent
+    private String badgeCriteria;
 
-	/**
-	 * Soft delete status. true for deleted, false for not deleted.
-	 */
-	@Persistent
-	private Boolean deleted;
+    /**
+     * Soft delete status. true for deleted, false for not deleted.
+     */
+    @Persistent
+    private Boolean deleted;
 
-	/**
-	 * Persistence manager, used for CRUD operations.
-	 */
-	PersistenceManager pm = PMF.get().getPersistenceManager();
+    /**
+     * Persistence manager, used for CRUD operations.
+     */
+    private PersistenceManager pm = PMF.get().getPersistenceManager();
 
-	// Getters and Setters.
-	/**
-	 * Gets the keyString.
-	 * 
-	 * @return keyString as a string.
-	 */
-	public String getKeyString() {
-		return keyString;
-	}
+    // Getters and Setters.
+    /**
+     * Gets the keyString.
+     * 
+     * @return keyString as a string.
+     */
+    public final String getKeyString() {
+        return keyString;
+    }
 
-	/**
-	 * Sets teh keyString.
-	 * 
-	 * @param keyString
-	 *            The key string as a string.
-	 */
-	public void setKeyString(String keyString) {
-		this.keyString = keyString;
-	}
+    /**
+     * Sets teh keyString.
+     * 
+     * @param keyString
+     *            The key string as a string.
+     */
+    public final void setKeyString(final String keyString) {
+        this.keyString = keyString;
+    }
 
-	/**
-	 * Gets the badge name as a string.
-	 * 
-	 * @return The badge name.
-	 */
-	public String getBadgeName() {
-		return badgeName;
-	}
+    /**
+     * Gets the badge name as a string.
+     * 
+     * @return The badge name.
+     */
+    public final String getBadgeName() {
+        return badgeName;
+    }
 
-	/**
-	 * Sets the badge name.
-	 * 
-	 * @param badgeName
-	 *            The badge name.
-	 */
-	public void setBadgeName(String badgeName) {
-		this.badgeName = badgeName;
-	}
+    /**
+     * Sets the badge name.
+     * 
+     * @param badgeName
+     *            The badge name.
+     */
+    public final void setBadgeName(final String badgeName) {
+        this.badgeName = badgeName;
+    }
 
-	/**
-	 * Gets the description of how the badge is awarded.
-	 * 
-	 * @return The description.
-	 */
-	public String getBadgeCriteria() {
-		return badgeCriteria;
-	}
+    /**
+     * Gets the description of how the badge is awarded.
+     * 
+     * @return The description.
+     */
+    public final String getBadgeCriteria() {
+        return badgeCriteria;
+    }
 
-	/**
-	 * Sets the criteria of how a badge is awarded.
-	 * 
-	 * @param badgeCriteria
-	 *            The description.
-	 */
-	public void setBadgeCriteria(String badgeCriteria) {
-		this.badgeCriteria = badgeCriteria;
-	}
+    /**
+     * Sets the criteria of how a badge is awarded.
+     * 
+     * @param badgeCriteria
+     *            The description.
+     */
+    public final void setBadgeCriteria(final String badgeCriteria) {
+        this.badgeCriteria = badgeCriteria;
+    }
 
-	/**
-	 * Gets the deleted state.
-	 * 
-	 * @return true for deleted, false for not deleted.
-	 */
-	public Boolean getDeleted() {
-		return deleted;
-	}
+    /**
+     * Gets the deleted state.
+     * 
+     * @return true for deleted, false for not deleted.
+     */
+    public final Boolean getDeleted() {
+        return deleted;
+    }
 
-	/**
-	 * 
-	 * Sets the deleted state.
-	 * 
-	 * @param deleted
-	 *            true for deleted.
-	 */
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
-	}
+    /**
+     * 
+     * Sets the deleted state.
+     * 
+     * @param deleted
+     *            true for deleted.
+     */
+    public final void setDeleted(final Boolean deleted) {
+        this.deleted = deleted;
+    }
 
-	/**
-	 * Gets the badge id reference number.
-	 * 
-	 * @return The badge id.
-	 */
-	public Integer getBadgeId() {
-		return badgeId;
-	}
+    /**
+     * Gets the badge id reference number.
+     * 
+     * @return The badge id.
+     */
+    public final Integer getBadgeId() {
+        return badgeId;
+    }
 
-	/**
-	 * Sets the badge id reference number.
-	 * 
-	 * @param badgeId
-	 *            The badge id.
-	 */
-	public void setBadgeId(Integer badgeId) {
-		this.badgeId = badgeId;
-	}
+    /**
+     * Sets the badge id reference number.
+     * 
+     * @param badgeId
+     *            The badge id.
+     */
+    public final void setBadgeId(final Integer badgeId) {
+        this.badgeId = badgeId;
+    }
 }

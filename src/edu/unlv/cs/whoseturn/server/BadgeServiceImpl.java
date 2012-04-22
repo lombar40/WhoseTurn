@@ -20,485 +20,533 @@ import edu.unlv.cs.whoseturn.domain.User;
 /**
  * The badge service, used to associating and reading badges a user has.
  */
-public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeService {
+public class BadgeServiceImpl extends RemoteServiceServlet implements
+        BadgeService {
 
-	/**
-	 * Allows the class to be serialized.
-	 */
-	private static final long serialVersionUID = 3341571143301810951L;
-	
-	/**
-	 * Persistence Manager, used for CRUD with the db.
-	 */
-	PersistenceManager pm = PMF.get().getPersistenceManager();
+    /**
+     * Allows the class to be serialized.
+     */
+    private static final long serialVersionUID = 3341571143301810951L;
 
-	@Override
-	public void Jackass(Turn turn) {
-		Set<String> turn_items = turn.getTurnItems();
+    /**
+     * Persistence Manager, used for CRUD with the db.
+     */
+    PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		// get the keys of the turn items
-		for (String turn_key : turn_items) {
-			Key turnItemKey = KeyFactory.stringToKey(turn_key);
-			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			// get the key of the user who owns this turn item and then get the
-			// user
-			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
-			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void Jackass(final Turn turn) {
+        Set<String> turn_items = turn.getTurnItems();
 
-			// Jackass badge check
-			if (turn.getNumberOfUsers() == 1) {
-				for (int i = 0; i < badgeSet.size(); i++) {
-					// get key for the BadgeAwarded entity and retrieve the
-					// object
-					Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        // get the keys of the turn items
+        for (String turn_key : turn_items) {
+            Key turnItemKey = KeyFactory.stringToKey(turn_key);
+            TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+            // get the key of the user who owns this turn item and then get the
+            // user
+            Key ownerKey = KeyFactory
+                    .stringToKey(turn_item.getOwnerKeyString());
+            User user = pm.getObjectById(User.class, ownerKey);
+            Set<String> badgeSet = user.getBadges();
 
-					if (badge.getBadgeId().equals(1000)) {
-						badge.increaseBadgeCount();
-						break;
-					}
-				}
-			}
-		}
+            // Jackass badge check
+            if (turn.getNumberOfUsers() == 1) {
+                for (int i = 0; i < badgeSet.size(); i++) {
+                    // get key for the BadgeAwarded entity and retrieve the
+                    // object
+                    Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
+                            .next());
+                    BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class,
+                            badgeKey);
 
-		pm.close();
-	}
+                    if (badge.getBadgeId().equals(1000)) {
+                        badge.increaseBadgeCount();
+                        break;
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void TeamCheater(Turn turn) {
-		;
-	}
+        pm.close();
+    }
 
-	@Override
-	public void CornerStone(Turn turn) {
-		Set<String> turn_items = turn.getTurnItems();
+    @Override
+    public final void TeamCheater(final Turn turn) {
+    }
 
-		// get the keys of the turn items
-		for (String turn_key : turn_items) {
-			Key turnItemKey = KeyFactory.stringToKey(turn_key);
-			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			// get the key of the user who owns this turn item and then get the
-			// user
-			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
-			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void CornerStone(final Turn turn) {
+        Set<String> turn_items = turn.getTurnItems();
 
-			// Badge Check
-			if (turn.getNumberOfUsers() == 4) {
-				// Corner Stone badge
-				if (turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        // get the keys of the turn items
+        for (String turn_key : turn_items) {
+            Key turnItemKey = KeyFactory.stringToKey(turn_key);
+            TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+            // get the key of the user who owns this turn item and then get the
+            // user
+            Key ownerKey = KeyFactory
+                    .stringToKey(turn_item.getOwnerKeyString());
+            User user = pm.getObjectById(User.class, ownerKey);
+            Set<String> badgeSet = user.getBadges();
 
-						if (badge.getBadgeId().equals(1001)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-				// Don't Cross The Streams badge
-				if (!turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+            // Badge Check
+            if (turn.getNumberOfUsers() == 4) {
+                // Corner Stone badge
+                if (turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-						if (badge.getBadgeId().equals(1002)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-			}
-		}
+                        if (badge.getBadgeId().equals(1001)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+                // Don't Cross The Streams badge
+                if (!turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        /**
+                         * Get key for the BadgeAwarded entity and retrieve the
+                         * object.
+                         */
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-		pm.close();
-	}
+                        if (badge.getBadgeId().equals(1002)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void HumanSacrifice(Turn turn) {
-		Set<String> turn_items = turn.getTurnItems();
+        pm.close();
+    }
 
-		// get the keys of the turn items
-		for (String turn_key : turn_items) {
-			Key turnItemKey = KeyFactory.stringToKey(turn_key);
-			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			/**
-			 * Get the key of the user who owns this turn item and then get the user.
-			 */
-			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
-			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void HumanSacrifice(final Turn turn) {
+        Set<String> turn_items = turn.getTurnItems();
 
-			// Badge Check
-			if (turn.getNumberOfUsers() == 5) {
-				// Human Sacrifice badge
-				if (turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        // get the keys of the turn items
+        for (String turn_key : turn_items) {
+            Key turnItemKey = KeyFactory.stringToKey(turn_key);
+            TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+            /**
+             * Get the key of the user who owns this turn item and then get the
+             * user.
+             */
+            Key ownerKey = KeyFactory
+                    .stringToKey(turn_item.getOwnerKeyString());
+            User user = pm.getObjectById(User.class, ownerKey);
+            Set<String> badgeSet = user.getBadges();
 
-						if (badge.getBadgeId().equals(1003)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-				// Not The Thumb badge
-				if (!turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+            // Badge Check
+            if (turn.getNumberOfUsers() == 5) {
+                // Human Sacrifice badge
+                if (turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-						if (badge.getBadgeId().equals(1004)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-			}
-		}
+                        if (badge.getBadgeId().equals(1003)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+                // Not The Thumb badge
+                if (!turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-		pm.close();
-	}
+                        if (badge.getBadgeId().equals(1004)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void SixMinuteAbs(Turn turn) {
-		Set<String> turn_items = turn.getTurnItems();
+        pm.close();
+    }
 
-		// get the keys of the turn items
-		for (String turn_key : turn_items) {
-			Key turnItemKey = KeyFactory.stringToKey(turn_key);
-			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			// get the key of the user who owns this turn item and then get the
-			// user
-			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
-			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void SixMinuteAbs(final Turn turn) {
+        Set<String> turn_items = turn.getTurnItems();
 
-			// Badge Check
-			if (turn.getNumberOfUsers() == 6) {
-				// Six Minute Abs badge
-				if (turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        // get the keys of the turn items
+        for (String turn_key : turn_items) {
+            Key turnItemKey = KeyFactory.stringToKey(turn_key);
+            TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+            // get the key of the user who owns this turn item and then get the
+            // user
+            Key ownerKey = KeyFactory
+                    .stringToKey(turn_item.getOwnerKeyString());
+            User user = pm.getObjectById(User.class, ownerKey);
+            Set<String> badgeSet = user.getBadges();
 
-						if (badge.getBadgeId().equals(1005)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-				// Pick Up Sticks badge
-				if (!turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+            // Badge Check
+            if (turn.getNumberOfUsers() == 6) {
+                // Six Minute Abs badge
+                if (turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        /**
+                         * Get key for the BadgeAwarded entity and retrieve the
+                         * object.
+                         */
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-						if (badge.getBadgeId().equals(1006)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-			}
-		}
+                        if (badge.getBadgeId().equals(1005)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+                // Pick Up Sticks badge
+                if (!turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        /**
+                         * Get key for the BadgeAwarded entity and retrieve the
+                         * object.
+                         */
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-		pm.close();
-	}
+                        if (badge.getBadgeId().equals(1006)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void CrappedOut(Turn turn) {
-		Set<String> turn_items = turn.getTurnItems();
+        pm.close();
+    }
 
-		// get the keys of the turn items
-		for (String turn_key : turn_items) {
-			Key turnItemKey = KeyFactory.stringToKey(turn_key);
-			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			// get the key of the user who owns this turn item and then get the
-			// user
-			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
-			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void CrappedOut(final Turn turn) {
+        Set<String> turn_items = turn.getTurnItems();
 
-			// Badge Check
-			if (turn.getNumberOfUsers() == 7) {
-				// Crapped Out badge
-				if (turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						/**
-						 * Get key for the BadgeAwarded entity and retrieve the object.
-						 */
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        // get the keys of the turn items
+        for (String turn_key : turn_items) {
+            Key turnItemKey = KeyFactory.stringToKey(turn_key);
+            TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+            // get the key of the user who owns this turn item and then get the
+            // user
+            Key ownerKey = KeyFactory
+                    .stringToKey(turn_item.getOwnerKeyString());
+            User user = pm.getObjectById(User.class, ownerKey);
+            Set<String> badgeSet = user.getBadges();
 
-						if (badge.getBadgeId().equals(1007)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-				// Lucky No. 7 badge
-				if (!turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+            // Badge Check
+            if (turn.getNumberOfUsers() == 7) {
+                // Crapped Out badge
+                if (turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        /**
+                         * Get key for the BadgeAwarded entity and retrieve the
+                         * object.
+                         */
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-						if (badge.getBadgeId().equals(1008)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-			}
-		}
+                        if (badge.getBadgeId().equals(1007)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+                // Lucky No. 7 badge
+                if (!turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-		pm.close();
-	}
+                        if (badge.getBadgeId().equals(1008)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void SnowWhite(Turn turn) {
-		Set<String> turn_items = turn.getTurnItems();
+        pm.close();
+    }
 
-		// get the keys of the turn items
-		for (String turn_key : turn_items) {
-			Key turnItemKey = KeyFactory.stringToKey(turn_key);
-			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			// get the key of the user who owns this turn item and then get the
-			// user
-			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
-			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void SnowWhite(final Turn turn) {
+        Set<String> turn_items = turn.getTurnItems();
 
-			// Badge Check
-			if (turn.getNumberOfUsers() == 8) {
-				// Snow White badge
-				if (turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        // get the keys of the turn items
+        for (String turn_key : turn_items) {
+            Key turnItemKey = KeyFactory.stringToKey(turn_key);
+            TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+            // get the key of the user who owns this turn item and then get the
+            // user
+            Key ownerKey = KeyFactory
+                    .stringToKey(turn_item.getOwnerKeyString());
+            User user = pm.getObjectById(User.class, ownerKey);
+            Set<String> badgeSet = user.getBadges();
 
-						if (badge.getBadgeId().equals(1009)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-				// Dwarf badge
-				if (!turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+            // Badge Check
+            if (turn.getNumberOfUsers() == 8) {
+                // Snow White badge
+                if (turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-						if (badge.getBadgeId().equals(1010)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-			}
-		}
+                        if (badge.getBadgeId().equals(1009)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+                // Dwarf badge
+                if (!turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-		pm.close();
-	}
+                        if (badge.getBadgeId().equals(1010)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void FML(Turn turn) {
-		Set<String> turn_items = turn.getTurnItems();
+        pm.close();
+    }
 
-		// get the keys of the turn items
-		for (String turn_key : turn_items) {
-			Key turnItemKey = KeyFactory.stringToKey(turn_key);
-			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
-			// get the key of the user who owns this turn item
-			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
-			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void FML(final Turn turn) {
+        Set<String> turn_items = turn.getTurnItems();
 
-			// Badge Check
-			if (turn.getNumberOfUsers() > 8) {
-				// FML badge
-				if (turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        // get the keys of the turn items
+        for (String turn_key : turn_items) {
+            Key turnItemKey = KeyFactory.stringToKey(turn_key);
+            TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+            // get the key of the user who owns this turn item
+            Key ownerKey = KeyFactory
+                    .stringToKey(turn_item.getOwnerKeyString());
+            User user = pm.getObjectById(User.class, ownerKey);
+            Set<String> badgeSet = user.getBadges();
 
-						if (badge.getBadgeId().equals(1011)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-				// Statistically Speaking badge
-				if (!turn_item.getSelected()) {
-					for (int i = 0; i < badgeSet.size(); i++) {
-						// get key for the BadgeAwarded entity and retrieve the
-						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+            // Badge Check
+            if (turn.getNumberOfUsers() > 8) {
+                // FML badge
+                if (turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-						if (badge.getBadgeId().equals(1012)) {
-							badge.increaseBadgeCount();
-							break;
-						}
-					}
-				}
-			}
-		}
+                        if (badge.getBadgeId().equals(1011)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+                // Statistically Speaking badge
+                if (!turn_item.getSelected()) {
+                    for (int i = 0; i < badgeSet.size(); i++) {
+                        // get key for the BadgeAwarded entity and retrieve the
+                        // object
+                        Key badgeKey = KeyFactory.stringToKey(badgeSet
+                                .iterator().next());
+                        BadgeAwarded badge = pm.getObjectById(
+                                BadgeAwarded.class, badgeKey);
 
-		pm.close();
-	}
+                        if (badge.getBadgeId().equals(1012)) {
+                            badge.increaseBadgeCount();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void Saint(User user) {
-		Integer countTurns = user.getTurnItems().size();
-		Set<String> badgeSet = user.getBadges();
+        pm.close();
+    }
 
-		if (countTurns >= 50) {
-			for (int i = 0; i < badgeSet.size(); i++) {
-				// get key for the BadgeAwarded entity and retrieve the object
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+    @Override
+    public final void Saint(final User user) {
+        Integer countTurns = user.getTurnItems().size();
+        Set<String> badgeSet = user.getBadges();
 
-				if (userBadge.getBadgeId().equals(1013)) {
-					// check if user does not have any liar badges
-					// if true, award Saint badge
-					if (userBadge.getCount().equals(0)) {
-						userBadge.increaseBadgeCount();
-						break;
-					}
-				}
-			}
-		}
+        if (countTurns >= 50) {
+            for (int i = 0; i < badgeSet.size(); i++) {
+                // get key for the BadgeAwarded entity and retrieve the object
+                Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
+                        .next());
+                BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
+                        badgeKey);
 
-		pm.close();
-	}
+                if (userBadge.getBadgeId().equals(1013)) {
+                    // check if user does not have any liar badges
+                    // if true, award Saint badge
+                    if (userBadge.getCount().equals(0)) {
+                        userBadge.increaseBadgeCount();
+                        break;
+                    }
+                }
+            }
+        }
 
-	@Override
-	public void Socialite(Turn turn) {
-		Integer number_of_users = turn.getNumberOfUsers();
+        pm.close();
+    }
 
-		if (number_of_users > 10) {
-			for (String turnItemKeyString : turn.getTurnItems()) {
-				// get key for the TurnItem and retrieve the object
-				Key turnItemKey = KeyFactory.stringToKey(turnItemKeyString);
-				TurnItem turnItem = pm.getObjectById(TurnItem.class, turnItemKey);
-				// get key for user of the turn item, and then get the user
-				String ownerKeyString = turnItem.getOwnerKeyString();
-				Key ownerKey = KeyFactory.stringToKey(ownerKeyString);
-				User user = pm.getObjectById(User.class, ownerKey);
-				Set<String> badgeSet = user.getBadges();
+    @Override
+    public final void Socialite(final Turn turn) {
+        Integer number_of_users = turn.getNumberOfUsers();
 
-				for (int i = 0; i < badgeSet.size(); i++) {
-					// get key for the BadgeAwarded entity and retrieve the
-					// object
-					Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+        if (number_of_users > 10) {
+            for (String turnItemKeyString : turn.getTurnItems()) {
+                // get key for the TurnItem and retrieve the object
+                Key turnItemKey = KeyFactory.stringToKey(turnItemKeyString);
+                TurnItem turnItem = pm.getObjectById(TurnItem.class,
+                        turnItemKey);
+                // get key for user of the turn item, and then get the user
+                String ownerKeyString = turnItem.getOwnerKeyString();
+                Key ownerKey = KeyFactory.stringToKey(ownerKeyString);
+                User user = pm.getObjectById(User.class, ownerKey);
+                Set<String> badgeSet = user.getBadges();
 
-					if (badge.getBadgeId().equals(1014)) {
-						badge.increaseBadgeCount();
-						break;
-					}
-				}
-			}
-		}
-	}
+                for (int i = 0; i < badgeSet.size(); i++) {
+                    // get key for the BadgeAwarded entity and retrieve the
+                    // object
+                    Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
+                            .next());
+                    BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class,
+                            badgeKey);
 
-	@Override
-	public void StormShadow(User user) {
-		Set<String> badgeSet = user.getBadges();
+                    if (badge.getBadgeId().equals(1014)) {
+                        badge.increaseBadgeCount();
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
-		if (user.getUsername().equals("Chris Jones")) {
-			for (int i = 0; i < badgeSet.size(); i++) {
-				/**
-				 * Get key for the BadgeAwarded entity and retrieve the object
-				 */
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+    @Override
+    public final void StormShadow(final User user) {
+        Set<String> badgeSet = user.getBadges();
 
-				if (userBadge.getBadgeId().equals(1020)) {
-					userBadge.increaseBadgeCount();
-					break;
-				}
-			}
-		}
-	}
+        if (user.getUsername().equals("Chris Jones")) {
+            for (int i = 0; i < badgeSet.size(); i++) {
+                /**
+                 * Get key for the BadgeAwarded entity and retrieve the object
+                 */
+                Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
+                        .next());
+                BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
+                        badgeKey);
 
-	@Override
-	public void MythBusters(User user) {
-		Set<String> badgeSet = user.getBadges();
-		if (user.getUsername().equals("Matthew Sowders")) {
-			for (int i = 0; i < badgeSet.size(); i++) {
-				// get key for the BadgeAwarded entity and retrieve the object
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
+                if (userBadge.getBadgeId().equals(1020)) {
+                    userBadge.increaseBadgeCount();
+                    break;
+                }
+            }
+        }
+    }
 
-				if (userBadge.getBadgeId().equals(1021)) {
-					userBadge.increaseBadgeCount();
-					break;
-				}
-			}
-		}
-	}
+    @Override
+    public final void MythBusters(final User user) {
+        Set<String> badgeSet = user.getBadges();
+        if (user.getUsername().equals("Matthew Sowders")) {
+            for (int i = 0; i < badgeSet.size(); i++) {
+                // get key for the BadgeAwarded entity and retrieve the object
+                Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
+                        .next());
+                BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
+                        badgeKey);
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void calculateBadges(Turn turn) {
-		/**
-		 * Retrieve a list of all users in the database for badge calculation.
-		 */
-		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
-		List<edu.unlv.cs.whoseturn.domain.User> userList;
+                if (userBadge.getBadgeId().equals(1021)) {
+                    userBadge.increaseBadgeCount();
+                    break;
+                }
+            }
+        }
+    }
 
-		try {
-			userList = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
-		} finally {
-			query.closeAll();
-			pm.close();
-		}
+    @SuppressWarnings("unchecked")
+    @Override
+    public final void calculateBadges(final Turn turn) {
+        /**
+         * Retrieve a list of all users in the database for badge calculation.
+         */
+        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+        List<edu.unlv.cs.whoseturn.domain.User> userList;
 
-		// Initiate badge calculation based on the turn submitted.
-		Jackass(turn);
-		TeamCheater(turn);
-		CornerStone(turn);
-		HumanSacrifice(turn);
-		SixMinuteAbs(turn);
-		CrappedOut(turn);
-		SnowWhite(turn);
-		FML(turn);
-		Socialite(turn);
+        try {
+            userList = (List<edu.unlv.cs.whoseturn.domain.User>) query
+                    .execute();
+        } finally {
+            query.closeAll();
+            pm.close();
+        }
 
-		// Initiate badge calculation for the users.
-		for (User user : userList) {
-			Saint(user);
-			StormShadow(user);
-			MythBusters(user);
-		}
-	}
+        // Initiate badge calculation based on the turn submitted.
+        Jackass(turn);
+        TeamCheater(turn);
+        CornerStone(turn);
+        HumanSacrifice(turn);
+        SixMinuteAbs(turn);
+        CrappedOut(turn);
+        SnowWhite(turn);
+        FML(turn);
+        Socialite(turn);
+
+        // Initiate badge calculation for the users.
+        for (User user : userList) {
+            Saint(user);
+            StormShadow(user);
+            MythBusters(user);
+        }
+    }
 
 }

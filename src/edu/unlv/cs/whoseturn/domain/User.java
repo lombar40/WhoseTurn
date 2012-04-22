@@ -10,129 +10,129 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class User {
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-	private String keyString;
-	
-	@Persistent
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+    private String keyString;
+
+    @Persistent
     private String username;
 
-	@Persistent
+    @Persistent
     private String email;
 
-	@Persistent
+    @Persistent
     private Boolean admin;
-	
-	@Persistent
+
+    @Persistent
     private Boolean deleted;
 
-	@Persistent
+    @Persistent
     private byte[] avatarBlob;
-	
-	@Persistent
-	private Integer penaltyCount;
-	
-	@Persistent
-	private String ownerKeyString;
-	
-	@Persistent
+
+    @Persistent
+    private Integer penaltyCount;
+
+    @Persistent
+    private String ownerKeyString;
+
+    @Persistent
     private Set<String> turnItems;
-	
-	@Persistent
-	private Set<String> badges;
 
-	public String getKeyString() {
-		return keyString;
-	}
+    @Persistent
+    private Set<String> badges;
 
-	// Getters and Setters.
-	public void setKeyString(String keyString) {
-		this.keyString = keyString;
-	}
+    public final String getKeyString() {
+        return keyString;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    // Getters and Setters.
+    public final void setKeyString(final String keyString) {
+        this.keyString = keyString;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public final String getUsername() {
+        return username;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public final void setUsername(final String username) {
+        this.username = username;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public final String getEmail() {
+        return email;
+    }
 
-	public Boolean getAdmin() {
-		return admin;
-	}
+    public final void setEmail(final String email) {
+        this.email = email;
+    }
 
-	public void setAdmin(Boolean admin) {
-		this.admin = admin;
-	}
+    public final Boolean getAdmin() {
+        return admin;
+    }
 
-	public Boolean getDeleted() {
-		return deleted;
-	}
+    public final void setAdmin(final Boolean admin) {
+        this.admin = admin;
+    }
 
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
-	}
+    public final Boolean getDeleted() {
+        return deleted;
+    }
 
-	public byte[] getAvatarBlob() {
-		return avatarBlob;
-	}
+    public final void setDeleted(final Boolean deleted) {
+        this.deleted = deleted;
+    }
 
-	public void setAvatarBlob(byte[] avatarBlob) {
-		this.avatarBlob = avatarBlob;
-	}
-	
-	public Set<String> getTurnItems() {
-		return turnItems;
-	}
+    public final byte[] getAvatarBlob() {
+        return avatarBlob;
+    }
 
-	public Set<String> getBadges() {
-		return badges;
-	}
+    public final void setAvatarBlob(final byte[] avatarBlob) {
+        this.avatarBlob = avatarBlob;
+    }
 
-	public void setBadges(Set<String> badges) {
-		this.badges = badges;
-	}
-	
-	public void addBadge(BadgeAwarded badge) {
-		badges.add(badge.getKeyString());
-	}
-	
-	public void addTurnItem(TurnItem turnItem) {
-		turnItems.add(turnItem.getKeyString());
-	}
-	
-	public void setTurnItems(Set<String> turnItems) {
-		this.turnItems = turnItems;
-	}
+    public final Set<String> getTurnItems() {
+        return turnItems;
+    }
 
-	public Integer getPenaltyCount() {
-		return penaltyCount;
-	}
+    public final Set<String> getBadges() {
+        return badges;
+    }
 
-	public void setPenaltyCount(Integer penaltyCount) {
-		this.penaltyCount = penaltyCount;
-	}
-	
-	public void increasePenaltyCount() {
-		this.penaltyCount++;
-		
-	}
+    public final void setBadges(final Set<String> badges) {
+        this.badges = badges;
+    }
 
-	public String getOwnerKeyString() {
-		return ownerKeyString;
-	}
+    public final void addBadge(final BadgeAwarded badge) {
+        badges.add(badge.getKeyString());
+    }
 
-	public void setOwnerKeyString(String ownerKeyString) {
-		this.ownerKeyString = ownerKeyString;
-	}
+    public final void addTurnItem(final TurnItem turnItem) {
+        turnItems.add(turnItem.getKeyString());
+    }
+
+    public final void setTurnItems(final Set<String> turnItems) {
+        this.turnItems = turnItems;
+    }
+
+    public final Integer getPenaltyCount() {
+        return penaltyCount;
+    }
+
+    public final void setPenaltyCount(final Integer penaltyCount) {
+        this.penaltyCount = penaltyCount;
+    }
+
+    public final void increasePenaltyCount() {
+        this.penaltyCount++;
+
+    }
+
+    public final String getOwnerKeyString() {
+        return ownerKeyString;
+    }
+
+    public final void setOwnerKeyString(final String ownerKeyString) {
+        this.ownerKeyString = ownerKeyString;
+    }
 }
