@@ -1,12 +1,10 @@
 package edu.unlv.cs.whoseturn.client.views.desktop;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import edu.unlv.cs.whoseturn.client.views.AbstractNavigationView;
 import edu.unlv.cs.whoseturn.client.views.NavigationView;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
