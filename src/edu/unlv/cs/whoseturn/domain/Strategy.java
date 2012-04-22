@@ -124,10 +124,11 @@ public class Strategy {
 	public User leastRecentlyGone(users, category){
 		List<String> turnItemsKeyStrings;
 		List<TurnItems> turnItems;
+		List<Date> dateList;
 		Integer tempTurnCount;
 		Integer tempSelectedCount;
 		Date tempTurnDate;
-		//Date getTurnDateTime()
+		Date currentTurnDate;
 		
 		for (int i = 0; i < user.size(); i++){
 			tempTurnCount = 0;
@@ -139,27 +140,25 @@ public class Strategy {
 				turnItems.add(pm.getObjectsById(TurnItem.class,
 						   KeyFactory.stringToKey(turnItemsKeyStrings.index(j))));
 				}
-		for (int k = 0; k < turnItems.size(); k++){
-			if (turnItems.index(k).getCategoryKeyString.equals(category.getKeyString)){
-				tempTurnCount++;
-				if (turnItems.index(k).getSelected()){
-					tempSelectedCount++;
-					}
+			for (int k = 0; k < turnItems.size(); k++){
+				dateList.add(turnItems.index(k).getTurnDate);
 				}
-			}
-		ratioList.add((Double)(tempSelectedCount/tempTurnCount));
-		pm.close();
+			pm.close();
+				
 		}
 		
 		Integer index = 0;
-		Double tempCurrentRatio = ratioList.index(0);
-		Double tempRatio;
+		Integer differenceOfDates;
+		//int differenceOfDates;
+		Date tempCurrentDate = dateList.index(0);
+		Date tempTurnDate;
 		
-		for (int i = 1; i < ratioList.size(); i++){
-			tempRatio = ratioList.index(i);
+		for (int i = 1; i < dateList.size(); i++){
+			tempTurnDate = dateList.index(i);
+			differenceOfDates = tempCurrentDate.compareTo(tempTurnDate);
 			
-			if (tempRatio < tempCurrentRatio){
-				tempCurrentRatio = tempRatio;
+			if (differenceOfDates < 0 || differencesOfDates == 0){
+				tempCurrentDate = tempTurnDate;
 				index = i;
 			}
 		}
