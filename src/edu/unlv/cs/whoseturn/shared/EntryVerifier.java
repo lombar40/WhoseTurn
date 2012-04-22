@@ -9,7 +9,7 @@ import edu.unlv.cs.whoseturn.domain.PMF;
 
 
 /**
- * FieldVerifier validates that the data the user enters is valid.
+ * EntryVerifier validates that the data the user enters is valid.
  */
 public class EntryVerifier 
 {	
@@ -47,7 +47,7 @@ public class EntryVerifier
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
 
-	    List<edu.unlv.cs.whoseturn.domain.User> results;
+		List<edu.unlv.cs.whoseturn.domain.User> results;
 	    
 	    results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
 	   	if (!results.isEmpty()) 
@@ -62,9 +62,8 @@ public class EntryVerifier
 	            }
 	   	}
 		
-		// If we're here, the email is new and (hopefully) valid
-		errorMessage = "Valid";
-		return errorMessage;
+		// If we're here, the email is new and (hopefully) valid	
+		return "Valid";
 	}
 
 	/**
@@ -89,10 +88,10 @@ public class EntryVerifier
 			return errorMessage;
 		}
 		
-		// The username cannot contain special characters
+		// The username can't contain special characters
 		if (!username.matches("^[a-zA-Z0-9]+$"))
 		{
-			errorMessage = "Username cannot contain special characters";
+			errorMessage = "Username can't contain special characters";
 			return errorMessage;
 		}
 
@@ -116,6 +115,50 @@ public class EntryVerifier
 		}
       
 		// If we're here, the username is new and within the specified bounds
+		return "Valid";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static String isCategoryValid(String category) {
+		// The category can't be less than 3 characters
+		if (category.length() < 3) {
+			errorMessage = "Category must have at least 3 characters";
+			return errorMessage;
+		}
+		
+		// The category can't be longer than 40 characters
+		if (category.length() > 40) {
+			errorMessage = "Category must be under 40 characters";
+			return errorMessage;
+		}
+		
+		// The category can't contain special characters
+		if (!category.matches("^[a-zA-Z0-9]+$")) {
+			errorMessage = "A categroy can't contain special characters";
+			return errorMessage;
+		}
+		
+		// The following checks for a duplicate category in the database of current categories
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.Category.class);
+
+		List<edu.unlv.cs.whoseturn.domain.Category> results;
+			    
+		results = (List<edu.unlv.cs.whoseturn.domain.Category>) query.execute();
+		
+		if (!results.isEmpty()) 
+		{
+			for (edu.unlv.cs.whoseturn.domain.Category queriedCategory : results) 
+			{
+				if (category.equals(queriedCategory.getName()))
+				{
+					errorMessage = "Category already exists";
+					return errorMessage;
+				}
+			}
+		}
+		
+		// If we're here, the category is new and has proper character constraints
 		return "Valid";
 	}
 }

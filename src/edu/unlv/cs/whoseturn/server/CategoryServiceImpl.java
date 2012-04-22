@@ -12,6 +12,7 @@ import edu.unlv.cs.whoseturn.client.CategoryService;
 import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.Strategy;
+import edu.unlv.cs.whoseturn.shared.EntryVerifier;
 
 /**
  * Category Service which allows the client to get information from the server regarding categories. 
@@ -34,10 +35,19 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public String addCategory(String categoryName, String strategy, Integer timeBoundary) {
+		categoryName.trim(); // Get rid of any whitespace before and after the name
 		
-		String message = "TODO"; //EntryVerifier.isCategoryValid(categoryName);
+		/**
+		 * The error message to display when an invalid category is submitted (or success if valid)
+		 */
+		String message;
 		String strategyKeyString = "TODO"; // Get keystring refering to the supplied strategy
 
+		//
+		//
+		//
+		message = EntryVerifier.isCategoryValid(categoryName);
+		
 		if (message != "Valid") {
 			return message;
 		}
