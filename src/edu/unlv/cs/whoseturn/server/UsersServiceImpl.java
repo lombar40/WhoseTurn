@@ -110,7 +110,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		{
 			return errorMessage;
 		}
-		
+
 		// A Valid username will return "Valid"
 		// An invalid username will return "Invalid username"
 		// A duplicate username will return "Username already exists"

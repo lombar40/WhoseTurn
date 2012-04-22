@@ -43,10 +43,11 @@ public class FieldVerifier
 			return errorMessage;
 		}
 		
+		
+		// The following checks for a duplicate email address in the database of current users
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
 
-	    //List<String[]> resultStringList = new ArrayList<String[]>();
 	    List<edu.unlv.cs.whoseturn.domain.User> results;
 	    
 	    results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
@@ -54,7 +55,7 @@ public class FieldVerifier
 	   	{
 	            for (edu.unlv.cs.whoseturn.domain.User e : results) 
 	            {
-	                if (email == e.getEmail())
+	                if (email.equals(e.getEmail()))
 	                {
 	                	errorMessage = "Email already exists";
 	                	return errorMessage;
@@ -72,6 +73,7 @@ public class FieldVerifier
 	 * @param username the username to validate
 	 * @return true if valid, false if invalid
 	 */
+	@SuppressWarnings("unchecked")
 	public static String isUsernameValid(String username)
 	{
 		// The username can't be less than 3 characters
@@ -86,6 +88,25 @@ public class FieldVerifier
 		{
 			errorMessage = "Username must be under 30 characters";
 			return errorMessage;
+		}
+		
+		// The following checks for a duplicate username in the database of current users
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+		List<edu.unlv.cs.whoseturn.domain.User> results;
+			    
+		results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+		if (!results.isEmpty()) 
+		{
+			for (edu.unlv.cs.whoseturn.domain.User e : results) 
+			{
+				if (username.equals(e.getUsername()))
+				{
+					errorMessage = "Username already exists";
+					return errorMessage;
+				}
+			}
 		}
       
 		// If we're here, the username is new and within the specified bounds
