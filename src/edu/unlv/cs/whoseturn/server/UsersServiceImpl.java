@@ -18,7 +18,8 @@ import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.domain.Badge;
 import edu.unlv.cs.whoseturn.domain.BadgeAwarded;
 import edu.unlv.cs.whoseturn.domain.PMF;
-import edu.unlv.cs.whoseturn.shared.FieldVerifier;
+import edu.unlv.cs.whoseturn.domain.Strategy;
+import edu.unlv.cs.whoseturn.shared.EntryVerifier;
 
 @SuppressWarnings("serial")
 public class UsersServiceImpl extends RemoteServiceServlet implements
@@ -32,7 +33,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         openIdProviders.put("myspace", "myspace.com");
         openIdProviders.put("aol", "aol.com");
         openIdProviders.put("myopenid", "myopenid.com");
-        openIdProviders.put("facebook", "facebook.com");
     }
 	
 	public Boolean isLoggedIn()
@@ -53,7 +53,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         	return "UserNotLoggedIn";
         }
 
-        PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
+        PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistence manager
         Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");	// Create a query to find the user based off the email
 		query.declareParameters("String emailParam");	// Declare the parameter for search
 		
@@ -100,29 +100,29 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		
 		String errorMessage; // The error message to be displayed when the username or email is invalid
 		
-		// A valid email will return "Valid"
-		// An invalid email will return "Invalid e-mail address"
-		// A duplicate email will return "E-mail address already exists."
-		errorMessage = FieldVerifier.isEmailValid(email);
-		
-		// If the email address isn't "Valid", there was an error so return
-		if (errorMessage != "Valid")
-		{
-			return errorMessage;
-		}
-
 		// A Valid username will return "Valid"
 		// An invalid username will return "Invalid username"
 		// A duplicate username will return "Username already exists"
-		errorMessage = FieldVerifier.isUsernameValid(username);
+		errorMessage = EntryVerifier.isUsernameValid(username);
 		
 		// If the username isn't "Valid", there was an error so return
 		if (errorMessage != "Valid")
 		{
 			return errorMessage;
 		}
+				
+		// A valid email will return "Valid"
+		// An invalid email will return "Invalid e-mail address"
+		// A duplicate email will return "E-mail address already exists."
+		errorMessage = EntryVerifier.isEmailValid(email);
 		
-		PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
+		// If the email address isn't "Valid", there was an error so return
+		if (errorMessage != "Valid")
+		{
+			return errorMessage;
+		}
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistence manager
         edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();	// Creates a new user object to add
         
         // Set properties of the user
@@ -131,6 +131,8 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setDeleted(false);
         user.setEmail(email);
         user.setUsername(username);
+        user.setOwnerKeyString("");
+        user.setPenaltyCount(0);
         user.setBadges(new HashSet<String>());
         
         // Creation of the user's default badges
@@ -167,12 +169,91 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
             pm.close();
         }
         
-        return user.getKeyString();
+        return "Success";
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String addGuest(String username)
 	{
-        return addNewUser(username, null, false);
+		// Get rid of any leading and trailing whitespace in the username and email address
+		username.trim();
+		
+		String errorMessage; // The error message to be displayed when the username or email is invalid
+		
+		// A Valid username will return "Valid"
+		// An invalid username will return "Invalid username"
+		// A duplicate username will return "Username already exists"
+		errorMessage = EntryVerifier.isUsernameValid(username);
+		
+		// If the username isn't "Valid", there was an error so return
+		if (errorMessage != "Valid")
+		{
+			return errorMessage;
+		}
+		
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistance manager
+        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();	// Creates a new user object to add
+        
+		
+		UserService userService = UserServiceFactory.getUserService();	// Get the user auth service
+        User loggedUser = userService.getCurrentUser();						// Get the logged in user
+        
+        Query userQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");
+        userQuery.declareParameters("String emailParam");
+		List<edu.unlv.cs.whoseturn.domain.User> userResults;
+		
+		userResults = (List<edu.unlv.cs.whoseturn.domain.User>) userQuery.execute(loggedUser.getEmail());
+		
+		edu.unlv.cs.whoseturn.domain.User ownerObject = userResults.get(0);
+		
+		userQuery.closeAll();
+		
+        // Set properties of the user
+        user.setAdmin(false);
+        user.setAvatarBlob(null);
+        user.setDeleted(false);
+        user.setEmail("");
+        user.setPenaltyCount(0);
+        user.setUsername(username);
+        user.setBadges(new HashSet<String>());
+        user.setOwnerKeyString(ownerObject.getKeyString());
+        
+        // Creation of the user's default badges
+		Query badgeQuery = pm.newQuery(Badge.class);	// Query the database for all badge types
+	    List<Badge> badgeResults;	// Prepare a results list
+	    BadgeAwarded tempBadgeAwarded;	// Prepare a temporary badgeAwarded to be used for the user
+
+	    // Execute the query and set the results
+	    badgeResults = (List<Badge>) badgeQuery.execute();
+        
+        // Make sure badges were found
+        if (!badgeResults.isEmpty()) 
+        {
+        	// Loop through all the badge types and create a BadgeAwarded for this user with count set to 0
+            for (Badge e : badgeResults) 
+            {
+            	tempBadgeAwarded = new BadgeAwarded();
+            	tempBadgeAwarded.setBadgeId(e.getBadgeId());
+            	tempBadgeAwarded.setCount(0);
+            	tempBadgeAwarded.setDeleted(false);
+            	pm.makePersistent(tempBadgeAwarded);
+                user.addBadge(tempBadgeAwarded);
+            }
+        }
+        
+        // Persist the new user
+        try 
+        {
+            pm.makePersistent(user);
+        } 
+        finally 
+        {
+        	badgeQuery.closeAll();
+            pm.close();
+        }
+        
+        return "Success";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -198,5 +279,216 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	        pm.close();
 	    }
 		return resultStringList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> findAllGuests()
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "ownerKeyString != ''");
+
+	    List<String> resultStringList = new ArrayList<String>();
+	    List<edu.unlv.cs.whoseturn.domain.User> results;
+	    
+	    try {
+	        results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+	        if (!results.isEmpty()) {
+	            for (edu.unlv.cs.whoseturn.domain.User e : results) {
+	                resultStringList.add(e.getUsername());
+	            }
+	        } else {
+	            return null;
+	        }
+	    } finally {
+	        query.closeAll();
+	        pm.close();
+	    }
+		return resultStringList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> findMyGuests()
+	{
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();		// Get the persistence manager
+		
+		UserService userService = UserServiceFactory.getUserService();	// Get the user auth service
+        User loggedUser = userService.getCurrentUser();					// Get the logged in user
+        
+        Query userQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");	// Create a query to find users whose emails match the param
+        userQuery.declareParameters("String emailParam");		// Declare parameters for the query
+		List<edu.unlv.cs.whoseturn.domain.User> userResults;	// Create a list to store the results
+		
+		userResults = (List<edu.unlv.cs.whoseturn.domain.User>) userQuery.execute(loggedUser.getEmail());	// Get the list of users who match the query
+		
+		edu.unlv.cs.whoseturn.domain.User ownerObject = userResults.get(0);
+		String ownerKeyString = ownerObject.getKeyString();
+		
+		Query guestQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class, "ownerKeyString == ownerKeyStringParam");
+		guestQuery.declareParameters("String ownerKeyStringParam");
+
+	    List<String> resultStringList = new ArrayList<String>();
+	    List<edu.unlv.cs.whoseturn.domain.User> results;
+	    
+	    try {
+	        results = (List<edu.unlv.cs.whoseturn.domain.User>) guestQuery.execute(ownerKeyString);
+	        if (!results.isEmpty()) {
+	            for (edu.unlv.cs.whoseturn.domain.User e : results) {
+	                resultStringList.add(e.getUsername());
+	            }
+	        } else {
+	            return null;
+	        }
+	    } finally {
+	        guestQuery.closeAll();
+	        pm.close();
+	    }
+		return resultStringList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void initializeServer()
+	{
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();	// Get the persistence manager
+		
+		///////////////////
+		// Create badges //
+		///////////////////
+		
+		Badge badge = new Badge();
+		badge.setBadgeCriteria("Test badge 1");
+		badge.setBadgeId(1);
+		badge.setBadgeName("Test1");
+		badge.setDeleted(false);
+		pm.makePersistent(badge);
+		
+		badge = new Badge();
+		badge.setBadgeCriteria("Test badge 2");
+		badge.setBadgeId(2);
+		badge.setBadgeName("Test2");
+		badge.setDeleted(false);
+		pm.makePersistent(badge);
+		
+		badge = new Badge();
+		badge.setBadgeCriteria("Test badge 3");
+		badge.setBadgeId(3);
+		badge.setBadgeName("Test3");
+		badge.setDeleted(false);
+		pm.makePersistent(badge);
+		
+		///////////////////////
+		// Create strategies //
+		///////////////////////
+		
+		Strategy strategy = new Strategy();
+		strategy.setDeleted(false);
+		strategy.setStrategyName("Least Recently Gone");
+		strategy.setStrategyId(1);
+		pm.makePersistent(strategy);
+		
+		strategy = new Strategy();
+		strategy.setDeleted(false);
+		strategy.setStrategyName("Lowest Ratio");
+		strategy.setStrategyId(2);
+		pm.makePersistent(strategy);
+		
+		strategy = new Strategy();
+		strategy.setDeleted(false);
+		strategy.setStrategyName("Lowest Ratio With Penalty");
+		strategy.setStrategyId(3);
+		pm.makePersistent(strategy);
+		
+		strategy = new Strategy();
+		strategy.setDeleted(false);
+		strategy.setStrategyName("Completely Random");
+		strategy.setStrategyId(4);
+		pm.makePersistent(strategy);
+		
+		///////////////////////
+		// Create test users //
+		///////////////////////
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();	// Creates a new user object to add
+        
+        // Set properties of the user
+        user.setAdmin(true);
+        user.setAvatarBlob(null);
+        user.setDeleted(false);
+        user.setEmail("lombar40@unlv.nevada.edu");
+        user.setUsername("ryan");
+        user.setOwnerKeyString("");
+        user.setPenaltyCount(0);
+        user.setBadges(new HashSet<String>());
+        
+        // Creation of the user's default badges
+		Query query = pm.newQuery(Badge.class);	// Query the database for all badge types
+	    List<Badge> results;	// Prepare a results list
+	    BadgeAwarded tempBadgeAwarded;	// Prepare a temporary badgeAwarded to be used for the user
+
+	    // Execute the query and set the results
+        results = (List<Badge>) query.execute();
+        
+        // Make sure badges were found
+        if (!results.isEmpty()) 
+        {
+        	// Loop through all the badge types and create a BadgeAwarded for this user with count set to 0
+            for (Badge e : results) 
+            {
+            	tempBadgeAwarded = new BadgeAwarded();
+            	tempBadgeAwarded.setBadgeId(e.getBadgeId());
+            	tempBadgeAwarded.setCount(0);
+            	tempBadgeAwarded.setDeleted(false);
+            	pm.makePersistent(tempBadgeAwarded);
+                user.addBadge(tempBadgeAwarded);
+            }
+        }
+        
+        pm.makePersistent(user);
+        query.closeAll();
+        
+        user = new edu.unlv.cs.whoseturn.domain.User();
+        
+        // Set properties of the user
+        user.setAdmin(true);
+        user.setAvatarBlob(null);
+        user.setDeleted(false);
+        user.setEmail("test@example.com");
+        user.setUsername("test");
+        user.setOwnerKeyString("");
+        user.setPenaltyCount(0);
+        user.setBadges(new HashSet<String>());
+        
+        // Creation of the user's default badges
+		query = pm.newQuery(Badge.class);	// Query the database for all badge types
+
+	    // Execute the query and set the results
+        results = (List<Badge>) query.execute();
+        
+        // Make sure badges were found
+        if (!results.isEmpty()) 
+        {
+        	// Loop through all the badge types and create a BadgeAwarded for this user with count set to 0
+            for (Badge e : results) 
+            {
+            	tempBadgeAwarded = new BadgeAwarded();
+            	tempBadgeAwarded.setBadgeId(e.getBadgeId());
+            	tempBadgeAwarded.setCount(0);
+            	tempBadgeAwarded.setDeleted(false);
+            	pm.makePersistent(tempBadgeAwarded);
+                user.addBadge(tempBadgeAwarded);
+            }
+        }
+        
+        pm.makePersistent(user);
+        
+    	query.closeAll();
+        pm.close();
 	}
 }

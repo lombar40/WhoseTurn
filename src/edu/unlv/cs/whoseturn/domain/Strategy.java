@@ -1,13 +1,19 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
+import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.KeyFactory;
 
 
 @PersistenceCapable
@@ -21,6 +27,9 @@ public class Strategy {
 	@Persistent
     private String strategyName;
 
+	@Persistent
+	private Integer strategyId;
+	
 	@Persistent
     private Boolean deleted;
 
@@ -56,24 +65,26 @@ public class Strategy {
 	 * @param category 
 	 * @return a String which will represent the selected driver of Whose Turn
 	 */
-	public void findDriver(List<User> users, Category category){
+	public String findDriver(List<User> users, Category category){
 		
+		String driverName = "";
 		User driver;
-		String strategy;
-		strategy = category.getStrategyKeyString();
+		Integer strategy = 0;
+		String strategyKeyString = category.getStrategyKeyString();
 		
 		switch (strategy){
-			case 'leastRecentlyGone':
+			case 0:
 				driver = leastRecentlyGone(users, category);
 				break;
-			case 'lowestRatio':
+			case 1:
 				driver = lowestRatio(users, category);
 				break;
 			default:
 				driver = chooseRandomUser(users);
 				break;
 		}
-	return driver;
+		
+		return driverName;
 	}
 	/**
 	 * Algorithm which chooses a user based explicitly on
@@ -86,41 +97,39 @@ public class Strategy {
 	 * @param category will represent a drive, chips & salsa, or ice cream
 	 * @return a User, which then will be used to access the a string representing the user name
 	 */
-	public User lowestRatio(users, category){
-		List<Double> ratioList;
-		List<String> turnItemsKeyStrings;
-		List<TurnItems> turnItems;
-		Integer tempTurnCount;
-		Integer tempSelectedCount;
+	public User lowestRatio(List<User> users, Category category){
+		List<Double> ratioList = new ArrayList<Double>();
+		Set<String> turnItemsKeyStrings;
+		List<TurnItem> turnItems = new ArrayList<TurnItem>();
+		Double tempTurnCount;
+		Double tempSelectedCount;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		for (int i = 0; i < user.size(); i++){
-			tempTurnCount = 0;
-			tempSelectedCount = 0;
-			turnItemsKeyStrings = user.index(i).getTurnItems;
+		for (int i = 0; i < users.size(); i++){
+			tempTurnCount = 0.0;
+			tempSelectedCount = 0.0;
+			turnItemsKeyStrings = users.get(i).getTurnItems();
 			
 			for (int j = 0; j < turnItemsKeyStrings.size(); j++){
-				PersistenceManage pm = PMF.get().getPersistenceManager();
-				turnItems.add(pm.getObjectsById(TurnItem.class,
-						   KeyFactory.stringToKey(turnItemsKeyStrings.index(j))));
-				}
-		for (int k = 0; k < turnItems.size(); k++){
-			if (turnItems.index(k).getCategoryKeyString.equals(category.getKeyString)){
-				tempTurnCount++;
-				if (turnItems.index(k).getSelected()){
-					tempSelectedCount++;
-					}
-				}
+				turnItems.add(pm.getObjectById(TurnItem.class, KeyFactory.stringToKey(turnItemsKeyStrings.iterator().next())));
 			}
-		ratioList.add((Double)(tempSelectedCount/tempTurnCount));
-		pm.close();
+			
+			for (int k = 0; k < turnItems.size(); k++){
+				if (turnItems.get(k).getCategoryKeyString().equals(category.getKeyString())){
+					tempTurnCount++;
+					if (turnItems.get(k).getSelected())
+						tempSelectedCount++;
+				}
+			}		
+			ratioList.add((Double)(tempSelectedCount/tempTurnCount));
 		}
 		
 		Integer index = 0;
-		Double tempCurrentRatio = ratioList.index(0);
+		Double tempCurrentRatio = ratioList.get(0);
 		Double tempRatio;
 		
 		for (int i = 1; i < ratioList.size(); i++){
-			tempRatio = ratioList.index(i);
+			tempRatio = ratioList.get(i);
 			
 			if (tempRatio < tempCurrentRatio){
 				tempCurrentRatio = tempRatio;
@@ -128,8 +137,8 @@ public class Strategy {
 			}
 		}
 		
-		return users.index(i);
-		}
+		return users.get(index);
+	}
 	
 	/**
 	 * Algorithm which chooses a user based explicitly on turnDateTime from Turn.java, the user which
@@ -144,46 +153,49 @@ public class Strategy {
 	 * @param category will represent a drive, chips & salsa, or ice cream
 	 * @return a User, which then will be used to access the a string representing the user name
 	 */
-	public User leastRecentlyGone(users, category){
-		List<String> turnItemsKeyStrings;
-		List<TurnItems> turnItems;
-		List<Date> dateList;
+	public User leastRecentlyGone(List<User> users, Category category){
+		Set<String> turnItemsKeyStrings;
+		List<TurnItem> turnItems = new ArrayList<TurnItem>();
+		List<Date> dateList = new ArrayList<Date>();
 		Date tempTurnDate;
 		Date currentTurnDate;
+		Double tempTurnCount;
+		Double tempSelectedCount;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Turn tempTurn;
 		
-		for (int i = 0; i < user.size(); i++){
-			tempTurnCount = 0;
-			tempSelectedCount = 0;
-			turnItemsKeyStrings = user.index(i).getTurnItems;
+		for (int i = 0; i < users.size(); i++){
+			tempTurnCount = 0.0;
+			tempSelectedCount = 0.0;
+			turnItemsKeyStrings = users.get(i).getTurnItems();
 			
 			for (int j = 0; j < turnItemsKeyStrings.size(); j++){
-				PersistenceManage pm = PMF.get().getPersistenceManager();
-				turnItems.add(pm.getObjectsById(TurnItem.class,
-						   KeyFactory.stringToKey(turnItemsKeyStrings.index(j))));
-				}
+				turnItems.add(pm.getObjectById(TurnItem.class,
+						   KeyFactory.stringToKey(turnItemsKeyStrings.iterator().next())));
+			}
 			for (int k = 0; k < turnItems.size(); k++){
-				dateList.add(turnItems.index(k).getTurnDate);
-				}
+				tempTurn = pm.getObjectById(Turn.class, KeyFactory.stringToKey(turnItems.get(k).getTurnKeyString()));
+				dateList.add(tempTurn.getTurnDateTime());
+			}
 			pm.close();
 				
 		}
 		
 		Integer index = 0;
 		Integer differenceOfDates;
-		Date tempCurrentDate = dateList.index(0);
-		Date tempTurnDate;
+		Date tempCurrentDate = dateList.get(0);
 		
 		for (int i = 1; i < dateList.size(); i++){
-			tempTurnDate = dateList.index(i);
+			tempTurnDate = dateList.get(i);
 			differenceOfDates = tempCurrentDate.compareTo(tempTurnDate);
 			
-			if (differenceOfDates < 0 || differencesOfDates == 0){
+			if (differenceOfDates < 0 || differenceOfDates == 0){
 				tempCurrentDate = tempTurnDate;
 				index = i;
 			}
 		}
 		
-		return users.index(i);
+		return users.get(index);
 		}
 	
 	/**
@@ -195,11 +207,19 @@ public class Strategy {
 	 * @return a User at the arbitrarily generated index, which then will be used to access a string
 	 * representing the user name
 	 */
-	public User chooseRandomUser(users){
+	public User chooseRandomUser(List<User> users){
 		Random generator = new Random();
-		int randomIndex = generator.nextInt(user.size());
+		int randomIndex = generator.nextInt(users.size());
 		
-		return users.index(randomIndex);
+		return users.get(randomIndex);
 		}
+
+	public Integer getStrategyId() {
+		return strategyId;
+	}
+
+	public void setStrategyId(Integer strategyId) {
+		this.strategyId = strategyId;
+	}
 }
 	

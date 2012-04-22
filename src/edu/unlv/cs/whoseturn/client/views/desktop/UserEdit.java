@@ -36,7 +36,7 @@ public class UserEdit extends AbstractNavigationView implements NavigationView {
 		final String finalURL = url;
 
 		final AbsolutePanel profileManagementPanel = new AbsolutePanel();
-		profileManagementPanel.setSize("500px", "200px");
+		profileManagementPanel.setSize("1000px", "500px");
 
 		Button btnLogout = new Button("Logout");
 		profileManagementPanel.add(btnLogout, 10, 75);

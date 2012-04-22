@@ -19,6 +19,7 @@ public class TurnList extends AbstractNavigationView implements NavigationView {
 	public Widget bodyAsWidget() {
 		// The body of the view.
 		FlowPanel panel = new FlowPanel();
+		panel.setSize("1000px", "500px");
 		
 		Label labelPlaceHolder = new Label();
 		labelPlaceHolder.setText("Turn List");

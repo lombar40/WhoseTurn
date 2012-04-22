@@ -26,4 +26,13 @@ public interface UsersServiceAsync {
 	
 	void addGuest(String username, AsyncCallback<String> callback)
 			throws IllegalArgumentException;
+	
+	void findAllGuests(AsyncCallback<List<String>> callback)
+			throws IllegalArgumentException;
+	
+	void findMyGuests(AsyncCallback<List<String>> callback)
+			throws IllegalArgumentException;
+	
+	void initializeServer(AsyncCallback<Void> callback)
+			throws IllegalArgumentException;
 }

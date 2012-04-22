@@ -64,9 +64,27 @@ public interface UsersService extends RemoteService {
 	
 	/**
 	 * 
-	 * @param usrename
+	 * @param username
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	String addGuest(String usrename) throws IllegalArgumentException;
+	String addGuest(String username) throws IllegalArgumentException;
+	
+	/**
+	 * Get a list of all guests.
+	 * 
+	 * @return A list of all the users as a string array.
+	 * @throws IllegalArgumentException
+	 */
+	List<String> findAllGuests() throws IllegalArgumentException;
+	
+	/**
+	 * Get a list of my guests.
+	 * 
+	 * @return A list of all the users as a string array.
+	 * @throws IllegalArgumentException
+	 */
+	List<String> findMyGuests() throws IllegalArgumentException;
+	
+	void initializeServer() throws IllegalArgumentException;
 }

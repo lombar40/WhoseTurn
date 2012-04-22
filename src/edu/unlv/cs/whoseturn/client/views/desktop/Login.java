@@ -16,7 +16,8 @@ import com.google.gwt.user.client.ui.Widget;
 import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.shared.FieldVerifier;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
 
 /**
  * View used to allow users to login. We extend the view interface because we do
@@ -40,25 +41,35 @@ public class Login implements View {
 		// Use RootPanel.get() to get the entire body element
 
 		final AbsolutePanel loginPanel = new AbsolutePanel();
-		loginPanel.setSize("455px", "237px");
+		loginPanel.setSize("1000px", "500px");
 
 		final Label lblNewLabel = new Label(
 				"Please login choose one of the following options.");
 		loginPanel.add(lblNewLabel);
 
 		Image googleImage = new Image("images/googleW.png");
+		googleImage.setStyleName("ImageLink");
+		googleImage.addMouseOverHandler(new MouseOverHandler() {
+			public void onMouseOver(MouseOverEvent event) {
+				
+			}
+		});
 		loginPanel.add(googleImage);
 
 		Image yahooImage = new Image("images/yahooW.png");
+		yahooImage.setStyleName("ImageLink");
 		loginPanel.add(yahooImage);
 
 		Image aolImage = new Image("images/aolW.png");
+		aolImage.setStyleName("ImageLink");
 		loginPanel.add(aolImage);
 
 		Image myspaceImage = new Image("images/myspaceW.png");
+		myspaceImage.setStyleName("ImageLink");
 		loginPanel.add(myspaceImage);
 
 		Image openIDImage = new Image("images/myopenidW.png");
+		openIDImage.setStyleName("ImageLink");
 		loginPanel.add(openIDImage);
 
 		final TextBox txtbxEmail = new TextBox();
@@ -90,6 +101,25 @@ public class Login implements View {
 		final Label lblKeystring = new Label("");
 		loginPanel.add(lblKeystring, 178, 177);
 		lblKeystring.setSize("53px", "18px");
+		
+		Button btnInitalizeDatabase = new Button("Initalize Database");
+		btnInitalizeDatabase.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				usersService.initializeServer(new AsyncCallback<Void>() 
+						{
+							public void onFailure(Throwable caught) 
+							{
+								// TODO
+							}
+
+							public void onSuccess(Void result) 
+							{
+								lblKeystring.setText("Initialized");
+							}
+						});
+			}
+		});
+		loginPanel.add(btnInitalizeDatabase, 80, 247);
 		lblCreated.setVisible(false);
 
 		btnAdduser.addClickHandler(new ClickHandler() 

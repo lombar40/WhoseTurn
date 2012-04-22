@@ -17,6 +17,26 @@
     <url-pattern>/whoseturn/users</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>categoriesServlet</servlet-name>
+    <servlet-class>edu.unlv.cs.whoseturn.server.CategoryServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>categoriesServlet</servlet-name>
+    <url-pattern>/whoseturn/categories</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>badgeServlet</servlet-name>
+    <servlet-class>edu.unlv.cs.whoseturn.server.BadgeServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>badgeServlet</servlet-name>
+    <url-pattern>/whoseturn/badge</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Whoseturn.html</welcome-file>

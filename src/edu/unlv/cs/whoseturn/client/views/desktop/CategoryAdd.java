@@ -1,16 +1,23 @@
 package edu.unlv.cs.whoseturn.client.views.desktop;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.unlv.cs.whoseturn.client.CategoryService;
+import edu.unlv.cs.whoseturn.client.CategoryServiceAsync;
 import edu.unlv.cs.whoseturn.client.views.AbstractNavigationView;
 import edu.unlv.cs.whoseturn.client.views.NavigationView;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.IntegerBox;
 
 /**
  * Used to allow an admin to add categories to the database.
@@ -18,61 +25,97 @@ import com.google.gwt.user.client.ui.ListBox;
 public class CategoryAdd extends AbstractNavigationView implements
 		NavigationView {
 
+	private final CategoryServiceAsync categoryService = GWT
+			.create(CategoryService.class);
+
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
 	public Widget bodyAsWidget() {
 		// The body of the view.
-		AbsolutePanel panel = new AbsolutePanel();		
+		AbsolutePanel categoryAddPanel = new AbsolutePanel();
+		categoryAddPanel.setSize("1000px", "500px");
+
+		Label lblName = new Label("Name:");
+		categoryAddPanel.add(lblName, 117, 48);
+
+		Label lblTitle = new Label();
+		lblTitle.setStyleName("SectionHeader");
+		categoryAddPanel.add(lblTitle);
+		lblTitle.setText("Category Add");
+
+		Label lblStrategy = new Label("Strategy:");
+		categoryAddPanel.add(lblStrategy, 96, 80);
+		lblStrategy.setSize("59px", "16px");
+
+		final TextBox txtbxName = new TextBox();
+		categoryAddPanel.add(txtbxName, 161, 48);
+		txtbxName.setSize("165px", "15px");
+
+		final Button btnAdd = new Button("Add");
+		categoryAddPanel.add(btnAdd, 159, 142);
+
+		final ListBox cmbobxStrategy = new ListBox();
+		categoryAddPanel.add(cmbobxStrategy, 161, 81);
+		cmbobxStrategy.setSize("175px", "22px");
+
+		Label lblTimeBoundary = new Label("Time Boundary(In Hours):");
+		categoryAddPanel.add(lblTimeBoundary, 10, 109);
+		lblTimeBoundary.setSize("149px", "16px");
+
+		final Label lblSuccessfullyAddedCategory = new Label(
+				"Successfully added category");
+		categoryAddPanel.add(lblSuccessfullyAddedCategory, 204, 142);
+		lblSuccessfullyAddedCategory.setVisible(false);
+
+		final Label lblErrorLabel = new Label("");
+		lblErrorLabel.setStyleName("serverResponseLabelError");
+		categoryAddPanel.add(lblErrorLabel, 204, 142);
 		
-		Label lblKeystring = new Label("Name:");
-		panel.add(lblKeystring, 105, 72);
-		
-		CheckBox chckbxNewCheckBox = new CheckBox("Admin");
-		panel.add(chckbxNewCheckBox, 155, 164);
-		
-		CheckBox chckbxNewCheckBox_1 = new CheckBox("Deleted");
-		panel.add(chckbxNewCheckBox_1, 155, 186);
-		
-		Label labelPlaceHolder = new Label();
-		panel.add(labelPlaceHolder);
-		labelPlaceHolder.setText("Category Add");
-		
-		Label lblEmail = new Label("Strategy:");
-		panel.add(lblEmail, 85, 109);
-		lblEmail.setSize("59px", "16px");
-		
-		TextBox textBox_1 = new TextBox();
-		panel.add(textBox_1, 160, 72);
-		textBox_1.setSize("165px", "15px");
-		
-		Label label_1 = new Label("11112222333");
-		panel.add(label_1, 160, 50);
-		label_1.setSize("59px", "16px");
-		
-		Label label_2 = new Label("keyString: ");
-		panel.add(label_2, 84, 46);
-		label_2.setSize("59px", "16px");
-		
-		Button btnAdd = new Button("Add");
-		panel.add(btnAdd, 155, 211);
-		
-		ListBox comboBox = new ListBox();
-		comboBox.addItem("Least Recently Gone");
-		comboBox.addItem("Completely Random");
-		comboBox.addItem("Always Casey");
-		panel.add(comboBox, 160, 105);
-		comboBox.setSize("171px", "20px");
-		
-		Label lblTimeBoundaryIn = new Label("Time Boundary In Hours:");
-		panel.add(lblTimeBoundaryIn, 0, 131);
-		lblTimeBoundaryIn.setSize("149px", "16px");
-		
-		TextBox textBox = new TextBox();
-		panel.add(textBox, 160, 131);
-		textBox.setSize("165px", "15px");
-		
-		return panel;
+		final IntegerBox timeBoundaryInteger = new IntegerBox();
+		categoryAddPanel.add(timeBoundaryInteger, 161, 109);
+		timeBoundaryInteger.setSize("167px", "16px");
+
+		categoryService.getAllStrategies(new AsyncCallback<List<String>>() {
+			public void onFailure(Throwable caught) {
+				// TODO
+			}
+
+			public void onSuccess(List<String> results) {
+				if (results != null) {
+					for (int i = 0; i < results.size(); i++)
+						cmbobxStrategy.addItem(results.get(i));
+				}
+			}
+		});
+
+		btnAdd.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				lblErrorLabel.setText("");
+				lblSuccessfullyAddedCategory.setVisible(false);
+				btnAdd.setEnabled(false);
+				categoryService.addCategory(txtbxName.getText(), cmbobxStrategy.getValue(cmbobxStrategy.getSelectedIndex()), timeBoundaryInteger.getValue(),
+						new AsyncCallback<String>() {
+							public void onFailure(Throwable caught) {
+								btnAdd.setEnabled(true);
+							}
+
+							public void onSuccess(String result) {
+								btnAdd.setEnabled(true);
+								if (result != "Success") {
+									txtbxName.setFocus(true);
+									lblErrorLabel.setText(result);
+								} else {
+									txtbxName.setText("");
+									lblSuccessfullyAddedCategory
+											.setVisible(true);
+								}
+							}
+						});
+			}
+		});
+
+		return categoryAddPanel;
 	}
 }
