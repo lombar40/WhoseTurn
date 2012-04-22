@@ -1,12 +1,13 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.util.Date;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-import java.util.Arrays;
-import java.util.Random;
+
 
 @PersistenceCapable
 public class Strategy {
@@ -45,123 +46,128 @@ public class Strategy {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-	
-	public void driveRatioOnly() {
-		double[] totalArray;
-		double lowestRatio;
-		String userToDrive;
-		totalArray = new double[numUsersParticipating];
-		double dgRatio = User.getTimesDrove() / User.getTimesGone();
+
+	public void findDriver(List<User> users, Category category){
 		
-		for (int i = 0; i < numUsersParticipating; i++){
-			totalArray[i] = User.dgRatio;
+		User driver;
+		String strategy;
+		
+		switch (strategy){
+			case 'lowestRatio':
+				driver = lowestRatio(users, category);
+			case 'leastRecentlyGone':
+				driver = driverRatioWithLies(users, category);
+			default:
+					driver = chooseRandomUser(users, category);
 		}
-		Arrays.sort(totalArray);
-		lowestRatio = totalArray[0];
-		userToDrive = lowestRatio.TurnItem.getOwnerKeyString();
-		TurnItem.getSelected() = true;
+	return driver;
 	}
-	
-	public void driveRatioWithLies() {
-		double[] totalArray;
-		double lowestRatio;
-		String userToDrive;
-		totalArray = new double[numUsersParticipating];
-		double dlgRatio = User.getTimesDrove() - User.getLies() / User.getTimesGone();
+	/**
+	 * Algorithm which chooses the user to drive, based explicitly on
+	 * the amount of times they drove/gone; the user with the least ratio
+	 * will be chosen to handle the driving responsibilities
+	 * 
+	 *
+	 * @param a list of users, as well as a category are passed into the driveRatioOnly
+	 *        method to handle and retrieve the amount of times the user participated in
+	 *        such a category.
+	 * @param category will represent a driving algorithm, based on ratios and/or penalties,
+	 * 		  chips & salsa, based on ratios and/penalties, and an ice cream algorithm, based
+	 * 		  based on ratios and/or algorithms as well.
+	 * @return a User, which then will be used to access the a string representing the user name
+	 */
+	public User lowestRatio(users, category){
+		List<Double> ratioList;
+		List<String> turnItemsKeyStrings;
+		List<TurnItems> turnItems;
+		Integer tempTurnCount;
+		Integer tempSelectedCount;
 		
-		for (int i = 0; i < numUsersParticipating; i++){
-			totalArray[i] = User.dgRatio;
-		}
-		Arrays.sort(totalArray);
-		lowestRatio = totalArray[0];
-		userToDrive = lowestRatio.TurnItem.getOwnerKeyString();
-		TurnItem.getSelected() = true;
-	}
-	
-	public void chipsSalsaRatioOnly() {
-		double[] totalArray;
-		
-		double lowestRatio;
-		String userToDrive;
-		totalArray = new double[numUsersParticipating];
-		double csgRatio = User.getChipsPurchased() / User.getTimesGone();
-		
-		for (int i = 0; i < numUsersParticipating; i++){
-			totalArray[i] = User.csgRatio;
-		}
-		Arrays.sort(totalArray);
-		lowestRatio = totalArray[0];
-		userToDrive = lowestRatio.TurnItem.getOwnerKeyString();
-		TurnItem.getSelected() = true;
-	}
-	
-	public void chipsSalsaRatioWithLies() {
-		double[] totalArray;
-		double lowestRatio;
-		String userToDrive;
-		totalArray = new double[numUsersParticipating];
-		double cslgRatio = User.getChipsPurchased() - User.getLies() / User.getTimesGone();
-		
-		for (int i = 0; i < numUsersParticipating; i++){
-			totalArray[i] = User.cslgRatio;
-		}
-		Arrays.sort(totalArray);
-		lowestRatio = totalArray[0];
-		userToDrive = lowestRatio.TurnItem.getOwnerKeyString();
-		TurnItem.getSelected() = true;
-	}
-	
-	public void IceCreamRatioOnly() {
-		double[] totalArray;
-		double lowestRatio;
-		String userToDrive;
-		totalArray = new double[numUsersParticipating];
-		double icgRatio = User.getIceCreamPurchased() / User.getTimesGone();
-		
-		for (int i = 0; i < numUsersParticipating; i++){
-			totalArray[i] = User.icgRatio;
-		}
-		Arrays.sort(totalArray);
-		lowestRatio = totalArray[0];
-		userToDrive = lowestRatio.TurnItem.getOwnerKeyString();
-		TurnItem.getSelected() = true;
-	}
-	
-	public void IceCreamRatioWithLies() {
-		double[] totalArray;
-		double lowestRatio;
-		String userToDrive;
-		totalArray = new double[numUsersParticipating];
-		double iclgRatio = User.getIceCreamPurchased() - User.GetLies() / User.getTimesGone();
-		
-		for (int i = 0; i < numUsersParticipating; i++){
-			totalArray[i] = User.iclgRatio;
-		}
-		Arrays.sort(totalArray);
-		lowestRatio = totalArray[0];
-		userToDrive = lowestRatio.TurnItem.getOwnerKeyString();
-		TurnItem.getSelected() = true;
-	}
-	
-	public void randomUser() {
-		String[] totalArray;
-		double lowestRatio;
-		String userToDrive;
-		totalArray = new String[numUsersParticipating];
-		
-		Random generator = new Random();
-		int randomIndex = generator.nextInt(numUsersParticipating);
-		
-		for (int i = 0; i < numUsersParticipating; i++){
-			totalArray[i] = User.iclgRatio;
+		for (int i = 0; i < user.size(); i++){
+			tempTurnCount = 0;
+			tempSelectedCount = 0;
+			turnItemsKeyStrings = user.index(i).getTurnItems;
+			
+			for (int j = 0; j < turnItemsKeyStrings.size(); j++){
+				PersistenceManage pm = PMF.get().getPersistenceManager();
+				turnItems.add(pm.getObjectsById(TurnItem.class,
+						   KeyFactory.stringToKey(turnItemsKeyStrings.index(j))));
+				}
+		for (int k = 0; k < turnItems.size(); k++){
+			if (turnItems.index(k).getCategoryKeyString.equals(category.getKeyString)){
+				tempTurnCount++;
+				if (turnItems.index(k).getSelected()){
+					tempSelectedCount++;
+					}
+				}
+			}
+		ratioList.add((Double)(tempSelectedCount/tempTurnCount));
+		pm.close();
 		}
 		
+		Integer index = 0;
+		Double tempCurrentRatio = ratioList.index(0);
+		Double tempRatio;
 		
+		for (int i = 1; i < ratioList.size(); i++){
+			tempRatio = ratioList.index(i);
+			
+			if (tempRatio < tempCurrentRatio){
+				tempCurrentRatio = tempRatio;
+				index = i;
+			}
+		}
 		
-		Arrays.sort(totalArray);
-		lowestRatio = totalArray[0];
-		userToDrive = lowestRatio.TurnItem.getOwnerKeyString();
-		TurnItem.getSelected() = true;
-	}
+		return users.index(i);
+		}
 	
+	public User leastRecentlyGone(users, category){
+		List<String> turnItemsKeyStrings;
+		List<TurnItems> turnItems;
+		Integer tempTurnCount;
+		Integer tempSelectedCount;
+		Date tempTurnDate;
+		//Date getTurnDateTime()
+		
+		for (int i = 0; i < user.size(); i++){
+			tempTurnCount = 0;
+			tempSelectedCount = 0;
+			turnItemsKeyStrings = user.index(i).getTurnItems;
+			
+			for (int j = 0; j < turnItemsKeyStrings.size(); j++){
+				PersistenceManage pm = PMF.get().getPersistenceManager();
+				turnItems.add(pm.getObjectsById(TurnItem.class,
+						   KeyFactory.stringToKey(turnItemsKeyStrings.index(j))));
+				}
+		for (int k = 0; k < turnItems.size(); k++){
+			if (turnItems.index(k).getCategoryKeyString.equals(category.getKeyString)){
+				tempTurnCount++;
+				if (turnItems.index(k).getSelected()){
+					tempSelectedCount++;
+					}
+				}
+			}
+		ratioList.add((Double)(tempSelectedCount/tempTurnCount));
+		pm.close();
+		}
+		
+		Integer index = 0;
+		Double tempCurrentRatio = ratioList.index(0);
+		Double tempRatio;
+		
+		for (int i = 1; i < ratioList.size(); i++){
+			tempRatio = ratioList.index(i);
+			
+			if (tempRatio < tempCurrentRatio){
+				tempCurrentRatio = tempRatio;
+				index = i;
+			}
+		}
+		
+		return users.index(i);
+		}
+		
+		
+		
+}
 	
