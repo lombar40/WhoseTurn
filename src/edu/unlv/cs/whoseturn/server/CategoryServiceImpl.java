@@ -13,10 +13,18 @@ import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.Strategy;
 
-@SuppressWarnings("serial")
+/**
+ * Category Service which allows the client to get information from the server regarding categories. 
+ */
 public class CategoryServiceImpl extends RemoteServiceServlet implements
 		CategoryService {
 
+	/**
+	 * Variable used to allow the class to be serialized.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
 	public void loadInitialCategories() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Category category = new Category();
@@ -24,6 +32,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		pm.makePersistent(category);
 	}
 
+	@Override
 	public String addCategory(String categoryName, String strategy, Integer timeBoundary) {
 		
 		String message = "TODO"; //EntryVerifier.isCategoryValid(categoryName);
@@ -47,12 +56,13 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		return message;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public String removeCategory(String categoryName) {
 		String message = "Failure";
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Category.class, "name == n");
 		q.declareParameters("java.lang.String n");
+		@SuppressWarnings("unchecked")
 		List<Category> categories = (List<Category>) q.execute(categoryName);
 		try {
 			for (Category category : categories) {
@@ -68,8 +78,8 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		return message;
 	}
 
-	// Return all category names
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<String> getAllCategories() {
 		List<Category> categories;
 		List<String> categoryNames = new ArrayList<String>();
@@ -88,6 +98,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<String> getAllStrategies() {
 		List<Strategy> strategies;
 		List<String> strategyNames = new ArrayList<String>();
