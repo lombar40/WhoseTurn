@@ -55,13 +55,17 @@ public class CategoryAdd extends AbstractNavigationView implements
         final TextBox txtbxName = new TextBox();
         categoryAddPanel.add(txtbxName, 161, 48);
         txtbxName.setSize("165px", "15px");
+        
+                final ListBox cmbobxStrategy = new ListBox();
+                categoryAddPanel.add(cmbobxStrategy, 161, 81);
+                cmbobxStrategy.setSize("175px", "22px");
 
         final Button btnAdd = new Button("Add");
         categoryAddPanel.add(btnAdd, 159, 142);
-
-        final ListBox cmbobxStrategy = new ListBox();
-        categoryAddPanel.add(cmbobxStrategy, 161, 81);
-        cmbobxStrategy.setSize("175px", "22px");
+        
+                final IntegerBox timeBoundaryInteger = new IntegerBox();
+                categoryAddPanel.add(timeBoundaryInteger, 161, 109);
+                timeBoundaryInteger.setSize("167px", "16px");
 
         Label lblTimeBoundary = new Label("Time Boundary(In Hours):");
         categoryAddPanel.add(lblTimeBoundary, 10, 109);
@@ -75,10 +79,6 @@ public class CategoryAdd extends AbstractNavigationView implements
         final Label lblErrorLabel = new Label("");
         lblErrorLabel.setStyleName("serverResponseLabelError");
         categoryAddPanel.add(lblErrorLabel, 204, 142);
-
-        final IntegerBox timeBoundaryInteger = new IntegerBox();
-        categoryAddPanel.add(timeBoundaryInteger, 161, 109);
-        timeBoundaryInteger.setSize("167px", "16px");
 
         categoryService.getAllStrategies(new AsyncCallback<List<String>>() {
             public void onFailure(final Throwable caught) {

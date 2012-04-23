@@ -88,7 +88,7 @@ public class EntryVerifier
 		}
 		
 		// The username can't contain special characters
-		if (!username.matches("^[a-zA-Z0-9]+$"))
+		if (!username.matches("^[a-zA-Z0-9 _]+$"))
 		{
 			errorMessage = "Username can't contain special characters";
 			return errorMessage;
@@ -137,7 +137,7 @@ public class EntryVerifier
 		}
 		
 		// The category can't contain special characters
-		if (!category.matches("^[a-zA-Z0-9]+$")) {
+		if (!category.matches("^[a-zA-Z0-9 _]+$")) {
 			errorMessage = "A category can't contain special characters";
 			return errorMessage;
 		}
@@ -166,6 +166,11 @@ public class EntryVerifier
 		return "Valid";
 	}
 
+	/**
+	 * Verifies that the timeBoundary is within proper bounds
+	 * @param timeBoundary The minimum amount of time between events
+	 * @return true if valid, false if invalid
+	 */
 	public static String isTimeValid(Integer timeBoundary) {
 		// The time boundary can't be empty
 		if (timeBoundary == null) {
@@ -181,7 +186,7 @@ public class EntryVerifier
 				
 		// The time boundary can't be more than 24 hours
 		if (timeBoundary.intValue() > 24) {
-			errorMessage = "The time boundary can't be greater than 2 days (48 hours)";
+			errorMessage = "The time boundary can't be greater than 1 day (24 hours)";
 			return errorMessage;
 		}
 		

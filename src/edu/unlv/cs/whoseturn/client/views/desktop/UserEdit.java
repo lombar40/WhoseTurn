@@ -41,15 +41,15 @@ public class UserEdit extends AbstractNavigationView implements NavigationView {
 
         final AbsolutePanel profileManagementPanel = new AbsolutePanel();
         profileManagementPanel.setSize("1000px", "500px");
+        
+                final TextBox txtbxUsername = new TextBox();
+                profileManagementPanel.add(txtbxUsername, 79, 10);
 
         Button btnLogout = new Button("Logout");
         profileManagementPanel.add(btnLogout, 10, 75);
 
         Label lblUsername = new Label("Username:");
         profileManagementPanel.add(lblUsername, 10, 10);
-
-        final TextBox txtbxUsername = new TextBox();
-        profileManagementPanel.add(txtbxUsername, 79, 10);
 
         Label lblNewLabel = new Label("New label");
         profileManagementPanel.add(lblNewLabel, 384, 272);
