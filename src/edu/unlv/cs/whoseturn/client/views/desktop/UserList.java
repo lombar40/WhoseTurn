@@ -121,19 +121,70 @@ public class UserList extends AbstractNavigationView implements NavigationView {
         panel.add(btnUserProfile, 256, 196);
         btnUserProfile.setSize("162px", "28px");
 
-        // TODO JAO Do a if admin then userService with full user list, else do service with non deleted users.
-        usersService.findNonDeletedUsers(new AsyncCallback<List<String>>() {
+        // Display list depends on if it is an admin or not. An admin see's deleted users, where a normal users does not.
+        usersService.isAdmin(new AsyncCallback<Boolean>() {
             public void onFailure(final Throwable caught) {
-                System.err.println("Error in User List when trying to get user list");
+                System.err.println("Error in isAdmin() when trying to check edit button.");
                 System.err.println(caught.getStackTrace());
             }
 
-            public void onSuccess(final List<String> results) {
-                if (results != null) {
-                    // Write all user names to the list.
-                    for (int i = 0; i < results.size(); i++) {
-                        guestListBox.addItem(results.get(i));
-                    }
+            public void onSuccess(final Boolean isAdmin) {
+                if(isAdmin){
+                    // Admin sees deleted and non-deleted users.
+                    usersService.findAllUsers(new AsyncCallback<List<String>>() {
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            System.err.println(caught.getStackTrace());
+                        }
+
+                        @Override
+                        public void onSuccess(final List<String> results) {
+                            if (results != null) {
+                                // Write all user names to the list.
+                                for (int i = 0; i < results.size(); i++) {
+                                    guestListBox.addItem(results.get(i));
+                                }
+                                guestListBox.setItemSelected(0, true);
+                            }
+                        }
+                    });
+//                  usersService.getAllUsers(new AsyncCallback<List<edu.unlv.cs.whoseturn.shared.User>>() {
+//
+//                      @Override
+//                      public void onFailure(Throwable caught) {
+//                          System.err.println(caught.getStackTrace());
+//                      }
+//
+//                      @Override
+//                      public void onSuccess(final List<edu.unlv.cs.whoseturn.shared.User> results) {
+//                          if (results != null) {
+//                              // Write all user names to the list.
+//                              for (int i = 0; i < results.size(); i++) {
+//                                  guestListBox.addItem(results.get(i).getUsername());
+//                              }
+//                              guestListBox.setItemSelected(0, true);
+//                          }
+//                      }
+//                  });
+                } else {
+                    // Users see only non-deleted users.
+                    usersService.findNonDeletedUsers(new AsyncCallback<List<String>>() {
+                        public void onFailure(final Throwable caught) {
+                            System.err.println("Error in User List when trying to get user list");
+                            System.err.println(caught.getStackTrace());
+                        }
+
+                        public void onSuccess(final List<String> results) {
+                            if (results != null) {
+                                // Write all user names to the list.
+                                for (int i = 0; i < results.size(); i++) {
+                                    guestListBox.addItem(results.get(i));
+                                }
+                                guestListBox.setItemSelected(0, true);
+                            }
+                        }
+                    });
                 }
             }
         });

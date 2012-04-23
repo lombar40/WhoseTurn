@@ -1,8 +1,9 @@
 package edu.unlv.cs.whoseturn.server;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import javax.jdo.Query;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.unlv.cs.whoseturn.client.UsersService;
@@ -25,7 +27,7 @@ import edu.unlv.cs.whoseturn.shared.EntryVerifier;
  * User service that allows the client to CRUD information about users.
  */
 public class UsersServiceImpl extends RemoteServiceServlet implements
-        UsersService {
+        UsersService, Serializable, IsSerializable  {
 
     /**
      * Allows objects to be serialized.
@@ -107,7 +109,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         // Something went wrong if we're down here
         return "ErrorFindingUser";
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public final boolean isAdmin() {
@@ -115,7 +117,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
          * User auth service.
          */
         UserService userService = UserServiceFactory.getUserService();
-        
+
         /**
          * Logged in user.
          */
@@ -152,10 +154,9 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         if (results.size() == 1) {
             return results.get(0).getAdmin();
         }
-        
+
         return false;
     }
-    
 
     @Override
     public final String getLoginURL(final String providerName,
@@ -225,7 +226,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setEmail(email);
         user.setUsername(username);
         user.setPenaltyCount(0);
-        user.setBadges(new HashSet<String>());
+        user.setBadges(new ArrayList<String>());
 
         // Creation of the user's default badges
         /**
@@ -269,6 +270,49 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         }
 
         return "Success";
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public final List<String[]> getUserInfo(final String usermame) {
+        /**
+         * Persistence manager for CRUD.
+         */
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        /**
+         * Query for the users.
+         */
+        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+        /**
+         * Result string list.
+         */
+        List<String[]> resultStringList = new ArrayList<String[]>();
+
+        /**
+         * Result List.
+         */
+        List<edu.unlv.cs.whoseturn.domain.User> results;
+
+        try {
+            results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+            if (!results.isEmpty()) {
+                for (edu.unlv.cs.whoseturn.domain.User e : results) {
+                    if (e.getUsername().equals(usermame)) {
+                        resultStringList.add(new String[] { e.getUsername(),
+                                e.getEmail(), e.getAdmin().toString(),
+                                e.getDeleted().toString() });
+                    }
+                }
+            } else {
+                return null;
+            }
+        } finally {
+            query.closeAll();
+            pm.close();
+        }
+        return resultStringList;
     }
 
     @SuppressWarnings("unchecked")
@@ -337,13 +381,58 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         return resultStringList;
     }
 
+    @Override
+    public final List<String> findAllUsers() {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+        List<String> resultStringList = new ArrayList<String>();
+        List<edu.unlv.cs.whoseturn.domain.User> results;
+
+        try {
+            results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+            if (!results.isEmpty()) {
+                for (edu.unlv.cs.whoseturn.domain.User e : results) {
+                    resultStringList.add(e.getUsername());
+                }
+            } else {
+                return null;
+            }
+        } finally {
+            query.closeAll();
+            pm.close();
+        }
+        return resultStringList;
+    }
+
+    @Override
+    public final List<edu.unlv.cs.whoseturn.domain.User> getAllUsers() {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+
+        List<edu.unlv.cs.whoseturn.domain.User> results = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+
+        try {
+            // We cannot write a query result directly to an array, so we write
+            // it to a collection then take add each result to our array list.
+            Collection allUsers = (Collection) query.execute();
+            for (Object result : allUsers) {
+                results.add((edu.unlv.cs.whoseturn.domain.User) result);
+            }
+        } finally {
+            query.closeAll();
+            // pm.close();
+        }
+        return results;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public final void initializeServer() {
         /**
          * The persistence manager.
          */
-        PersistenceManager pm = PMF.get().getPersistenceManager(); 
+        PersistenceManager pm = PMF.get().getPersistenceManager();
 
         // Create badges
         Badge badge = new Badge();
@@ -411,7 +500,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setEmail("lombar40@unlv.nevada.edu");
         user.setUsername("ryan");
         user.setPenaltyCount(0);
-        user.setBadges(new HashSet<String>());
+        user.setBadges(new ArrayList<String>());
 
         /**
          * Creation of the user's default badges.
@@ -426,7 +515,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * temporary badgeAwarded to be used for the user.
          */
-        BadgeAwarded tempBadgeAwarded; 
+        BadgeAwarded tempBadgeAwarded;
 
         // Execute the query and set the results
         results = (List<Badge>) query.execute();
@@ -457,7 +546,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setEmail("test@example.com");
         user.setUsername("test");
         user.setPenaltyCount(0);
-        user.setBadges(new HashSet<String>());
+        user.setBadges(new ArrayList<String>());
 
         // Creation of the user's default badges
         query = pm.newQuery(Badge.class); // Query the database for all badge
@@ -484,5 +573,71 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 
         query.closeAll();
         pm.close();
+    }
+
+    @Override
+    public String updateUser(String username, String email, Boolean admin,
+            Boolean deleted) {
+
+        // Get rid of any leading and trailing whitespace in the username and
+        // email address
+        username.trim();
+        email.trim();
+
+        /**
+         * The error message to be displayed when the username or email is
+         * invalid.
+         */
+        String errorMessage;
+
+        // A Valid username will return "Valid"
+        // An invalid username will return "Invalid username"
+        // A duplicate username will return "Username already exists"
+        errorMessage = EntryVerifier.isUsernameValid(username);
+
+        // If the username isn't "Valid", there was an error so return
+        if (errorMessage != "Valid") {
+            return errorMessage;
+        }
+
+        // A valid email will return "Valid"
+        // An invalid email will return "Invalid e-mail address"
+        // A duplicate email will return "E-mail address already exists."
+        errorMessage = EntryVerifier.isEmailValid(email);
+
+        // If the email address isn't "Valid", there was an error so return
+        if (errorMessage != "Valid") {
+            return errorMessage;
+        }
+
+        /**
+         * The persistence manager.
+         */
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        /**
+         * User object to update.
+         */
+        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
+
+        // Set properties of the user
+        user.setAdmin(admin);
+        user.setAvatarBlob(null);
+        user.setDeleted(deleted);
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPenaltyCount(0);
+        // TODO Depending on the code, we might have to query badges and make
+        // note of them to get this before updating.
+        // user.setBadges(new HashSet<String>());
+
+        // Persist the new user
+        try {
+            pm.makePersistent(user);
+        } finally {
+            pm.close();
+        }
+
+        return "Success";
     }
 }

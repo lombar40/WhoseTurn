@@ -1,7 +1,9 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -9,17 +11,27 @@ import java.util.Set;
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 
 /**
  * Strategy domain object. 
  */
-@PersistenceCapable
-public class Strategy {
+//@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")
+public class Strategy implements IsSerializable  {
+    
+    /**
+     * Default constructor. Needed for Serializable.
+     */
+    public Strategy() {
+    }
 
     /**
      * Primary key for the strategy.
@@ -167,7 +179,7 @@ public class Strategy {
             final Category category) {
         
         List<Double> ratioList = new ArrayList<Double>();
-        Set<String> turnItemsKeyStrings;
+        List<String> turnItemsKeyStrings;
         List<TurnItem> turnItems = new ArrayList<TurnItem>();
         Double tempTurnCount;
         Double tempSelectedCount;
@@ -231,7 +243,7 @@ public class Strategy {
      */
     public final User leastRecentlyGone(final List<User> users,
             final Category category) {
-        Set<String> turnItemsKeyStrings;
+        List<String> turnItemsKeyStrings;
         List<TurnItem> turnItems = new ArrayList<TurnItem>();
         List<Date> dateList = new ArrayList<Date>();
         Date tempTurnDate;

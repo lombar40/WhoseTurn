@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import edu.unlv.cs.whoseturn.domain.User;
+
 /**
  * Interface for the User Service, async version.
  */
@@ -25,12 +27,21 @@ public interface UsersServiceAsync {
             AsyncCallback<String> callback) throws IllegalArgumentException;
 
     /**
-     * Get a list of all guests. Async version.
+     * Get a list of all non deleted users.
      * 
      * @param callback The asynch callback.
      * @throws IllegalArgumentException
      */
     void findNonDeletedUsers(AsyncCallback<List<String>> callback)
+            throws IllegalArgumentException;
+    
+    /**
+     * Get a list of all users, deleted or not.
+     * 
+     * @param callback The asynch callback.
+     * @throws IllegalArgumentException
+     */
+    void findAllUsers(AsyncCallback<List<String>> callback)
             throws IllegalArgumentException;
 
     /**
@@ -100,5 +111,25 @@ public interface UsersServiceAsync {
      * @param callback The callback.
      */
     void isAdmin(AsyncCallback<Boolean> callback);
+
+    /**
+     * Gets the user's information. A list of zero or one that has a string[] with the information. {username, email, admin, deleted}
+     * 
+     * @param usermame The user name.
+     * @param callback Async callback.
+     */
+    void getUserInfo(String usermame, AsyncCallback<List<String[]>> callback);
+
+    /**
+     * Update a user in the database.
+     * 
+     * @param userName The User's name to update.
+     * @param email The user's email.
+     * @param admin Admin state.
+     * @param deleted Deleted state.
+     */
+    void updateUser(String userName, String email, Boolean admin, Boolean deleted, AsyncCallback<String> callback);
+
+    void getAllUsers(AsyncCallback<List<edu.unlv.cs.whoseturn.domain.User>> callback);
 
 }

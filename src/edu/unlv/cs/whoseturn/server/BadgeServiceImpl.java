@@ -1,13 +1,16 @@
 package edu.unlv.cs.whoseturn.server;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.ArrayList;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.unlv.cs.whoseturn.client.BadgeService;
@@ -21,7 +24,7 @@ import edu.unlv.cs.whoseturn.domain.User;
  * The badge service, used to associating and reading badges a user has.
  */
 public class BadgeServiceImpl extends RemoteServiceServlet implements
-        BadgeService {
+        BadgeService, Serializable, IsSerializable  {
 
     /**
      * Allows the class to be serialized.
@@ -35,7 +38,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void Jackass(final Turn turn) {
-        Set<String> turn_items = turn.getTurnItems();
+        HashSet<String> turn_items = turn.getTurnItems();
 
         // get the keys of the turn items
         for (String turn_key : turn_items) {
@@ -46,7 +49,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
             Key ownerKey = KeyFactory
                     .stringToKey(turn_item.getOwnerKeyString());
             User user = pm.getObjectById(User.class, ownerKey);
-            Set<String> badgeSet = user.getBadges();
+            List<String> badgeSet = user.getBadges();
 
             // Jackass badge check
             if (turn.getNumberOfUsers() == 1) {
@@ -75,7 +78,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void CornerStone(final Turn turn) {
-        Set<String> turn_items = turn.getTurnItems();
+        HashSet<String> turn_items = turn.getTurnItems();
 
         // get the keys of the turn items
         for (String turn_key : turn_items) {
@@ -86,7 +89,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
             Key ownerKey = KeyFactory
                     .stringToKey(turn_item.getOwnerKeyString());
             User user = pm.getObjectById(User.class, ownerKey);
-            Set<String> badgeSet = user.getBadges();
+            List<String> badgeSet = user.getBadges();
 
             // Badge Check
             if (turn.getNumberOfUsers() == 4) {
@@ -132,7 +135,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void HumanSacrifice(final Turn turn) {
-        Set<String> turn_items = turn.getTurnItems();
+        HashSet<String> turn_items = turn.getTurnItems();
 
         // get the keys of the turn items
         for (String turn_key : turn_items) {
@@ -145,7 +148,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
             Key ownerKey = KeyFactory
                     .stringToKey(turn_item.getOwnerKeyString());
             User user = pm.getObjectById(User.class, ownerKey);
-            Set<String> badgeSet = user.getBadges();
+            List<String> badgeSet = user.getBadges();
 
             // Badge Check
             if (turn.getNumberOfUsers() == 5) {
@@ -189,7 +192,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void SixMinuteAbs(final Turn turn) {
-        Set<String> turn_items = turn.getTurnItems();
+        HashSet<String> turn_items = turn.getTurnItems();
 
         // get the keys of the turn items
         for (String turn_key : turn_items) {
@@ -200,7 +203,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
             Key ownerKey = KeyFactory
                     .stringToKey(turn_item.getOwnerKeyString());
             User user = pm.getObjectById(User.class, ownerKey);
-            Set<String> badgeSet = user.getBadges();
+            List<String> badgeSet = user.getBadges();
 
             // Badge Check
             if (turn.getNumberOfUsers() == 6) {
@@ -248,7 +251,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void CrappedOut(final Turn turn) {
-        Set<String> turn_items = turn.getTurnItems();
+        HashSet<String> turn_items = turn.getTurnItems();
 
         // get the keys of the turn items
         for (String turn_key : turn_items) {
@@ -259,7 +262,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
             Key ownerKey = KeyFactory
                     .stringToKey(turn_item.getOwnerKeyString());
             User user = pm.getObjectById(User.class, ownerKey);
-            Set<String> badgeSet = user.getBadges();
+            List<String> badgeSet = user.getBadges();
 
             // Badge Check
             if (turn.getNumberOfUsers() == 7) {
@@ -305,7 +308,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void SnowWhite(final Turn turn) {
-        Set<String> turn_items = turn.getTurnItems();
+        HashSet<String> turn_items = turn.getTurnItems();
 
         // get the keys of the turn items
         for (String turn_key : turn_items) {
@@ -316,7 +319,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
             Key ownerKey = KeyFactory
                     .stringToKey(turn_item.getOwnerKeyString());
             User user = pm.getObjectById(User.class, ownerKey);
-            Set<String> badgeSet = user.getBadges();
+            List<String> badgeSet = user.getBadges();
 
             // Badge Check
             if (turn.getNumberOfUsers() == 8) {
@@ -360,7 +363,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void FML(final Turn turn) {
-        Set<String> turn_items = turn.getTurnItems();
+        HashSet<String> turn_items = turn.getTurnItems();
 
         // get the keys of the turn items
         for (String turn_key : turn_items) {
@@ -370,7 +373,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
             Key ownerKey = KeyFactory
                     .stringToKey(turn_item.getOwnerKeyString());
             User user = pm.getObjectById(User.class, ownerKey);
-            Set<String> badgeSet = user.getBadges();
+            List<String> badgeSet = user.getBadges();
 
             // Badge Check
             if (turn.getNumberOfUsers() > 8) {
@@ -415,7 +418,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
     @Override
     public final void Saint(final User user) {
         Integer countTurns = user.getTurnItems().size();
-        Set<String> badgeSet = user.getBadges();
+        List<String> badgeSet = user.getBadges();
 
         if (countTurns >= 50) {
             for (int i = 0; i < badgeSet.size(); i++) {
@@ -453,7 +456,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
                 String ownerKeyString = turnItem.getOwnerKeyString();
                 Key ownerKey = KeyFactory.stringToKey(ownerKeyString);
                 User user = pm.getObjectById(User.class, ownerKey);
-                Set<String> badgeSet = user.getBadges();
+                List<String> badgeSet = user.getBadges();
 
                 for (int i = 0; i < badgeSet.size(); i++) {
                     // get key for the BadgeAwarded entity and retrieve the
@@ -474,7 +477,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void StormShadow(final User user) {
-        Set<String> badgeSet = user.getBadges();
+        List<String> badgeSet = user.getBadges();
 
         if (user.getUsername().equals("Chris Jones")) {
             for (int i = 0; i < badgeSet.size(); i++) {
@@ -496,7 +499,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
     @Override
     public final void MythBusters(final User user) {
-        Set<String> badgeSet = user.getBadges();
+        List<String> badgeSet = user.getBadges();
         if (user.getUsername().equals("Matthew Sowders")) {
             for (int i = 0; i < badgeSet.size(); i++) {
                 // get key for the BadgeAwarded entity and retrieve the object

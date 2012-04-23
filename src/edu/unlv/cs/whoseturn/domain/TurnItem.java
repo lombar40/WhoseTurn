@@ -1,17 +1,29 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * The turn item domain object.
  */
-@PersistenceCapable
-public class TurnItem {
+//@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")
+public class TurnItem implements IsSerializable  {
 
+    /**
+     * Default constructor. Needed for Serializable.
+     */
+    public TurnItem() {
+    }
+    
     /**
      * The key string.
      */

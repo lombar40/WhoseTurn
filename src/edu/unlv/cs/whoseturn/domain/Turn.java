@@ -1,19 +1,31 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * The turn domain object. 
  */
-@PersistenceCapable
-public class Turn {
+//@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")
+public class Turn implements IsSerializable  {
+
+    /**
+     * Default constructor. Needed for Serializable.
+     */
+    public Turn() {
+    }
 
     /**
      * The primary key for the object.
@@ -39,7 +51,7 @@ public class Turn {
      * List of turn items.
      */
     @Persistent
-    private Set<String> turnItems;
+    private HashSet<String> turnItems;
 
     // Getters and Setters.
     /**
@@ -101,7 +113,7 @@ public class Turn {
      * 
      * @return The turn items.
      */
-    public final Set<String> getTurnItems() {
+    public final HashSet<String> getTurnItems() {
         return turnItems;
     }
 
@@ -110,7 +122,7 @@ public class Turn {
      * 
      * @param turnItems The turn items.
      */
-    public final void setTurnItems(final Set<String> turnItems) {
+    public final void setTurnItems(final HashSet<String> turnItems) {
         this.turnItems = turnItems;
     }
 

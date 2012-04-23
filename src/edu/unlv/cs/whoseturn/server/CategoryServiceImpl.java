@@ -1,11 +1,13 @@
 package edu.unlv.cs.whoseturn.server;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.unlv.cs.whoseturn.client.CategoryService;
@@ -18,7 +20,7 @@ import edu.unlv.cs.whoseturn.domain.Strategy;
  * regarding categories.
  */
 public class CategoryServiceImpl extends RemoteServiceServlet implements
-        CategoryService {
+        CategoryService, Serializable, IsSerializable  {
 
     /**
      * Variable used to allow the class to be serialized.

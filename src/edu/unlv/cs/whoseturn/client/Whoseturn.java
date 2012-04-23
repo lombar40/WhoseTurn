@@ -17,7 +17,7 @@ public class Whoseturn implements EntryPoint {
      */
     private final UsersServiceAsync usersService = GWT
             .create(UsersService.class);
-
+    
     /**
      * This is the entry point method.
      */
