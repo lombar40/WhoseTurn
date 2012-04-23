@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -74,9 +75,10 @@ public class MobileCategoryScreenController extends HttpServlet {
         String selectedKeys = request.getParameter("selectedPersons");
         if (selectedKeys == null) {
         	selectedKeys =  "";
+        	dbg += "no selectedPersons post data<br/>\n";
         }
         
-        dbg += "selectedKeys: " + selectedKeys + "\n";
+        dbg += "selectedKeys: " + selectedKeys + "<br/>\n";
         
         // Split comma separated values
         String[] selectedKeyStrings = selectedKeys.split(",\\s*");
@@ -87,10 +89,18 @@ public class MobileCategoryScreenController extends HttpServlet {
         	if ((personKey == null) || (personKey.equals(""))) {
         		continue;
         	}
-        	Object personObject = manager.getObjectById(Fuser.class, personKey);
+        	Object personObject;
+        	try {
+            	personObject = manager.getObjectById(Fuser.class, personKey);
+        	}
+        	catch (JDOObjectNotFoundException e) {
+        		// User manually mucked about with the URL, diregard
+        		dbg += "not selected: invalid key<br/>\n";
+        		continue;
+        	}
         	
         	if (!(personObject instanceof Fuser)) {
-            	dbg += "not selected: someone\n";
+            	dbg += "not selected: someone<br/>\n";
         		continue;
         	}
         	Fuser selectedUser = (Fuser)personObject;

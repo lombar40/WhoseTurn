@@ -25,10 +25,6 @@
 		}
 		
 		function postSelectedPersons() {
-			var docfrag = document.createDocumentFragment();
-			var form = document.createElement("form");
-			var input = document.createElement("input");
-			input.setAttribute("type", "hidden");
 			
 			var serialized = ""
 			for (var person in selected_person_set) {
@@ -36,22 +32,26 @@
 					continue;
 				}
 				
-				var inner = document.createTextNode(person);
-				var br = document.createElement("br");
-				docfrag.appendChild(inner);
-				docfrag.appendChild(br);
+// 				var inner = document.createTextNode(person);
+// 				var br = document.createElement("br");
+// 				docfrag.appendChild(inner);
+// 				docfrag.appendChild(br);
 				
 				serialized += person + ",";
 			}
-			
-			input.setAttribute("method", "post");
-			input.setAttribute("action", "?keyString=" + ${currentCategory.keyString})
-			input.setAttribute("name", "selectedPersons");
-			input.setAttribute("value", serialized);
-			
-			form.appendChild(input);
-			docfrag.appendChild(form);
+
+			var docfrag = document.createDocumentFragment();
+			var form = document.createElement('form');
+			form.setAttribute('action', '?keyString=${currentCategory.keyString}')
+			form.setAttribute('method', 'post');
+			var input = document.createElement('input');
+			input.setAttribute('type', 'hidden');
+			input.setAttribute('name', 'selectedPersons');
+			input.setAttribute('value', serialized);
+
 			document.getElementById('divinsert').appendChild(docfrag);
+			docfrag.appendChild(form);
+			form.appendChild(input);
 			
 			form.submit();
 		}
