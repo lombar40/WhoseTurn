@@ -12,16 +12,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface UsersService extends RemoteService {
 
     /**
-     * Used to add a guest to the database.
-     * 
-     * @param username
-     *            Username of the guest.
-     * @return Result as a string.
-     * @throws IllegalArgumentException
-     */
-    String addGuest(String username) throws IllegalArgumentException;
-
-    /**
      * Add a new user to the database.
      * 
      * @param username
@@ -42,15 +32,7 @@ public interface UsersService extends RemoteService {
      * @return A list of all the users as a string array.
      * @throws IllegalArgumentException
      */
-    List<String> findAllGuests() throws IllegalArgumentException;
-
-    /**
-     * Get a list of my guests.
-     * 
-     * @return A list of all the users as a string array.
-     * @throws IllegalArgumentException
-     */
-    List<String> findMyGuests() throws IllegalArgumentException;
+    List<String> findNonDeletedUsers() throws IllegalArgumentException;
 
     /**
      * Get a list of all users.
@@ -105,5 +87,12 @@ public interface UsersService extends RemoteService {
      * @throws IllegalArgumentException
      */
     Boolean isLoggedIn() throws IllegalArgumentException;
+
+    /**
+     * Checks to see if the current users is an admin.
+     *  
+     * @return true if admin.
+     */
+    boolean isAdmin();
 
 }

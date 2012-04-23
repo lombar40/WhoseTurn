@@ -10,17 +10,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface UsersServiceAsync {
 
     /**
-     * Used to add a guest to the database. Async version.
-     * 
-     * @param username
-     *            Username of the guest.
-     * @param callback the async callback.
-     * @throws IllegalArgumentException
-     */
-    void addGuest(String username, AsyncCallback<String> callback)
-            throws IllegalArgumentException;
-
-    /**
      * Add a new user to the database. Async version.
      * 
      * @param username
@@ -41,16 +30,7 @@ public interface UsersServiceAsync {
      * @param callback The asynch callback.
      * @throws IllegalArgumentException
      */
-    void findAllGuests(AsyncCallback<List<String>> callback)
-            throws IllegalArgumentException;
-
-    /**
-     * Get a list of my guests. Async version.
-     * 
-     * @param callback The async callback.
-     * @throws IllegalArgumentException
-     */
-    void findMyGuests(AsyncCallback<List<String>> callback)
+    void findNonDeletedUsers(AsyncCallback<List<String>> callback)
             throws IllegalArgumentException;
 
     /**
@@ -113,5 +93,12 @@ public interface UsersServiceAsync {
      */
     void isLoggedIn(AsyncCallback<Boolean> callback)
             throws IllegalArgumentException;
+
+    /**
+     * Checks if the current users is an admin.
+     * 
+     * @param callback The callback.
+     */
+    void isAdmin(AsyncCallback<Boolean> callback);
 
 }

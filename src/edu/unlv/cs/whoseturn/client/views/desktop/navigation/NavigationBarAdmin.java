@@ -8,19 +8,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.client.views.desktop.AddGuest;
-import edu.unlv.cs.whoseturn.client.views.desktop.AdminPanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryList;
-import edu.unlv.cs.whoseturn.client.views.desktop.ListAllGuests;
-import edu.unlv.cs.whoseturn.client.views.desktop.ListMyGuests;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
-import edu.unlv.cs.whoseturn.client.views.desktop.UserAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.Main;
-import edu.unlv.cs.whoseturn.client.views.desktop.UserDisplay;
-import edu.unlv.cs.whoseturn.client.views.desktop.UserEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
 
 /**
@@ -39,19 +32,6 @@ public class NavigationBarAdmin implements View {
          */
         FlowPanel navigationBar = new FlowPanel();
         navigationBar.setSize("1000px", "200");
-
-        /**
-         * Links to admin pane.
-         */
-        Button adminNavItem = new Button();
-        adminNavItem.setText("Admin Panel");
-        adminNavItem.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new AdminPanel()).asWidget());
-            }
-        });
-        navigationBar.add(adminNavItem);
 
         /**
          * Links to create category
@@ -106,49 +86,10 @@ public class NavigationBarAdmin implements View {
         navigationBar.add(mainNavItem);
 
         /**
-         * Links to profile display.
-         */
-        Button profileDisplayNavItem = new Button();
-        profileDisplayNavItem.setText("Profile Display");
-        profileDisplayNavItem.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new UserDisplay()).asWidget());
-            }
-        });
-        navigationBar.add(profileDisplayNavItem);
-
-        /**
-         * Links to profileManagement.
-         */
-        Button editUserNavItem = new Button();
-        editUserNavItem.setText("Profile Management");
-        editUserNavItem.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new UserEdit()).asWidget());
-            }
-        });
-        navigationBar.add(editUserNavItem);
-
-        /**
-         * Links to create user.
-         */
-        Button createUserNavItem = new Button();
-        createUserNavItem.setText("User Add");
-        createUserNavItem.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new UserAdd()).asWidget());
-            }
-        });
-        navigationBar.add(createUserNavItem);
-
-        /**
          * Links to list users.
          */
         Button listUserNavItem = new Button();
-        listUserNavItem.setText("User List");
+        listUserNavItem.setText("Users");
         listUserNavItem.addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
                 RootPanel.get("overall").clear();
@@ -182,33 +123,6 @@ public class NavigationBarAdmin implements View {
             }
         });
         navigationBar.add(listTurnNavItem);
-
-        Button btnMyGuests = new Button("My Guests");
-        btnMyGuests.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new ListMyGuests()).asWidget());
-            }
-        });
-        navigationBar.add(btnMyGuests);
-
-        Button btnAllGuests = new Button("All Guests");
-        btnAllGuests.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new ListAllGuests()).asWidget());
-            }
-        });
-        navigationBar.add(btnAllGuests);
-
-        Button btnAddGuest = new Button("Add Guest");
-        btnAddGuest.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new AddGuest()).asWidget());
-            }
-        });
-        navigationBar.add(btnAddGuest);
 
         return navigationBar;
     }
