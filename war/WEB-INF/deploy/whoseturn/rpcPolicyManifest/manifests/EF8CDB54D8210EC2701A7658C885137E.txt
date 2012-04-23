@@ -1,0 +1,2 @@
+serviceClass: edu.unlv.cs.whoseturn.client.TurnService
+path: 8FE06C120FC54F39ECEE6CDF7756F6DE.gwt.rpc
