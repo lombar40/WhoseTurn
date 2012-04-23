@@ -15,7 +15,8 @@ import edu.unlv.cs.whoseturn.domain.Strategy;
 import edu.unlv.cs.whoseturn.shared.EntryVerifier;
 
 /**
- * Category Service which allows the client to get information from the server regarding categories. 
+ * Category Service which allows the client to get information from the server
+ * regarding categories.
  */
 public class CategoryServiceImpl extends RemoteServiceServlet implements
 		CategoryService {
@@ -78,6 +79,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
+		
 		return message;
 	}
 
@@ -138,5 +140,4 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		pm.close();
 		return strategyNames;
 	}
-
 }

@@ -12,20 +12,20 @@ import edu.unlv.cs.whoseturn.client.views.NavigationView;
  */
 public class UserList extends AbstractNavigationView implements NavigationView {
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		// The body of the view.
-		FlowPanel panel = new FlowPanel();
-		panel.setSize("1000px", "500px");
-		
-		Label labelPlaceHolder = new Label();
-		labelPlaceHolder.setText("User List");
-		panel.add(labelPlaceHolder);
-		
-		return panel;
-	}
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        // The body of the view.
+        FlowPanel panel = new FlowPanel();
+        panel.setSize("1000px", "500px");
+
+        Label labelPlaceHolder = new Label();
+        labelPlaceHolder.setText("User List");
+        panel.add(labelPlaceHolder);
+
+        return panel;
+    }
 
 }

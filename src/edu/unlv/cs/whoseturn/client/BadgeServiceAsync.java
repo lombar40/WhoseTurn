@@ -12,6 +12,7 @@ public interface BadgeServiceAsync {
 	 * Jackass badge to the submitter.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void Jackass(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -21,6 +22,7 @@ public interface BadgeServiceAsync {
 	 * Cheater badge to the submitting user.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void TeamCheater(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -31,6 +33,7 @@ public interface BadgeServiceAsync {
 	 * badge if not selected.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void CornerStone(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -41,6 +44,7 @@ public interface BadgeServiceAsync {
 	 * not selected.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void HumanSacrifice(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -51,6 +55,7 @@ public interface BadgeServiceAsync {
 	 * not selected.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void SixMinuteAbs(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -61,6 +66,7 @@ public interface BadgeServiceAsync {
 	 * selected.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void CrappedOut(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -70,6 +76,7 @@ public interface BadgeServiceAsync {
 	 * the Snow White badge if selected. Awards the Dwarf badge if not selected.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void SnowWhite(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -80,33 +87,73 @@ public interface BadgeServiceAsync {
 	 * Speaking badge if not selected.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void FML(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	/**
-	 * Used to award the Saint badge. Checks to see if the user has never lied for 50 turns. Awards the Saint
-	 * badge.
+	 * Used to award the Saint badge. Checks to see if the user has never lied for 50 turns.
 	 * 
-	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param user The user to check to see if they get the Saint badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void Saint(User user, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	/**
 	 * Used to award the Socialite badge. Checks to see if the users have participated in a turn with more than 10
-	 * people. Awards the Socialite badge.
+	 * people.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void Socialite(Turn turn, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	
+	/**
+	 * Used to award the Rookie badge. Checks to see if the user has participated in 10 turns.
+	 * 
+	 * @param user The user to check to see if they get the Rookie badge.
+	 * @param callback The async callback.
+	 * @throws IllegalArgumentException
+	 */
+	void Rookie(User user, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	
+	/**
+	 * Used to award the Veteran badge. Checks to see if the user has participated in 10 turns.
+	 * 
+	 * @param user The user to check to see if they get the Veteran badge.
+	 * @param callback The async callback.
+	 * @throws IllegalArgumentException
+	 */
+	void Veteran(User user, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	
+	/**
+	 * Used to award the Elite badge. Checks to see if the user has participated in 10 turns.
+	 * 
+	 * @param user The user to check to see if they get the Elite badge.
+	 * @param callback The async callback.
+	 * @throws IllegalArgumentException
+	 */
+	void Elite(User user, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	
+	/**
+	 * Used to award the WhoseTurnMaster badge.  Checks to see if the user has received every
+	 * badge (excludes the special StormShadow and MythBusters badges).
+	 * 
+	 * @param user The user to check to see if they have every badge (excluding StormShadow and MythBusters badges).
+	 * @param callback The async callback.
+	 * @throws IllegalArgumentException
+	 */
+	void WhoseTurnMaster(User user, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	/**
 	 * Used to award the StormShadow badge.Checks to see if the user is Chris Jones. Awards the StormShadow badge if
 	 * true.
 	 * 
-	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param user The user to check to see if they get the StormShadow badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void StormShadow(User user, AsyncCallback<Void> callback) throws IllegalArgumentException;
@@ -115,15 +162,17 @@ public interface BadgeServiceAsync {
 	 * Used to award the MythBusters badge. Checks to see if the user is Matthew Sowders. Awards the MythBusters
 	 * badge if true.
 	 * 
-	 * @param turn The turn to analyze to determine if someone gets the badge.
+	 * @param user The user to check to see if they get the MythBusters badge.
+	 * @param callback The async callback.
 	 * @throws IllegalArgumentException
 	 */
 	void MythBusters(User user, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	/**
-	 * Used to calculateBadges. This method initiates the calculation of all badges.
+	 * Used to calculate badges. This method initiates the calculation of all badges.
 	 * 
 	 * @param turn The turn to analyze.
+	 * @param callback The async callback.
 	 */
 	void calculateBadges(Turn turn, AsyncCallback<Void> callback);
 

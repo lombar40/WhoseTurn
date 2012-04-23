@@ -8,131 +8,273 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+/**
+ * The user domain object. 
+ */
 @PersistenceCapable
 public class User {
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-	private String keyString;
-	
-	@Persistent
+    
+    /**
+     * Primary key for the user.
+     */
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+    private String keyString;
+
+    /**
+     * User name, a way to identify a user in the database.
+     */
+    @Persistent
     private String username;
 
-	@Persistent
+    /**
+     * Email address.
+     */
+    @Persistent
     private String email;
 
-	@Persistent
+    /**
+     * Admin status.
+     */
+    @Persistent
     private Boolean admin;
-	
-	@Persistent
+
+    /**
+     * Deleted state.
+     */
+    @Persistent
     private Boolean deleted;
 
-	@Persistent
+    /**
+     * Possible way to display a blob for a user.
+     */
+    @Persistent
     private byte[] avatarBlob;
-	
-	@Persistent
-	private Integer penaltyCount;
-	
-	@Persistent
-	private String ownerKeyString;
-	
-	@Persistent
+
+    /**
+     * How many times a user has lied.
+     */
+    @Persistent
+    private Integer penaltyCount;
+
+    /**
+     * Owner key string.
+     */
+    @Persistent
+    private String ownerKeyString;
+
+    /**
+     * Turn items.
+     */
+    @Persistent
     private Set<String> turnItems;
-	
-	@Persistent
-	private Set<String> badges;
 
-	public String getKeyString() {
-		return keyString;
-	}
+    /**
+     * List of badges.
+     */
+    @Persistent
+    private Set<String> badges;
 
-	// Getters and Setters.
-	public void setKeyString(String keyString) {
-		this.keyString = keyString;
-	}
+    /**
+     * Get key string.
+     * 
+     * @return the key string.
+     */
+    public final String getKeyString() {
+        return keyString;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    // Getters and Setters.
+    /**
+     * Sets the key string.
+     * 
+     * @param keyString The key string.
+     */
+    public final void setKeyString(final String keyString) {
+        this.keyString = keyString;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    /**
+     * Get the user name.
+     * 
+     * @return The user name.
+     */
+    public final String getUsername() {
+        return username;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * Set the user name.
+     * 
+     * @param username The user name.
+     */
+    public final void setUsername(final String username) {
+        this.username = username;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    /**
+     * Get the email address.
+     * 
+     * @return The email address.
+     */
+    public final String getEmail() {
+        return email;
+    }
 
-	public Boolean getAdmin() {
-		return admin;
-	}
+    /**
+     * Sets the email address.
+     * 
+     * @param email The email address.
+     */
+    public final void setEmail(final String email) {
+        this.email = email;
+    }
 
-	public void setAdmin(Boolean admin) {
-		this.admin = admin;
-	}
+    /**
+     * Get the admin state.
+     * 
+     * @return The admin state.
+     */
+    public final Boolean getAdmin() {
+        return admin;
+    }
 
-	public Boolean getDeleted() {
-		return deleted;
-	}
+    /**
+     * Sets the admin state.
+     * 
+     * @param admin The admin state.
+     */
+    public final void setAdmin(final Boolean admin) {
+        this.admin = admin;
+    }
 
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
-	}
+    /**
+     * Get the deleted state.
+     * 
+     * @return The deleted state.
+     */
+    public final Boolean getDeleted() {
+        return deleted;
+    }
 
-	public byte[] getAvatarBlob() {
-		return avatarBlob;
-	}
+    /**
+     * Set the deleted state.
+     * 
+     * @param deleted The deleted state.
+     */
+    public final void setDeleted(final Boolean deleted) {
+        this.deleted = deleted;
+    }
 
-	public void setAvatarBlob(byte[] avatarBlob) {
-		this.avatarBlob = avatarBlob;
-	}
-	
-	public Set<String> getTurnItems() {
-		return turnItems;
-	}
+    /**
+     * Get the avatar blob.
+     * 
+     * @return The avatar blob.
+     */
+    public final byte[] getAvatarBlob() {
+        return avatarBlob;
+    }
 
-	public Set<String> getBadges() {
-		return badges;
-	}
+    /**
+     * Set the avatar blob.
+     * 
+     * @param avatarBlob The avatar blob.
+     */
+    public final void setAvatarBlob(final byte[] avatarBlob) {
+        this.avatarBlob = avatarBlob;
+    }
 
-	public void setBadges(Set<String> badges) {
-		this.badges = badges;
-	}
-	
-	public void addBadge(BadgeAwarded badge) {
-		badges.add(badge.getKeyString());
-	}
-	
-	public void addTurnItem(TurnItem turnItem) {
-		turnItems.add(turnItem.getKeyString());
-	}
-	
-	public void setTurnItems(Set<String> turnItems) {
-		this.turnItems = turnItems;
-	}
+    public final Set<String> getTurnItems() {
+        return turnItems;
+    }
 
-	public Integer getPenaltyCount() {
-		return penaltyCount;
-	}
+    /**
+     * Get the badges.
+     * 
+     * @return The badges.
+     */
+    public final Set<String> getBadges() {
+        return badges;
+    }
 
-	public void setPenaltyCount(Integer penaltyCount) {
-		this.penaltyCount = penaltyCount;
-	}
-	
-	public void increasePenaltyCount() {
-		this.penaltyCount++;
-		
-	}
+    /**
+     * Set the badges.
+     * 
+     * @param badges The badges.
+     */
+    public final void setBadges(final Set<String> badges) {
+        this.badges = badges;
+    }
 
-	public String getOwnerKeyString() {
-		return ownerKeyString;
-	}
+    /**
+     * Add a badge.
+     * 
+     * @param badge The badge to add.
+     */
+    public final void addBadge(final BadgeAwarded badge) {
+        badges.add(badge.getKeyString());
+    }
 
-	public void setOwnerKeyString(String ownerKeyString) {
-		this.ownerKeyString = ownerKeyString;
-	}
+    /**
+     * Add a turn item.
+     * 
+     * @param turnItem The turn item to add.
+     */
+    public final void addTurnItem(final TurnItem turnItem) {
+        turnItems.add(turnItem.getKeyString());
+    }
+
+    /**
+     * Set the turn items.
+     * 
+     * @param turnItems The turn items.
+     */
+    public final void setTurnItems(final Set<String> turnItems) {
+        this.turnItems = turnItems;
+    }
+
+    /**
+     * Get the penalty count.
+     * 
+     * @return The penalty count.
+     */
+    public final Integer getPenaltyCount() {
+        return penaltyCount;
+    }
+
+    /**
+     * Set the penalty count.
+     * 
+     * @param penaltyCount The penalty count.
+     */
+    public final void setPenaltyCount(final Integer penaltyCount) {
+        this.penaltyCount = penaltyCount;
+    }
+
+    /**
+     * Increase the penalty count.
+     */
+    public final void increasePenaltyCount() {
+        this.penaltyCount++;
+
+    }
+
+    /**
+     * Get the owner key string.
+     * 
+     * @return The owner key string.
+     */
+    public final String getOwnerKeyString() {
+        return ownerKeyString;
+    }
+
+    /**
+     * Set the owner key string.
+     * 
+     * @param ownerKeyString The owner key string.
+     */
+    public final void setOwnerKeyString(final String ownerKeyString) {
+        this.ownerKeyString = ownerKeyString;
+    }
 }

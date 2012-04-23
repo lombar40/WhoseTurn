@@ -22,59 +22,63 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class UserEdit extends AbstractNavigationView implements NavigationView {
 
-	private final UsersServiceAsync usersService = GWT
-			.create(UsersService.class);
+    /**
+     * The user service.
+     */
+    private final UsersServiceAsync usersService = GWT
+            .create(UsersService.class);
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		String url = GWT.getHostPageBaseURL();
-		if (!GWT.isProdMode())
-			url += "?gwt.codesvr=127.0.0.1:9997";
-		final String finalURL = url;
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        String url = GWT.getHostPageBaseURL();
+        if (!GWT.isProdMode()) {
+            url += "?gwt.codesvr=127.0.0.1:9997";
+        }
+        final String finalURL = url;
 
-		final AbsolutePanel profileManagementPanel = new AbsolutePanel();
-		profileManagementPanel.setSize("1000px", "500px");
+        final AbsolutePanel profileManagementPanel = new AbsolutePanel();
+        profileManagementPanel.setSize("1000px", "500px");
 
-		Button btnLogout = new Button("Logout");
-		profileManagementPanel.add(btnLogout, 10, 75);
+        Button btnLogout = new Button("Logout");
+        profileManagementPanel.add(btnLogout, 10, 75);
 
-		Label lblUsername = new Label("Username:");
-		profileManagementPanel.add(lblUsername, 10, 10);
+        Label lblUsername = new Label("Username:");
+        profileManagementPanel.add(lblUsername, 10, 10);
 
-		final TextBox txtbxUsername = new TextBox();
-		profileManagementPanel.add(txtbxUsername, 79, 10);
+        final TextBox txtbxUsername = new TextBox();
+        profileManagementPanel.add(txtbxUsername, 79, 10);
 
-		Label lblNewLabel = new Label("New label");
-		profileManagementPanel.add(lblNewLabel, 384, 272);
+        Label lblNewLabel = new Label("New label");
+        profileManagementPanel.add(lblNewLabel, 384, 272);
 
-		btnLogout.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				usersService.getLogoutURL(finalURL,
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								// lblNewLabel.setText("FAILURE");
-							}
+        btnLogout.addClickHandler(new ClickHandler() {
+            public void onClick(final ClickEvent event) {
+                usersService.getLogoutURL(finalURL,
+                        new AsyncCallback<String>() {
+                            public void onFailure(final Throwable caught) {
+                                // lblNewLabel.setText("FAILURE");
+                            }
 
-							public void onSuccess(String result) {
-								Window.open(result, "_self", "");
-							}
-						});
-			}
-		});
+                            public void onSuccess(final String result) {
+                                Window.open(result, "_self", "");
+                            }
+                        });
+            }
+        });
 
-		usersService.getUsername(new AsyncCallback<String>() {
-			public void onFailure(Throwable caught) {
-				// lblNewLabel.setText("FAILURE");
-			}
+        usersService.getUsername(new AsyncCallback<String>() {
+            public void onFailure(final Throwable caught) {
+                // lblNewLabel.setText("FAILURE");
+            }
 
-			public void onSuccess(String result) {
-				txtbxUsername.setText(result);
-			}
-		});
+            public void onSuccess(final String result) {
+                txtbxUsername.setText(result);
+            }
+        });
 
-		return profileManagementPanel;
-	}
+        return profileManagementPanel;
+    }
 }

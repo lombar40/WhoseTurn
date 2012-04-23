@@ -7,7 +7,6 @@ import javax.jdo.Query;
 import org.apache.commons.validator.routines.EmailValidator;
 import edu.unlv.cs.whoseturn.domain.PMF;
 
-
 /**
  * EntryVerifier validates that the data the user enters is valid.
  */
@@ -139,7 +138,7 @@ public class EntryVerifier
 		
 		// The category can't contain special characters
 		if (!category.matches("^[a-zA-Z0-9]+$")) {
-			errorMessage = "A categroy can't contain special characters";
+			errorMessage = "A category can't contain special characters";
 			return errorMessage;
 		}
 		
@@ -185,6 +184,8 @@ public class EntryVerifier
 			errorMessage = "The time boundary can't be greater than 2 days (48 hours)";
 			return errorMessage;
 		}
+		
+		// If we're here, the timeBoundary is valid
 		return "Valid";
 	}
 }

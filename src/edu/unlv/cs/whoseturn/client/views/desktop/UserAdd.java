@@ -21,75 +21,79 @@ import com.google.gwt.event.dom.client.ClickEvent;
  */
 public class UserAdd extends AbstractNavigationView implements NavigationView {
 
-	private final UsersServiceAsync usersService = GWT
-			.create(UsersService.class);
+    /**
+     * The user service.
+     */
+    private final UsersServiceAsync usersService = GWT
+            .create(UsersService.class);
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Widget bodyAsWidget() {
-		// The body of the view.
-		AbsolutePanel panel = new AbsolutePanel();
-		panel.setSize("1000px", "500px");
-		
-		Label lblLbltitle = new Label("User Add");
-		lblLbltitle.setStyleName("SectionHeader");
-		panel.add(lblLbltitle);
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public final Widget bodyAsWidget() {
+        // The body of the view.
+        AbsolutePanel panel = new AbsolutePanel();
+        panel.setSize("1000px", "500px");
 
-		final TextBox txtbxUsername = new TextBox();
-		panel.add(txtbxUsername, 98, 42);
-		txtbxUsername.setSize("161px", "16px");
+        Label lblLbltitle = new Label("User Add");
+        lblLbltitle.setStyleName("SectionHeader");
+        panel.add(lblLbltitle);
 
-		Label lblUsername = new Label("UserName:");
-		panel.add(lblUsername, 10, 42);
+        final TextBox txtbxUsername = new TextBox();
+        panel.add(txtbxUsername, 98, 42);
+        txtbxUsername.setSize("161px", "16px");
 
-		Label lblEmail = new Label("Email:");
-		panel.add(lblEmail, 10, 80);
+        Label lblUsername = new Label("UserName:");
+        panel.add(lblUsername, 10, 42);
 
-		final CheckBox chckbxAdmin = new CheckBox("");
-		panel.add(chckbxAdmin, 98, 118);
+        Label lblEmail = new Label("Email:");
+        panel.add(lblEmail, 10, 80);
 
-		final Label lblError = new Label("");
-		lblError.setStyleName("serverResponseLabelError");
-		panel.add(lblError, 141, 148);
+        final CheckBox chckbxAdmin = new CheckBox("");
+        panel.add(chckbxAdmin, 98, 118);
 
-		final TextBox txtbxEmail = new TextBox();
-		panel.add(txtbxEmail, 98, 80);
-		txtbxEmail.setSize("161px", "20px");
+        final Label lblError = new Label("");
+        lblError.setStyleName("serverResponseLabelError");
+        panel.add(lblError, 141, 148);
 
-		Button btnAdd = new Button("Add");
-		panel.add(btnAdd, 98, 143);
+        final TextBox txtbxEmail = new TextBox();
+        panel.add(txtbxEmail, 98, 80);
+        txtbxEmail.setSize("161px", "20px");
 
-		Label lblAdmin = new Label("Admin:");
-		panel.add(lblAdmin, 10, 118);
+        Button btnAdd = new Button("Add");
+        panel.add(btnAdd, 98, 143);
 
-		final Label lblSuccess = new Label("Successfully added user.");
-		panel.add(lblSuccess, 141, 148);
-		lblSuccess.setVisible(false);
+        Label lblAdmin = new Label("Admin:");
+        panel.add(lblAdmin, 10, 118);
 
-		btnAdd.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				lblError.setText("");
-				lblSuccess.setVisible(false);
+        final Label lblSuccess = new Label("Successfully added user.");
+        panel.add(lblSuccess, 141, 148);
+        lblSuccess.setVisible(false);
 
-				usersService.addNewUser(txtbxUsername.getText(),
-						txtbxEmail.getText(), chckbxAdmin.getValue(),
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								lblError.setText("There was an unknown error.");
-							}
+        btnAdd.addClickHandler(new ClickHandler() {
+            public void onClick(final ClickEvent event) {
+                lblError.setText("");
+                lblSuccess.setVisible(false);
 
-							public void onSuccess(String result) {
-								if (!result.equals("Success"))
-									lblError.setText(result);
-								else
-									lblSuccess.setVisible(true);
-							}
-						});
-			}
-		});
+                usersService.addNewUser(txtbxUsername.getText(),
+                        txtbxEmail.getText(), chckbxAdmin.getValue(),
+                        new AsyncCallback<String>() {
+                            public void onFailure(final Throwable caught) {
+                                lblError.setText("There was an unknown error.");
+                            }
 
-		return panel;
-	}
+                            public void onSuccess(final String result) {
+                                if (!result.equals("Success")) {
+                                    lblError.setText(result);
+                                } else {
+                                    lblSuccess.setVisible(true);
+                                }
+                            }
+                        });
+            }
+        });
+
+        return panel;
+    }
 }
