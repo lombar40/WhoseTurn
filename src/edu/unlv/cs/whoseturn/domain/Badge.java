@@ -1,11 +1,17 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.io.Serializable;
+
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 
 // TODO JAO The following looks like it has information that is from the database.
 //		I think the design of this is a bit goofy, but if we are going to go down this
@@ -61,8 +67,15 @@ import javax.jdo.annotations.PrimaryKey;
  * 
  * 1021 | MythBusters | User is Matthew Sowders
  */
-@PersistenceCapable
-public class Badge {
+//@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")
+public class Badge implements IsSerializable {
+
+    /**
+     * Default constructor. Needed for Serializable.
+     */
+    public Badge() {
+    }
 
 	/**
 	 * This is the primary key for the badge.

@@ -1,18 +1,28 @@
 package edu.unlv.cs.whoseturn.domain;
 
-import java.util.Set;
-
+import java.io.Serializable;
+import java.util.List;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 
 /**
  * The user domain object. 
  */
-@PersistenceCapable
-public class User {
+//@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")
+public class User implements IsSerializable  {
+
+    /**
+     * Default constructor. Needed for Serializable.
+     */
+    public User() {
+    }
     
     /**
      * Primary key for the user.
@@ -62,13 +72,13 @@ public class User {
      * Turn items.
      */
     @Persistent
-    private Set<String> turnItems;
+    private List<String> turnItems;
 
     /**
      * List of badges.
      */
     @Persistent
-    private Set<String> badges;
+    private List<String> badges;
 
     /**
      * Get key string.
@@ -179,7 +189,7 @@ public class User {
         this.avatarBlob = avatarBlob;
     }
 
-    public final Set<String> getTurnItems() {
+    public final List<String> getTurnItems() {
         return turnItems;
     }
 
@@ -188,7 +198,7 @@ public class User {
      * 
      * @return The badges.
      */
-    public final Set<String> getBadges() {
+    public final List<String> getBadges() {
         return badges;
     }
 
@@ -197,7 +207,7 @@ public class User {
      * 
      * @param badges The badges.
      */
-    public final void setBadges(final Set<String> badges) {
+    public final void setBadges(final List<String> badges) {
         this.badges = badges;
     }
 
@@ -224,7 +234,7 @@ public class User {
      * 
      * @param turnItems The turn items.
      */
-    public final void setTurnItems(final Set<String> turnItems) {
+    public final void setTurnItems(final List<String> turnItems) {
         this.turnItems = turnItems;
     }
 

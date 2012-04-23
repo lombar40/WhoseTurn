@@ -1,16 +1,28 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Used to keep track of badges that are awarded to users.
  */
-@PersistenceCapable
-public class BadgeAwarded {
+//@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")
+public class BadgeAwarded implements IsSerializable  {
+
+    /**
+     * Default constructor. Needed for Serializable.
+     */
+    public BadgeAwarded() {
+    }
 
     /**
      * Primary key for a badge that is awarded to a user.

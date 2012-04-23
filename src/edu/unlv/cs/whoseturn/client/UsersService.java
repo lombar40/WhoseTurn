@@ -2,8 +2,11 @@ package edu.unlv.cs.whoseturn.client;
 
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+import edu.unlv.cs.whoseturn.domain.User;
 
 /**
  * Interface for the User Service.
@@ -25,6 +28,22 @@ public interface UsersService extends RemoteService {
      */
     String addNewUser(String username, String email, Boolean admin)
             throws IllegalArgumentException;
+
+    /**
+     * Get a list of all guests.
+     * 
+     * @return A list of all the users as a string array.
+     * @throws IllegalArgumentException
+     */
+    List<String> findNonDeletedUsers() throws IllegalArgumentException;
+    
+    /**
+     * Get a list of all users, deleted or not.
+     * 
+     * @param callback The asynch callback.
+     * @throws IllegalArgumentException
+     */
+    List<String> findAllUsers() throws IllegalArgumentException;
 
     /**
      * Get a list of all users.
@@ -79,14 +98,6 @@ public interface UsersService extends RemoteService {
      * @throws IllegalArgumentException
      */
     Boolean isLoggedIn() throws IllegalArgumentException;
-    
-    /**
-     * Get a list of all guests.
-     * 
-     * @return A list of all the users as a string array.
-     * @throws IllegalArgumentException
-     */
-    List<String> findNonDeletedUsers() throws IllegalArgumentException;
 
     /**
      * Checks to see if the current users is an admin.
@@ -94,5 +105,27 @@ public interface UsersService extends RemoteService {
      * @return true if admin.
      */
     boolean isAdmin();
+
+    /**
+     * Gets the information associated with the user with the specified username.
+     * 
+     * @param usermame The username.
+     * @return A list of zero or one that has a string[] with the information. {username, email, admin, deleted} 
+     */
+    List<String[]> getUserInfo(String usermame);
+
+    /**
+     * Update a user in the database.
+     * 
+     * @param userName The User's name to update.
+     * @param email The user's email.
+     * @param admin Admin state.
+     * @param deleted Deleted state.
+     * @return Result status. Success for successful.
+     */
+    String updateUser(String userName, String email, Boolean admin,
+            Boolean deleted);
+
+    List<edu.unlv.cs.whoseturn.domain.User> getAllUsers();
 
 }

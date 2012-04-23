@@ -1,19 +1,31 @@
 package edu.unlv.cs.whoseturn.domain;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Categories of Whose Turn. E.g. Driving, coffee, ice cream, etc.
  */
-@PersistenceCapable
-public class Category {
+//@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")
+public class Category implements IsSerializable {
 
+    /**
+     * Default constructor. Needed for Serializable.
+     */
+    public Category() {
+    }
+    
     /**
      * The primary key for category.
      */
@@ -49,7 +61,7 @@ public class Category {
 
     // TODO JAO What is the purpose of this? Need to add java doc.
     @Persistent
-    private Set<String> turns;
+    private HashSet<String> turns;
 
     // Getters and Setters.
     /**
@@ -152,7 +164,7 @@ public class Category {
      * 
      * @return The turns.
      */
-    public final Set<String> getTurns() {
+    public final HashSet<String> getTurns() {
         return turns;
     }
 
@@ -162,7 +174,7 @@ public class Category {
      * @param turns
      *            The turns.
      */
-    public final void setTurns(final Set<String> turns) {
+    public final void setTurns(final HashSet<String> turns) {
         this.turns = turns;
     }
 
