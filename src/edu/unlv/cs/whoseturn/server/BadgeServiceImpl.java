@@ -67,9 +67,48 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void TeamCheater(Turn turn) {
-		;
-	}
+		Set<String> turn_items = turn.getTurnItems();
+		Integer user_count = turn.getNumberOfUsers();
+		Integer selected_count = 0;
+		
+		// get the keys of the turn items
+		for (String turn_key : turn_items) {
+			Key turnItemKey = KeyFactory.stringToKey(turn_key);
+			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+			
+			if (turn_item.getSelected()){
+				selected_count++;
+			}
+		}
+			
+		// TeamCheater badge check: see if everyone in the turn was selected
+		if (selected_count == user_count){
+			// award the badge to everyone in the turn
+			for (String turn_key : turn_items) {
+				Key turnItemKey = KeyFactory.stringToKey(turn_key);
+				TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
+				
+				// get the key of the user who owns this turn item and then get the user
+				Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
+				User user = pm.getObjectById(User.class, ownerKey);
+				Set<String> badgeSet = user.getBadges();
+				
+				for (int i = 0; i < badgeSet.size(); i++) {
+					// get key for the BadgeAwarded entity and retrieve the object
+					Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
+					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
+					if (badge.getBadgeId().equals(1019)) {
+						badge.increaseBadgeCount();
+						break;
+					}
+				}
+			}
+		}
+		
+		pm.close();			
+	}
+	
 	@Override
 	public void CornerStone(Turn turn) {
 		Set<String> turn_items = turn.getTurnItems();
@@ -370,9 +409,9 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		Integer countTurns = user.getTurnItems().size();
 		Set<String> badgeSet = user.getBadges();
 		BadgeAwarded userSaintBadge = null;
-		boolean noLies = false;
+		boolean noLies = true;
 
-		if (countTurns >= 50) {
+		if (countTurns == 50) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
 				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
@@ -382,10 +421,10 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 					userSaintBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 				}
 				
-				// check if user does not have any liar badges
-				if (userBadge.getBadgeId().equals(1000)) {
-					if (userBadge.getCount().equals(0)){
-						noLies = true;
+				// check if user does not have any liar badges (Jackass or TeamCheater)
+				if (userBadge.getBadgeId().equals(1000) || userBadge.getBadgeId().equals(1019)) {
+					if (!userBadge.getCount().equals(0)){
+						noLies = false;
 					}
 				}
 			}
