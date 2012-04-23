@@ -10,6 +10,7 @@
 */obj/*
 *.suo
 gwt-unitCache/*
+war/WEB-INF/appengine-generated/*
 
 # Packages #
 ############

@@ -75,10 +75,7 @@ public class MobileCategoryScreenController extends HttpServlet {
         String selectedKeys = request.getParameter("selectedPersons");
         if (selectedKeys == null) {
         	selectedKeys =  "";
-        	dbg += "no selectedPersons post data<br/>\n";
         }
-        
-        dbg += "selectedKeys: " + selectedKeys + "<br/>\n";
         
         // Split comma separated values
         String[] selectedKeyStrings = selectedKeys.split(",\\s*");
@@ -95,16 +92,13 @@ public class MobileCategoryScreenController extends HttpServlet {
         	}
         	catch (JDOObjectNotFoundException e) {
         		// User manually mucked about with the URL, diregard
-        		dbg += "not selected: invalid key<br/>\n";
         		continue;
         	}
         	
         	if (!(personObject instanceof Fuser)) {
-            	dbg += "not selected: someone<br/>\n";
         		continue;
         	}
         	Fuser selectedUser = (Fuser)personObject;
-        	dbg += "selected: " + selectedUser.getKeyString() + "\n";
         	selectedUsers.add(selectedUser);
         }
         
@@ -142,7 +136,5 @@ public class MobileCategoryScreenController extends HttpServlet {
 		}
 		
 		request.setAttribute("persons", persons);
-		
-		request.setAttribute("dbg", dbg);
 	}
 }
