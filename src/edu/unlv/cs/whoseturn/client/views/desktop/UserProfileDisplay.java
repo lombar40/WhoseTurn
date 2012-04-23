@@ -1,9 +1,12 @@
 package edu.unlv.cs.whoseturn.client.views.desktop;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.unlv.cs.whoseturn.client.UsersService;
+import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
 import edu.unlv.cs.whoseturn.client.views.AbstractNavigationView;
 import edu.unlv.cs.whoseturn.client.views.NavigationView;
 import com.google.gwt.user.client.ui.Image;
@@ -12,9 +15,21 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 /**
  * Displays a User's profile.
  */
-public class UserDisplay extends AbstractNavigationView implements
+public class UserProfileDisplay extends AbstractNavigationView implements
         NavigationView {
 
+    /**
+     * The user service.
+     */
+    private final UsersServiceAsync usersService = GWT
+            .create(UsersService.class);
+    
+    /**
+     * The user name of a user we'll be displaying.
+     */
+    private String userName;
+
+    
     /**
      * @wbp.parser.entryPoint
      */
@@ -81,9 +96,10 @@ public class UserDisplay extends AbstractNavigationView implements
                 panel.add(socialite, 206, 274);
                 socialite.setSize("50px", "50px");
                 
-                Image image_8 = new Image("images/badges/CornerStone50x50.jpg");
-                panel.add(image_8, 206, 343);
-                image_8.setSize("50px", "50px");
+                Image submitter = new Image("images/badges/Submitter50x50.jpg");
+                submitter.setAltText("Submitter");
+                panel.add(submitter, 206, 343);
+                submitter.setSize("50px", "50px");
                 
                 Image image_9 = new Image("images/badges/CornerStone50x50.jpg");
                 panel.add(image_9, 206, 416);
@@ -153,4 +169,15 @@ public class UserDisplay extends AbstractNavigationView implements
 
         return panel;
     }
+    
+
+    /**
+     * Set the user name, so we know which record to edit.
+     * 
+     * @param userName The username.
+     */
+    public void setUsername(String userName) {
+        this.userName = userName;
+    }
+    
 }

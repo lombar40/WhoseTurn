@@ -59,12 +59,6 @@ public class User {
     private Integer penaltyCount;
 
     /**
-     * Owner key string.
-     */
-    @Persistent
-    private String ownerKeyString;
-
-    /**
      * Turn items.
      */
     @Persistent
@@ -260,21 +254,4 @@ public class User {
 
     }
 
-    /**
-     * Get the owner key string.
-     * 
-     * @return The owner key string.
-     */
-    public final String getOwnerKeyString() {
-        return ownerKeyString;
-    }
-
-    /**
-     * Set the owner key string.
-     * 
-     * @param ownerKeyString The owner key string.
-     */
-    public final void setOwnerKeyString(final String ownerKeyString) {
-        this.ownerKeyString = ownerKeyString;
-    }
 }
