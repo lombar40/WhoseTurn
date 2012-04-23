@@ -79,6 +79,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
+		
 		return message;
 	}
 
