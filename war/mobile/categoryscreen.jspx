@@ -16,12 +16,16 @@
 	<script type="text/javascript" language="javascript">
 		var selected_person_set = {};
 		
+		function personSetSelected(key, value) {
+			selected_person_set[key] = value;
+		}
+		
 		function togglePerson(object, key) {
 			
 			var isSelected = object.getAttribute("class") == "selected";
 			newAttribute = isSelected ? "unselected" : "selected";
 			object.setAttribute("class", newAttribute);
-			selected_person_set[key] = !isSelected;
+			personSetSelected(key, !isSelected);
 		}
 		
 		function postSelectedPersons() {
@@ -71,6 +75,9 @@
 				<c:choose>
 					<c:when test="${person.selected}">
 						<a href="" class="selected" onclick="togglePerson(this, '${person.keyString}'); return false;">${person.username}</a>
+						<script type="text/javascript" language="javascript">
+							personSetSelected("${person.keyString}", true);
+						</script>
 					</c:when>
 					<c:otherwise>
 						<a href="" class="unselected" onclick="togglePerson(this, '${person.keyString}'); return false;">${person.username}</a>

@@ -9,7 +9,7 @@
 */bin/*
 */obj/*
 *.suo
-*/gwt-unitCache/*
+gwt-unitCache/*
 
 # Packages #
 ############
