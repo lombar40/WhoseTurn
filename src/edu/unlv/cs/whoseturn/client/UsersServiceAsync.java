@@ -8,18 +8,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * Interface for the User Service, async version.
  */
 public interface UsersServiceAsync {
-
-    /**
-     * Used to add a guest to the database. Async version.
-     * 
-     * @param username
-     *            Username of the guest.
-     * @param callback the async callback.
-     * @throws IllegalArgumentException
-     */
-    void addGuest(String username, AsyncCallback<String> callback)
-            throws IllegalArgumentException;
-
     /**
      * Add a new user to the database. Async version.
      * 
@@ -34,24 +22,6 @@ public interface UsersServiceAsync {
      */
     void addNewUser(String username, String email, Boolean admin,
             AsyncCallback<String> callback) throws IllegalArgumentException;
-
-    /**
-     * Get a list of all guests. Async version.
-     * 
-     * @param callback The asynch callback.
-     * @throws IllegalArgumentException
-     */
-    void findAllGuests(AsyncCallback<List<String>> callback)
-            throws IllegalArgumentException;
-
-    /**
-     * Get a list of my guests. Async version.
-     * 
-     * @param callback The async callback.
-     * @throws IllegalArgumentException
-     */
-    void findMyGuests(AsyncCallback<List<String>> callback)
-            throws IllegalArgumentException;
 
     /**
      * Get a list of all users. Async version.
@@ -112,6 +82,22 @@ public interface UsersServiceAsync {
      * @throws IllegalArgumentException
      */
     void isLoggedIn(AsyncCallback<Boolean> callback)
+            throws IllegalArgumentException;
+    
+    /**
+     * Checks if the current users is an admin.
+     * 
+     * @param callback The callback.
+     */
+    void isAdmin(AsyncCallback<Boolean> callback);
+    
+    /**
+     * Get a list of all guests. Async version.
+     * 
+     * @param callback The asynch callback.
+     * @throws IllegalArgumentException
+     */
+    void findNonDeletedUsers(AsyncCallback<List<String>> callback)
             throws IllegalArgumentException;
 
 }
