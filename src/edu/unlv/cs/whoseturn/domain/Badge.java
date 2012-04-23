@@ -53,6 +53,10 @@ import javax.jdo.annotations.PrimaryKey;
  * 
  * 1017 | Elite | User has participated in 250 turns
  * 
+ * 1018 | WhoseTurnMaster | User has every badge except StormShadow and MythBusters
+ * 
+ * 1019 | TeamCheater | Everyone in the turn was selected.
+ * 
  * 1020 | StormShadow | User is Chris Jones
  * 
  * 1021 | MythBusters | User is Matthew Sowders

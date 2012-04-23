@@ -20,7 +20,7 @@ public interface BadgeService extends RemoteService {
 
 	/**
 	 * Used to award the TeamCheater badge. Checks to see if everybody in the turn was selected. Awards the Team
-	 * Cheater badge to the submitting user.
+	 * Cheater badge to everyone.
 	 * 
 	 * @param turn The turn to analyze to determine if someone gets the badge.
 	 * @throws IllegalArgumentException
