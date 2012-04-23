@@ -40,6 +40,12 @@ public class Turn {
      */
     @Persistent
     private Set<String> turnItems;
+    
+    /**
+     * Whether the turn is deleted or not
+     */
+    @Persistent
+    private Boolean deleted;
 
     // Getters and Setters.
     /**
@@ -131,5 +137,13 @@ public class Turn {
     public final Integer getNumberOfUsers() {
         return turnItems.size();
     }
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 
 }

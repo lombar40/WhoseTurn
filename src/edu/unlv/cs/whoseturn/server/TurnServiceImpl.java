@@ -2,13 +2,14 @@ package edu.unlv.cs.whoseturn.server;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -39,18 +40,8 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @param category
 	 * @return a String which will represent the selected driver of Whose Turn
 	 */
-	@SuppressWarnings("unchecked")
 	public String findDriver(List<String> usernames, String categoryName) {
 		edu.unlv.cs.whoseturn.domain.User driver;
-
-		/**
-		 * User auth service.
-		 */
-		UserService userService = UserServiceFactory.getUserService();
-		/**
-		 * Logged in user.
-		 */
-		User user = userService.getCurrentUser();
 
 		/**
 		 * Persistence manager
@@ -60,67 +51,101 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		/**
 		 * Add the logged in user's username to the list
 		 */
-
-		Query loggedUserQuery = pm.newQuery(
-				edu.unlv.cs.whoseturn.domain.User.class, "email = emailParam");
-		loggedUserQuery.declareParameters("String emailParam");
-		List<edu.unlv.cs.whoseturn.domain.User> loggedUserList = (List<edu.unlv.cs.whoseturn.domain.User>) loggedUserQuery
-				.execute(user.getEmail());
-		usernames.add(loggedUserList.get(0).getUsername());
+		usernames = addLoggedUser(usernames);
+		
+		/**
+		 * Get the user objects based off the usernames provided
+		 */
+		List<edu.unlv.cs.whoseturn.domain.User> userObjects = getUserObjects(usernames);
+		
+		/**
+		 * Get the category based off the category name provided
+		 */
+		Category category = getCategoryObject(categoryName);
 
 		/**
-		 * Get the user objects of the users in the username list
+		 * Get the strategy from the category
 		 */
-		Query userQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class,
-				"username == usernameParam");
-		userQuery.declareParameters("String usernameParam");
-
-		List<edu.unlv.cs.whoseturn.domain.User> userList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
-		List<edu.unlv.cs.whoseturn.domain.User> tempUserList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
-
-		for (int i = 0; i < usernames.size(); i++) {
-			tempUserList = (List<edu.unlv.cs.whoseturn.domain.User>) userQuery
-					.execute(usernames.get(i));
-			userList.add(tempUserList.get(0));
-		}
-
-		userQuery.closeAll();
-
-		/**
-		 * Get the category and the strategy of the category
-		 */
-		Query categoryQuery = pm.newQuery(Category.class,
-				"categoryName == categoryNameParam");
-		userQuery.declareParameters("String categoryNameParam");
-
-		List<Category> categoryList = (List<Category>) categoryQuery
-				.execute(categoryName);
-		Category category = categoryList.get(0);
 		String strategyKeyString = category.getStrategyKeyString();
-		Strategy strategy = (Strategy) pm.getObjectById(strategyKeyString);
+		Key strategyKey = KeyFactory.stringToKey(strategyKeyString);
+		Strategy strategy = (Strategy) pm.getObjectById(Strategy.class,
+				strategyKey);
+
+		/**
+		 * Close the persistence manager
+		 */
+		pm.close();
 
 		/**
 		 * Depending on the strategy from the category, execute the respective
 		 * strategy
 		 */
 		switch (strategy.getStrategyId()) {
-		case 0:
-			driver = leastRecentlyGone(userList, category);
-			break;
 		case 1:
-			driver = lowestRatio(userList, category);
+			driver = leastRecentlyGone(userObjects, category);
 			break;
 		case 2:
-			driver = chooseRandomUser(userList);
+			driver = lowestRatio(userObjects, category);
 			break;
-//		case 3:
-//			driver = lowestRatioWithPenalty(userList, category);
+		case 3:
+			driver = chooseRandomUser(userObjects);
+			break;
+		// case 4:
+		// driver = lowestRatioWithPenalty(userList, category);
 		default:
 			driver = new edu.unlv.cs.whoseturn.domain.User();
 			driver.setUsername("UnknownDriver");
 		}
 
-		return driver.getUsername();
+		pm = PMF.get().getPersistenceManager();
+		
+		Turn turn = new Turn();
+		TurnItem tempTurnItem;
+		List<edu.unlv.cs.whoseturn.domain.User> userList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+		edu.unlv.cs.whoseturn.domain.User tempUser;
+		String tempUserKeyString;
+		Key tempUserKey;
+		turn.setCategoryKeyString(category.getKeyString());
+		turn.setTurnDateTime(new Date());
+		turn.setTurnItems(new HashSet<String>());
+		if (usernames.size() == 1)
+			turn.setDeleted(true);
+		else
+			turn.setDeleted(false);
+		turn = pm.makePersistent(turn);
+
+		for (int i = 0; i < userObjects.size(); i++) {
+			tempTurnItem = new TurnItem();
+			tempTurnItem.setCategoryKeyString(category.getKeyString());
+			tempTurnItem.setDeleted(false);
+			tempTurnItem.setOwnerKeyString(userObjects.get(i).getKeyString());
+			if (driver.getUsername().equals(userObjects.get(i).getUsername()))
+				tempTurnItem.setSelected(true);
+			else
+				tempTurnItem.setSelected(false);
+			tempTurnItem.setTurnKeyString(turn.getKeyString());
+			tempTurnItem.setVote(0);
+			
+			if (usernames.size() == 1)
+				tempTurnItem.setDeleted(true);
+			else
+				tempTurnItem.setDeleted(false);
+			
+			tempTurnItem = pm.makePersistent(tempTurnItem);
+			turn.addTurnItem(tempTurnItem);
+			
+			// Add turn item to user
+			tempUser = new edu.unlv.cs.whoseturn.domain.User();
+			tempUserKeyString = userObjects.get(i).getKeyString();
+			tempUserKey = KeyFactory.stringToKey(tempUserKeyString);
+			tempUser = pm.getObjectById(edu.unlv.cs.whoseturn.domain.User.class, tempUserKey);
+			tempUser.addTurnItem(tempTurnItem);
+			userList.add(tempUser);
+		}
+		
+		pm.close();
+		
+		return turn.getKeyString();
 	}
 
 	/**
@@ -140,20 +165,23 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	public edu.unlv.cs.whoseturn.domain.User lowestRatio(
 			List<edu.unlv.cs.whoseturn.domain.User> users, Category category) {
 		List<Double> ratioList = new ArrayList<Double>();
-		Set<String> turnItemsKeyStrings;
-		List<TurnItem> turnItems = new ArrayList<TurnItem>();
+		List<String> turnItemsKeyStrings;
+		List<TurnItem> turnItems;
 		Double tempTurnCount;
 		Double tempSelectedCount;
+		String turnItemKeyString;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		for (int i = 0; i < users.size(); i++) {
+			turnItems = new ArrayList<TurnItem>();
 			tempTurnCount = 0.0;
 			tempSelectedCount = 0.0;
-			turnItemsKeyStrings = users.get(i).getTurnItems();
+			turnItemsKeyStrings = new ArrayList<String>(users.get(i).getTurnItems());
 
 			for (int j = 0; j < turnItemsKeyStrings.size(); j++) {
+				turnItemKeyString = turnItemsKeyStrings.get(j);
 				turnItems.add(pm.getObjectById(TurnItem.class, KeyFactory
-						.stringToKey(turnItemsKeyStrings.iterator().next())));
+						.stringToKey(turnItemKeyString)));
 			}
 
 			for (int k = 0; k < turnItems.size(); k++) {
@@ -164,7 +192,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 						tempSelectedCount++;
 				}
 			}
-			ratioList.add((Double) (tempSelectedCount / tempTurnCount));
+			ratioList.add(tempSelectedCount / tempTurnCount);
 		}
 
 		Integer index = 0;
@@ -186,11 +214,9 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	/**
 	 * Algorithm which chooses a user based explicitly on turnDateTime from
 	 * Turn.java, the user which has the oldest date will be selected to drive.
-	 * The Date objects will be compared using the predefined compareTo method,
-	 * which determines differences in milliseconds. Elementary comparisons
-	 * between a default currentTurnDate and a tempTurnDate, will be used to
-	 * determine which of the users has the earliest of Dates once the for loop
-	 * terminates
+	 * Elementary comparisons between a default currentTurnDate and a tempTurnDate,
+	 * will be used to determine which of the users has the earliest of Dates once
+	 * the for loop terminates
 	 * 
 	 * @param a
 	 *            list of users, as well as a category are passed into the
@@ -203,47 +229,58 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 */
 	public edu.unlv.cs.whoseturn.domain.User leastRecentlyGone(
 			List<edu.unlv.cs.whoseturn.domain.User> users, Category category) {
-		Set<String> turnItemsKeyStrings;
-		List<TurnItem> turnItems = new ArrayList<TurnItem>();
-		List<Date> dateList = new ArrayList<Date>();
-		Date tempTurnDate;
-		Date currentTurnDate;
-		Double tempTurnCount;
-		Double tempSelectedCount;
+		List<String> turnItemsKeyStrings;
+		List<TurnItem> turnItems;
+		List<Long> millisecondsList = new ArrayList<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Turn tempTurn;
+		Date today;
+		Long tempMilliSeconds;
 
 		for (int i = 0; i < users.size(); i++) {
-			tempTurnCount = 0.0;
-			tempSelectedCount = 0.0;
-			turnItemsKeyStrings = users.get(i).getTurnItems();
-
+			turnItemsKeyStrings = new ArrayList<String>(users.get(i).getTurnItems());
+			turnItems = new ArrayList<TurnItem>();
 			for (int j = 0; j < turnItemsKeyStrings.size(); j++) {
 				turnItems.add(pm.getObjectById(TurnItem.class, KeyFactory
-						.stringToKey(turnItemsKeyStrings.iterator().next())));
+						.stringToKey(turnItemsKeyStrings.get(j))));
 			}
+			
+			today = new Date();
+			tempMilliSeconds = 9223372036854775807L;
 			for (int k = 0; k < turnItems.size(); k++) {
-				tempTurn = pm.getObjectById(Turn.class, KeyFactory
-						.stringToKey(turnItems.get(k).getTurnKeyString()));
-				dateList.add(tempTurn.getTurnDateTime());
+				if (turnItems.get(k).getCategoryKeyString().equals(category.getKeyString()))
+				{
+					tempTurn = pm.getObjectById(Turn.class, KeyFactory
+							.stringToKey(turnItems.get(k).getTurnKeyString()));
+					if((today.getTime() - tempTurn.getTurnDateTime().getTime()) < tempMilliSeconds)
+						tempMilliSeconds = today.getTime() - tempTurn.getTurnDateTime().getTime();
+				}
 			}
-			pm.close();
-
+			if(!tempMilliSeconds.equals(9223372036854775807L))
+				millisecondsList.add(tempMilliSeconds);
+			else
+				millisecondsList.add(9223372036854775807L);
 		}
+
+		pm.close();
 
 		Integer index = 0;
-		Integer differenceOfDates;
-		Date tempCurrentDate = dateList.get(0);
+		Long tempCurrentMilliSeconds = millisecondsList.get(0);
+		Integer sameCounter = 0;
+		for (int i = 1; i < millisecondsList.size(); i++) {
+			tempMilliSeconds = millisecondsList.get(i);
 
-		for (int i = 1; i < dateList.size(); i++) {
-			tempTurnDate = dateList.get(i);
-			differenceOfDates = tempCurrentDate.compareTo(tempTurnDate);
-
-			if (differenceOfDates < 0 || differenceOfDates == 0) {
-				tempCurrentDate = tempTurnDate;
+			if (tempMilliSeconds > tempCurrentMilliSeconds) {
+				tempCurrentMilliSeconds = tempMilliSeconds;
 				index = i;
 			}
+			
+			if (tempMilliSeconds.equals(tempCurrentMilliSeconds))
+				sameCounter++;
 		}
+		
+		if (sameCounter.equals(millisecondsList.size()))
+			return chooseRandomUser(users);
 
 		return users.get(index);
 	}
@@ -265,5 +302,72 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		int randomIndex = generator.nextInt(users.size());
 
 		return users.get(randomIndex);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<edu.unlv.cs.whoseturn.domain.User> getUserObjects(
+			List<String> usernames) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		/**
+		 * Get the user objects of the users in the username list
+		 */
+		Query userQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class,
+				"username == usernameParam");
+		userQuery.declareParameters("String usernameParam");
+
+		List<edu.unlv.cs.whoseturn.domain.User> userList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+		List<edu.unlv.cs.whoseturn.domain.User> tempUserList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+
+		for (int i = 0; i < usernames.size(); i++) {
+			tempUserList = (List<edu.unlv.cs.whoseturn.domain.User>) userQuery
+					.execute(usernames.get(i));
+			userList.add(tempUserList.get(0));
+		}
+		userList.size();
+		pm.close();
+		return userList;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Category getCategoryObject(String categoryName) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		/**
+		 * Get the category and the strategy of the category
+		 */
+		Query categoryQuery = pm.newQuery(Category.class,
+				"name == categoryNameParam");
+		categoryQuery.declareParameters("String categoryNameParam");
+
+		List<Category> categoryList = (List<Category>) categoryQuery
+				.execute(categoryName);
+		Category category = categoryList.get(0);
+
+		pm.close();
+		return category;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> addLoggedUser(List<String> usernames) {
+		/**
+		 * User auth service.
+		 */
+		UserService userService = UserServiceFactory.getUserService();
+		/**
+		 * Logged in user.
+		 */
+		User user = userService.getCurrentUser();
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query loggedUserQuery = pm.newQuery(
+				edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");
+		loggedUserQuery.declareParameters("String emailParam");
+		List<edu.unlv.cs.whoseturn.domain.User> loggedUserList = (List<edu.unlv.cs.whoseturn.domain.User>) loggedUserQuery
+				.execute(user.getEmail());
+		usernames.add(loggedUserList.get(0).getUsername());
+		usernames.size();
+		pm.close();
+		return usernames;
 	}
 }

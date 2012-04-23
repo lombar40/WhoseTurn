@@ -37,6 +37,16 @@
     <url-pattern>/whoseturn/badge</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+    <servlet-name>turnServlet</servlet-name>
+    <servlet-class>edu.unlv.cs.whoseturn.server.TurnServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>turnServlet</servlet-name>
+    <url-pattern>/whoseturn/turn</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Whoseturn.html</welcome-file>

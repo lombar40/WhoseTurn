@@ -171,9 +171,9 @@ public interface BadgeServiceAsync {
 	/**
 	 * Used to calculate badges. This method initiates the calculation of all badges.
 	 * 
-	 * @param turn The turn to analyze.
+	 * @param turnKeyString The turn's keystring
 	 * @param callback The async callback.
 	 */
-	void calculateBadges(Turn turn, AsyncCallback<Void> callback);
+	void calculateBadges(String turnKeyString, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 }

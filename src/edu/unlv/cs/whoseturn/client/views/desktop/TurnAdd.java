@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.unlv.cs.whoseturn.client.BadgeService;
+import edu.unlv.cs.whoseturn.client.BadgeServiceAsync;
 import edu.unlv.cs.whoseturn.client.CategoryService;
 import edu.unlv.cs.whoseturn.client.CategoryServiceAsync;
 import edu.unlv.cs.whoseturn.client.TurnService;
@@ -39,6 +41,9 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 	
 	private final TurnServiceAsync turnService = GWT
 			.create(TurnService.class);
+	
+	private final BadgeServiceAsync badgeService = GWT
+			.create(BadgeService.class);
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -92,6 +97,9 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		
 		final Label lblNoCategoriesFound = new Label("No categories found");
 		turnAddPanel.add(lblNoCategoriesFound, 10, 73);
+		
+		final Label lblDriver = new Label("");
+		turnAddPanel.add(lblDriver, 95, 446);
 		lblNoCategoriesFound.setVisible(false);
 
 		categoryService.getAllCategories(new AsyncCallback<List<String>>() {
@@ -172,7 +180,18 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 					}
 
 					public void onSuccess(String result) {
+						lblDriver.setText(result);
+						usernameList.clear();
 						
+						badgeService.calculateBadges(result, new AsyncCallback<Void>() {
+							public void onFailure(Throwable caught) {
+								// TODO
+							}
+
+							public void onSuccess(Void result) {
+																
+							}
+						});
 					}
 				});
 			}

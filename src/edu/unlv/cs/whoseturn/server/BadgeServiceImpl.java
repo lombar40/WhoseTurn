@@ -26,14 +26,14 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 	 * Allows the class to be serialized.
 	 */
 	private static final long serialVersionUID = 3341571143301810951L;
-	
-	/**
-	 * Persistence Manager, used for CRUD with the db.
-	 */
-	PersistenceManager pm = PMF.get().getPersistenceManager();
 
 	@Override
 	public void Jackass(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 
 		// get the keys of the turn items
@@ -67,6 +67,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void TeamCheater(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 		Integer user_count = turn.getNumberOfUsers();
 		Integer selected_count = 0;
@@ -111,6 +116,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 	
 	@Override
 	public void CornerStone(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 
 		// get the keys of the turn items
@@ -160,6 +170,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void HumanSacrifice(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 
 		// get the keys of the turn items
@@ -210,6 +225,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void SixMinuteAbs(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 
 		// get the keys of the turn items
@@ -258,6 +278,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void CrappedOut(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 
 		// get the keys of the turn items
@@ -307,6 +332,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void SnowWhite(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 
 		// get the keys of the turn items
@@ -357,6 +387,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void FML(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> turn_items = turn.getTurnItems();
 
 		// get the keys of the turn items
@@ -406,6 +441,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void Saint(User user) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Integer countTurns = user.getTurnItems().size();
 		Set<String> badgeSet = user.getBadges();
 		BadgeAwarded userSaintBadge = null;
@@ -439,6 +479,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void Socialite(Turn turn) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Integer number_of_users = turn.getNumberOfUsers();
 
 		if (number_of_users > 10) {
@@ -470,6 +515,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void Rookie(User user){
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Integer number_of_turns = user.getTurnItems().size();
 		
 		if (number_of_turns == 10){
@@ -492,6 +542,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 	
 	@Override
 	public void Veteran(User user){
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Integer number_of_turns = user.getTurnItems().size();
 		
 		if (number_of_turns == 100){
@@ -514,6 +569,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 	
 	@Override
 	public void Elite(User user){
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Integer number_of_turns = user.getTurnItems().size();
 		
 		if (number_of_turns == 250){
@@ -536,6 +596,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 	
 	@Override
 	public void WhoseTurnMaster(User user){
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> badgeSet = user.getBadges();
 		BadgeAwarded masterBadge = null;
 		boolean hasEveryBadge = true;
@@ -566,6 +631,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void StormShadow(User user) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> badgeSet = user.getBadges();
 
 		if (user.getUsername().equals("ChrisJones")) {
@@ -586,6 +656,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@Override
 	public void MythBusters(User user) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		Set<String> badgeSet = user.getBadges();
 		if (user.getUsername().equals("MatthewSowders")) {
 			for (int i = 0; i < badgeSet.size(); i++) {
@@ -605,7 +680,14 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void calculateBadges(Turn turn) {
+	public void calculateBadges(String turnKeyString) {
+		/**
+		 * Persistence Manager, used for CRUD with the db.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Key turnKey = KeyFactory.stringToKey(turnKeyString);
+		Turn turn = pm.getObjectById(Turn.class, turnKey);
 		// Retrieve a list of all users in the database for badge calculation.
 		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
 		List<edu.unlv.cs.whoseturn.domain.User> userList;
