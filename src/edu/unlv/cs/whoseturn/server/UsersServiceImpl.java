@@ -85,7 +85,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
+        edu.unlv.cs.whoseturn.domain.Fuser user = new edu.unlv.cs.whoseturn.domain.Fuser();
         user.setAdmin(admin);
         user.setAvatarBlob(null);
         user.setDeleted(false);
@@ -118,15 +118,15 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	public List<String[]> findUsers()
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		javax.jdo.Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		javax.jdo.Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.Fuser.class);
 
 	    List<String[]> resultStringList = new ArrayList<String[]>();
-	    List<edu.unlv.cs.whoseturn.domain.User> results;
+	    List<edu.unlv.cs.whoseturn.domain.Fuser> results;
 	    
 	    try {
-	        results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+	        results = (List<edu.unlv.cs.whoseturn.domain.Fuser>) query.execute();
 	        if (!results.isEmpty()) {
-	            for (edu.unlv.cs.whoseturn.domain.User e : results) {
+	            for (edu.unlv.cs.whoseturn.domain.Fuser e : results) {
 	                resultStringList.add(new String[] {e.getUsername(), e.getEmail(), e.getAdmin().toString()});
 	            }
 	        } else {
@@ -143,7 +143,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Key k = KeyFactory.stringToKey(key);
-		edu.unlv.cs.whoseturn.domain.User user = pm.getObjectById(edu.unlv.cs.whoseturn.domain.User.class, k);
+		edu.unlv.cs.whoseturn.domain.Fuser user = pm.getObjectById(edu.unlv.cs.whoseturn.domain.Fuser.class, k);
 		
 		return "Username: "+user.getUsername()+"<br />Email: "+user.getEmail()+"<br />Admin: "+user.getAdmin().toString();
 	}

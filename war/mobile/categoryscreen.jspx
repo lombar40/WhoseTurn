@@ -14,10 +14,46 @@
 </head>
 <body>
 	<script type="text/javascript" language="javascript">
+		var selected_person_set = {};
+		
 		function togglePerson(object, key) {
 			
-			newAttribute = object.getAttribute("class") == "selected" ? "unselected" : "selected";
+			var isSelected = object.getAttribute("class") == "selected";
+			newAttribute = isSelected ? "unselected" : "selected";
 			object.setAttribute("class", newAttribute);
+			selected_person_set[key] = !isSelected;
+		}
+		
+		function postSelectedPersons() {
+			var docfrag = document.createDocumentFragment();
+			var form = document.createElement("form");
+			var input = document.createElement("input");
+			input.setAttribute("type", "hidden");
+			
+			var serialized = ""
+			for (var person in selected_person_set) {
+				if (!selected_person_set[person]) {
+					continue;
+				}
+				
+				var inner = document.createTextNode(person);
+				var br = document.createElement("br");
+				docfrag.appendChild(inner);
+				docfrag.appendChild(br);
+				
+				serialized += person + ",";
+			}
+			
+			input.setAttribute("method", "post");
+			input.setAttribute("action", "?keyString=" + ${currentCategory.keyString})
+			input.setAttribute("name", "selectedPersons");
+			input.setAttribute("value", serialized);
+			
+			form.appendChild(input);
+			docfrag.appendChild(form);
+			document.getElementById('divinsert').appendChild(docfrag);
+			
+			form.submit();
 		}
 	</script>
 	
@@ -32,14 +68,24 @@
 		<h2>Participant selection</h2>
 		<h3>
 			<c:forEach var="person" varStatus="personStatus" items="${persons}">
-				<a href="" class="unselected" onclick="togglePerson(this, '${person.keyString}'); return false;">${person.username}</a>
+				<c:choose>
+					<c:when test="${person.selected}">
+						<a href="" class="selected" onclick="togglePerson(this, '${person.keyString}'); return false;">${person.username}</a>
+					</c:when>
+					<c:otherwise>
+						<a href="" class="unselected" onclick="togglePerson(this, '${person.keyString}'); return false;">${person.username}</a>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
 		</h3>
+		
+		${dbg}
+		<div id="divinsert" />
 	</div>
 	
 	<div class="footer">
 		<br />
-		<a href="" class="button">Whose turn?</a>
+		<a href="" class="button" onclick="postSelectedPersons(); return false;">Whose turn?</a>
 	</div>
 	
 </body>

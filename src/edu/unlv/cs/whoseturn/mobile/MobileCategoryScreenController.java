@@ -2,9 +2,9 @@ package edu.unlv.cs.whoseturn.mobile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-import javax.jdo.Extent;
 import javax.jdo.PersistenceManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +17,9 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 import edu.unlv.cs.whoseturn.domain.Category;
+import edu.unlv.cs.whoseturn.domain.Fuser;
 import edu.unlv.cs.whoseturn.domain.PMF;
+import edu.unlv.cs.whoseturn.domain.UserSelection;
 
 @SuppressWarnings("serial")
 public class MobileCategoryScreenController extends HttpServlet {
@@ -41,16 +43,24 @@ public class MobileCategoryScreenController extends HttpServlet {
 	}
 	
 	private void doStuff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String dbg = "";
+		
 		PersistenceManager manager = PMF.get().getPersistenceManager();
 		
-		// Find which category
-		String key = request.getParameter("keyString");
+		// Find which category, ensure validity
+		String categoryKey = request.getParameter("keyString");
 		
-		Object keyStringObject = manager.getObjectById(Category.class, key);
-		if (!(keyStringObject instanceof Category)) {
+		if (categoryKey == null) {
+			response.getOutputStream().print("Error: invalid category");
 			return;
 		}
-		Category category = (Category)keyStringObject;
+		
+		Object categoryKeyStringObject = manager.getObjectById(Category.class, categoryKey);
+		if (!(categoryKeyStringObject instanceof Category)) {
+			response.getOutputStream().print("Error: invalid category");
+			return;
+		}
+		Category category = (Category)categoryKeyStringObject;
 		
 		request.setAttribute("currentCategory", category);
 		
@@ -59,26 +69,61 @@ public class MobileCategoryScreenController extends HttpServlet {
         User user = userService.getCurrentUser();
         
         request.setAttribute("currentUser", user);
+        
+        // Model who is currently selected
+        String selectedKeys = request.getParameter("selectedPersons");
+        if (selectedKeys == null) {
+        	selectedKeys =  "";
+        }
+        
+        dbg += "selectedKeys: " + selectedKeys + "\n";
+        
+        // Split comma separated values
+        String[] selectedKeyStrings = selectedKeys.split(",\\s*");
+        
+        // Find the currently selected users, add to model
+        List<Fuser> selectedUsers = new LinkedList<Fuser>();
+        for (String personKey : selectedKeyStrings) {
+        	if ((personKey == null) || (personKey.equals(""))) {
+        		continue;
+        	}
+        	Object personObject = manager.getObjectById(Fuser.class, personKey);
+        	
+        	if (!(personObject instanceof Fuser)) {
+            	dbg += "not selected: someone\n";
+        		continue;
+        	}
+        	Fuser selectedUser = (Fuser)personObject;
+        	dbg += "selected: " + selectedUser.getKeyString() + "\n";
+        	selectedUsers.add(selectedUser);
+        }
+        
+        request.setAttribute("selectedPersons", selectedUsers);
 		
         // List users
-        
-		List<edu.unlv.cs.whoseturn.domain.User> users = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+
+		List<UserSelection> persons = new ArrayList<UserSelection>();
+		List<Fuser> users = new ArrayList<Fuser>();
 //		
 //		Extent<Category> extent = manager.getExtent(Category.class, true);
 //		for (Category category : extent) {
 //			categories.add(category);
 //		}
 		
-		javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		javax.jdo.Query query = manager.newQuery(Fuser.class);
 		List<Object> results;
 		try {
 			results = (List<Object>)query.execute();
 			
 			for (Object result : results) {
-				if (result instanceof edu.unlv.cs.whoseturn.domain.User)
+				if (result instanceof Fuser)
 				{
-					edu.unlv.cs.whoseturn.domain.User person = (edu.unlv.cs.whoseturn.domain.User)result;
-					users.add(person);
+					Fuser domainUser = (Fuser)result;
+					users.add(domainUser);
+					
+					boolean selected = selectedUsers.contains(domainUser);
+					UserSelection userSelection = new UserSelection(domainUser, selected);
+					persons.add(userSelection);
 				}
 			}
 		} finally {
@@ -86,6 +131,8 @@ public class MobileCategoryScreenController extends HttpServlet {
 			manager.close();
 		}
 		
-		request.setAttribute("persons", users);
+		request.setAttribute("persons", persons);
+		
+		request.setAttribute("dbg", dbg);
 	}
 }

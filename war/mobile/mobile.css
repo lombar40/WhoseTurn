@@ -54,7 +54,7 @@ a.inlinebutton {
 	background-color: #2F5373;
 }
 
-a.button:active, a.inlinebutton:active, a.selected:active, a.inlinebutton:active {
+a.button:active, a.inlinebutton:active, a.selected:active, a.unselected:active {
 	color: #FBFFE0;
 	background-color: #169EE4;
 	border-color: #169EE4;
