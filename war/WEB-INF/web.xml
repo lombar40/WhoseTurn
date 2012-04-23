@@ -47,6 +47,24 @@
     <url-pattern>/whoseturn/turn</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+		<servlet-name>MobileLoggedin</servlet-name>
+		<servlet-class>edu.unlv.cs.whoseturn.mobile.MobileLoggedinController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MobileLoggedin</servlet-name>
+		<url-pattern>/mobile/index</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MobileCategoryScreenController</servlet-name>
+		<servlet-class>edu.unlv.cs.whoseturn.mobile.MobileCategoryScreenController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MobileCategoryScreenController</servlet-name>
+		<url-pattern>/mobile/category</url-pattern>
+	</servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Whoseturn.html</welcome-file>
