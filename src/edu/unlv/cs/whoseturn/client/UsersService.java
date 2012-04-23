@@ -2,11 +2,9 @@ package edu.unlv.cs.whoseturn.client;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import edu.unlv.cs.whoseturn.domain.User;
 
 /**
  * Interface for the User Service.
@@ -117,15 +115,14 @@ public interface UsersService extends RemoteService {
     /**
      * Update a user in the database.
      * 
+     * @param previousUsername The previous username.
+     * @param previousEmail The previous email.
      * @param userName The User's name to update.
      * @param email The user's email.
      * @param admin Admin state.
      * @param deleted Deleted state.
      * @return Result status. Success for successful.
      */
-    String updateUser(String userName, String email, Boolean admin,
+    String updateUser(String previousUsername, String previousEmail,  String userName, String email, Boolean admin,
             Boolean deleted);
-
-    List<edu.unlv.cs.whoseturn.domain.User> getAllUsers();
-
 }

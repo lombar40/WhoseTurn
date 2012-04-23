@@ -1,7 +1,7 @@
 package edu.unlv.cs.whoseturn.domain;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -72,13 +72,13 @@ public class User implements IsSerializable  {
      * Turn items.
      */
     @Persistent
-    private List<String> turnItems;
+    private Set<String> turnItems;
 
     /**
      * List of badges.
      */
     @Persistent
-    private List<String> badges;
+    private Set<String> badges;
 
     /**
      * Get key string.
@@ -189,7 +189,7 @@ public class User implements IsSerializable  {
         this.avatarBlob = avatarBlob;
     }
 
-    public final List<String> getTurnItems() {
+    public final Set<String> getTurnItems() {
         return turnItems;
     }
 
@@ -198,7 +198,7 @@ public class User implements IsSerializable  {
      * 
      * @return The badges.
      */
-    public final List<String> getBadges() {
+    public final Set<String> getBadges() {
         return badges;
     }
 
@@ -207,7 +207,7 @@ public class User implements IsSerializable  {
      * 
      * @param badges The badges.
      */
-    public final void setBadges(final List<String> badges) {
+    public final void setBadges(final Set<String> badges) {
         this.badges = badges;
     }
 
@@ -234,7 +234,7 @@ public class User implements IsSerializable  {
      * 
      * @param turnItems The turn items.
      */
-    public final void setTurnItems(final List<String> turnItems) {
+    public final void setTurnItems(final Set<String> turnItems) {
         this.turnItems = turnItems;
     }
 

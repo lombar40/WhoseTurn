@@ -1,7 +1,5 @@
 package edu.unlv.cs.whoseturn.domain;
 
-import java.io.Serializable;
-
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;

@@ -1,7 +1,6 @@
 package edu.unlv.cs.whoseturn.client.views.desktop;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 

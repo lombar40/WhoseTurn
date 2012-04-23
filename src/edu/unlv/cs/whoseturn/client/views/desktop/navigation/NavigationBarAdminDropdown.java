@@ -8,18 +8,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.client.views.desktop.AddGuest;
-import edu.unlv.cs.whoseturn.client.views.desktop.AdminPanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryList;
-import edu.unlv.cs.whoseturn.client.views.desktop.ListAllGuests;
-import edu.unlv.cs.whoseturn.client.views.desktop.ListMyGuests;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.Main;
-import edu.unlv.cs.whoseturn.client.views.desktop.UserDisplay;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
 
@@ -38,19 +33,6 @@ public class NavigationBarAdminDropdown implements View {
 		 */
 		FlowPanel navigationBar = new FlowPanel();
 		navigationBar.setSize("1000px", "200");
-		
-		/**
-		 * Links to admin pane.
-		 */
-		Button adminNavItem = new Button();
-		adminNavItem.setText("Admin Panel");
-		adminNavItem.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new AdminPanel()).asWidget());
-			}
-		});
-		navigationBar.add(adminNavItem);
 		
 		/**
 		 * Links to create category
@@ -105,19 +87,6 @@ public class NavigationBarAdminDropdown implements View {
 		navigationBar.add(mainNavItem);
 		
 		/**
-		 * Links to profile display. 
-		 */
-		Button profileDisplayNavItem = new Button();
-		profileDisplayNavItem.setText("Profile Display");
-		profileDisplayNavItem.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new UserDisplay()).asWidget());
-			}
-		});
-		navigationBar.add(profileDisplayNavItem);
-
-		/**
 		 * Links to profileManagement.
 		 */
 		Button editUserNavItem = new Button();
@@ -142,34 +111,6 @@ public class NavigationBarAdminDropdown implements View {
 			}
 		});
 		navigationBar.add(createUserNavItem);
-
-		// The following requires a UserId... so can't link from general navigation bar..
-//		/**
-//		 * Links to display user.
-//		 */
-//		Button displayUserNavItem = new Button();
-//		displayUserNavItem.setText("User Display");
-//		displayUserNavItem.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				RootPanel.get("overall").clear();
-//				RootPanel.get("overall").add((new UserDisplay()).asWidget());
-//			}
-//		});
-//		navigationBar.add(displayUserNavItem);
-
-		// The following requires a UserId... so can't link from general navigation bar..
-//		/**
-//		 * Links to edit user.
-//		 */
-//		Button editUserNavItem = new Button();
-//		editUserNavItem.setText("User Edit");
-//		editUserNavItem.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				RootPanel.get("overall").clear();
-//				RootPanel.get("overall").add((new UserEdit()).asWidget());
-//			}
-//		});
-//		navigationBar.add(editUserNavItem);
 
 		/**
 		 * Links to list users.
@@ -199,20 +140,6 @@ public class NavigationBarAdminDropdown implements View {
 		});
 		navigationBar.add(createTurnNavItem);
 
-		// The following requires a TurnId... so can't link from general navigation bar..
-//		/**
-//		 * Links to display Turns 
-//		 */
-//		Button displayTurnNavItem = new Button();
-//		displayTurnNavItem.setText("Turn Display");
-//		displayTurnNavItem.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				RootPanel.get("overall").clear();
-//				RootPanel.get("overall").add((new TurnDisplay()).asWidget());
-//			}
-//		});
-//		panel.add(displayTurnNavItem);
-
 		/**
 		 * Links to create Turn 
 		 */
@@ -226,33 +153,7 @@ public class NavigationBarAdminDropdown implements View {
 		});
 		navigationBar.add(listTurnNavItem);
 		
-		Button btnMyGuests = new Button("My Guests");
-		btnMyGuests.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new ListMyGuests()).asWidget());
-			}
-		});
-		navigationBar.add(btnMyGuests);
-		
-		Button btnAllGuests = new Button("All Guests");
-		btnAllGuests.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new ListAllGuests()).asWidget());
-			}
-		});
-		navigationBar.add(btnAllGuests);
-		
-		Button btnAddGuest = new Button("Add Guest");
-		btnAddGuest.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				RootPanel.get("overall").clear();
-				RootPanel.get("overall").add((new AddGuest()).asWidget());
-			}
-		});
-		navigationBar.add(btnAddGuest);
-		
+	
 		return navigationBar;
 	}
 }

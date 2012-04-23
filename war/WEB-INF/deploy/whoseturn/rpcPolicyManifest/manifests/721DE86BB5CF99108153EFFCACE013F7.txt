@@ -1,2 +1,0 @@
-serviceClass: edu.unlv.cs.whoseturn.client.CategoryService
-path: FD709AE48A2512EE540EF9DE4F28778D.gwt.rpc

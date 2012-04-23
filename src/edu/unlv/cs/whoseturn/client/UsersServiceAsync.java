@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import edu.unlv.cs.whoseturn.domain.User;
-
 /**
  * Interface for the User Service, async version.
  */
@@ -123,13 +121,13 @@ public interface UsersServiceAsync {
     /**
      * Update a user in the database.
      * 
+     * @param previousUsername Previous username.
+     * @param previousEmail Previous email.
      * @param userName The User's name to update.
      * @param email The user's email.
      * @param admin Admin state.
      * @param deleted Deleted state.
      */
-    void updateUser(String userName, String email, Boolean admin, Boolean deleted, AsyncCallback<String> callback);
-
-    void getAllUsers(AsyncCallback<List<edu.unlv.cs.whoseturn.domain.User>> callback);
+    void updateUser(String previousUsername, String previousEmail, String userName, String email, Boolean admin, Boolean deleted, AsyncCallback<String> callback);
 
 }
