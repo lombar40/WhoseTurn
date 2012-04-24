@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.UserSelection;
+import edu.unlv.cs.whoseturn.domain.User;
 
 @SuppressWarnings("serial")
 public class MobileCategoryScreenController extends HttpServlet {
@@ -53,29 +53,29 @@ public class MobileCategoryScreenController extends HttpServlet {
 		
 		// Model who is logged in
 		UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
+        com.google.appengine.api.users.User user = userService.getCurrentUser();
         
         request.setAttribute("currentUser", user);
         
         // Model who was selected
-        List<edu.unlv.cs.whoseturn.domain.User> selectedUsers = getSelectedUsers(request, manager);
+        List<User> selectedUsers = getSelectedUsers(request, manager);
         
         request.setAttribute("selectedPersons", selectedUsers);
 		
         // List users
 
 		List<UserSelection> persons = new ArrayList<UserSelection>();
-		List<edu.unlv.cs.whoseturn.domain.User> users = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+		List<User> users = new ArrayList<User>();
 		
-		javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		javax.jdo.Query query = manager.newQuery(User.class);
 		List<Object> results;
 		try {
 			results = (List<Object>)query.execute();
 			
 			for (Object result : results) {
-				if (result instanceof edu.unlv.cs.whoseturn.domain.User)
+				if (result instanceof User)
 				{
-					edu.unlv.cs.whoseturn.domain.User domainUser = (edu.unlv.cs.whoseturn.domain.User)result;
+					User domainUser = (User)result;
 					users.add(domainUser);
 					
 					boolean selected = selectedUsers.contains(domainUser);
@@ -113,7 +113,7 @@ public class MobileCategoryScreenController extends HttpServlet {
 		}
 	}
 
-	protected List<edu.unlv.cs.whoseturn.domain.User> getSelectedUsers(
+	protected List<User> getSelectedUsers(
 			HttpServletRequest request, PersistenceManager manager) {
 		// Model who is currently selected
         String selectedKeys = request.getParameter("selectedPersons");
@@ -125,24 +125,24 @@ public class MobileCategoryScreenController extends HttpServlet {
         String[] selectedKeyStrings = selectedKeys.split(",\\s*");
         
         // Find the currently selected users, add to model
-        List<edu.unlv.cs.whoseturn.domain.User> selectedUsers = new LinkedList<edu.unlv.cs.whoseturn.domain.User>();
+        List<User> selectedUsers = new LinkedList<User>();
         for (String personKey : selectedKeyStrings) {
         	if ((personKey == null) || (personKey.equals(""))) {
         		continue;
         	}
         	Object personObject;
         	try {
-            	personObject = manager.getObjectById(edu.unlv.cs.whoseturn.domain.User.class, personKey);
+            	personObject = manager.getObjectById(User.class, personKey);
         	}
         	catch (JDOObjectNotFoundException e) {
         		// User manually mucked about with the URL, diregard
         		continue;
         	}
         	
-        	if (!(personObject instanceof edu.unlv.cs.whoseturn.domain.User)) {
+        	if (!(personObject instanceof User)) {
         		continue;
         	}
-        	edu.unlv.cs.whoseturn.domain.User selectedUser = (edu.unlv.cs.whoseturn.domain.User)personObject;
+        	User selectedUser = (User)personObject;
         	selectedUsers.add(selectedUser);
         }
 		return selectedUsers;

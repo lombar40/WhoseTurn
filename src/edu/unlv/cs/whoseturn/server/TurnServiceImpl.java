@@ -12,7 +12,6 @@ import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -23,6 +22,7 @@ import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.Strategy;
 import edu.unlv.cs.whoseturn.domain.Turn;
 import edu.unlv.cs.whoseturn.domain.TurnItem;
+import edu.unlv.cs.whoseturn.domain.User;
 
 /**
  * Category Service which allows the client to get information from the server
@@ -39,11 +39,11 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @param category
 	 * @return
 	 */
-	public List<edu.unlv.cs.whoseturn.domain.User> findDriver(List<edu.unlv.cs.whoseturn.domain.User> users, Category category) {
+	public List<User> findDriver(List<User> users, Category category) {
 		List<String> usernames = new LinkedList<String>();
-		List<edu.unlv.cs.whoseturn.domain.User> usersSelected; // = new LinkedList<edu.unlv.cs.whoseturn.domain.User>();
+		List<User> usersSelected; // = new LinkedList<User>();
 		
-		for (edu.unlv.cs.whoseturn.domain.User user : users) {
+		for (User user : users) {
 			usernames.add(user.getUsername());
 		}
 		
@@ -65,7 +65,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @return a String which will represent the selected driver of Whose Turn
 	 */
 	public List<String> findDriver(List<String> usernames, String categoryName) {
-		edu.unlv.cs.whoseturn.domain.User driver;
+		User driver;
 
 		/**
 		 * Persistence manager
@@ -80,7 +80,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		/**
 		 * Get the user objects based off the usernames provided.
 		 */
-		List<edu.unlv.cs.whoseturn.domain.User> userObjects = getUserObjects(usernames);
+		List<User> userObjects = getUserObjects(usernames);
 		
 		/**
 		 * Get the category based off the category name provided.
@@ -120,7 +120,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 			break;
 		default:
 			// TODO Error message if an invalid strategy ID was found
-			driver = new edu.unlv.cs.whoseturn.domain.User();
+			driver = new User();
 			driver.setUsername("UnknownDriver");
 		}
 
@@ -134,8 +134,8 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		 */
 		Turn turn = new Turn();									// The turn object for this turn
 		TurnItem tempTurnItem;									// Temporary turnitem to be used for persistence for each user
-		List<edu.unlv.cs.whoseturn.domain.User> userList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();	// The list of the user objects from the database for modification
-		edu.unlv.cs.whoseturn.domain.User tempUser;				// Temporary user to calculate a turn item for
+		List<User> userList = new ArrayList<User>();	// The list of the user objects from the database for modification
+		User tempUser;				// Temporary user to calculate a turn item for
 		String tempUserKeyString;								// Keystring for the user to be used for turnitem addition
 		Key tempUserKey;										// Key of the user to be usd for turnitem addition
 		turn.setCategoryKeyString(category.getKeyString());		// Sets the turn's category
@@ -207,10 +207,10 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 			 * Users need be retrieved again to allow the persistance 
 			 * manager to keep track of the modification to the new objects.
 			 */
-			tempUser = new edu.unlv.cs.whoseturn.domain.User();									// Creates a temporary user
+			tempUser = new User();									// Creates a temporary user
 			tempUserKeyString = userObjects.get(i).getKeyString();								// Gets the user's keystring out of the userObject list
 			tempUserKey = KeyFactory.stringToKey(tempUserKeyString);							// Generate and store the key from the keystring
-			tempUser = pm.getObjectById(edu.unlv.cs.whoseturn.domain.User.class, tempUserKey);	// Get the user from the database
+			tempUser = pm.getObjectById(User.class, tempUserKey);	// Get the user from the database
 			tempUser.addTurnItem(tempTurnItem);													// Add the generated turnitem to the user's list
 			userList.add(tempUser);																// Store the user into a list for update
 		}
@@ -242,8 +242,8 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @return User, which then will be used to access the a string
 	 *         representing the user name
 	 */
-	public edu.unlv.cs.whoseturn.domain.User lowestRatio(
-			List<edu.unlv.cs.whoseturn.domain.User> users, Category category) {
+	public User lowestRatio(
+			List<User> users, Category category) {
 		
 		List<Double> ratioList = new ArrayList<Double>();	// Ratio list to store the ratio of the users in the turn
 		List<String> turnItemsKeyStrings;					// Temporary storage of a user's turnitems keystrings
@@ -366,8 +366,8 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @return a User, which then will be used to access the a string
 	 *         representing the user name
 	 */
-	public edu.unlv.cs.whoseturn.domain.User leastRecentlyGone(
-			List<edu.unlv.cs.whoseturn.domain.User> users, Category category) {
+	public User leastRecentlyGone(
+			List<User> users, Category category) {
 		List<String> turnItemsKeyStrings;							// Temporary storage of a user's turnitems keystrings
 		List<TurnItem> turnItems;									// Temporary storage of a user's turnitem objects
 		List<Long> millisecondsList = new ArrayList<Long>();		// Storage of the milliseconds of the difference between now and the user's last turn
@@ -487,8 +487,8 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @return a User at the arbitrarily generated index, which then will be
 	 *         used to access a string representing the user name
 	 */
-	public edu.unlv.cs.whoseturn.domain.User chooseRandomUser(
-			List<edu.unlv.cs.whoseturn.domain.User> users) {
+	public User chooseRandomUser(
+			List<User> users) {
 		
 		Random generator = new Random();					// Creates a new random generator
 		int randomIndex = generator.nextInt(users.size());	// Gets a random index value with a max of the size of the users
@@ -500,7 +500,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<edu.unlv.cs.whoseturn.domain.User> getUserObjects(
+	public List<User> getUserObjects(
 			List<String> usernames) {
 		
 		/**
@@ -511,15 +511,15 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		/**
 		 * Get the user objects of the users in the username list
 		 */
-		Query userQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class,
+		Query userQuery = pm.newQuery(User.class,
 				"username == usernameParam");
 		userQuery.declareParameters("String usernameParam");
 
-		List<edu.unlv.cs.whoseturn.domain.User> userList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
-		List<edu.unlv.cs.whoseturn.domain.User> tempUserList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+		List<User> userList = new ArrayList<User>();
+		List<User> tempUserList = new ArrayList<User>();
 
 		for (int i = 0; i < usernames.size(); i++) {
-			tempUserList = (List<edu.unlv.cs.whoseturn.domain.User>) userQuery
+			tempUserList = (List<User>) userQuery
 					.execute(usernames.get(i));
 			userList.add(tempUserList.get(0));
 		}
@@ -581,7 +581,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		/**
 		 * Logged in user.
 		 */
-		User user = userService.getCurrentUser();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
 
 		/**
 		 * Persistence manager
@@ -592,11 +592,11 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		 * Finds the user's username who is logged in based off their OpenID email.
 		 */
 		Query loggedUserQuery = pm.newQuery(										// Generates a query for users whose email is emailParam
-				edu.unlv.cs.whoseturn.domain.User.class, "email == emailParam");
+				User.class, "email == emailParam");
 		loggedUserQuery.declareParameters("String emailParam");						// Adds the paramter to the query
 		
 		// Get a list of users who meet the query. (Should only be one)
-		List<edu.unlv.cs.whoseturn.domain.User> loggedUserList = (List<edu.unlv.cs.whoseturn.domain.User>) loggedUserQuery
+		List<User> loggedUserList = (List<User>) loggedUserQuery
 				.execute(user.getEmail());
 		usernames.add(loggedUserList.get(0).getUsername());		// Add the user to the list
 		usernames.size();										// Object Manager bug fix
