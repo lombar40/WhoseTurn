@@ -6,6 +6,9 @@
 *.exe
 *.o
 *.so
+*/bin/*
+*/obj/*
+*.suo
 
 # Packages #
 ############
@@ -41,6 +44,6 @@ war/WEB-INF/appengine-generated/*
 war/WEB-INF/classes/*
 war/WEB-INF/deploy/*
 *.gwt.rpc
-*.cache.html
 *.cache.png
+*.cache.html
 *.nocache.js
