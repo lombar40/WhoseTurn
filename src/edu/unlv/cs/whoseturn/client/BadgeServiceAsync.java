@@ -2,9 +2,6 @@ package edu.unlv.cs.whoseturn.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import edu.unlv.cs.whoseturn.domain.Turn;
-import edu.unlv.cs.whoseturn.domain.User;
-
 public interface BadgeServiceAsync {
 
 	/**

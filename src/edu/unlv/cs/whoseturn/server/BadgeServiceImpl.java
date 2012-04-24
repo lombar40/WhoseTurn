@@ -1,5 +1,6 @@
 package edu.unlv.cs.whoseturn.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -801,7 +802,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
 		Set<String> badgeSet = user.getBadges();
 
-		if (user.getUsername().equals("ChrisJones")) {
+		if (user.getUsername().equals("Chris Jones")) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object.
 				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
@@ -834,7 +835,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		Set<String> badgeSet = user.getBadges();
-		if (user.getUsername().equals("MatthewSowders")) {
+		if (user.getUsername().equals("Matthew Sowders")) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
 				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
@@ -865,15 +866,16 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		Turn turn = pm.getObjectById(Turn.class, turnKey);
 		// Retrieve a list of all users in the database for badge calculation.
 		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
-		List<edu.unlv.cs.whoseturn.domain.User> userList;
+		List<edu.unlv.cs.whoseturn.domain.User> userQueryList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+		List<edu.unlv.cs.whoseturn.domain.User> userList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
 
-		try {
-			userList = (List<edu.unlv.cs.whoseturn.domain.User>) query
-					.execute();
-		} finally {
-			query.closeAll();
-			pm.close();
+		userQueryList = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+		for (User user : userQueryList) {
+			userList.add(user);
 		}
+
+		query.closeAll();
+		pm.close();
 
 		// Initiate badge calculation based on the turn submitted.
 		Jackass(turn);

@@ -57,9 +57,9 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * 
  * 1017 | Elite | User has participated in 250 turns
  * 
- * 1018 | WhoseTurnMaster | User has every badge except StormShadow and MythBusters
+ * 1018 | Whose Turn Master | User has every badge except StormShadow and MythBusters
  * 
- * 1019 | TeamCheater | Everyone in the turn was selected.
+ * 1019 | Team Cheater | Everyone in a turn was selected.
  * 
  * 1020 | StormShadow | User is Chris Jones
  * 

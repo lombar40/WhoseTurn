@@ -173,16 +173,17 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 				System.out.print("\nTotal count: ");
 				System.out.println(count);
 				
-				turnService.findDriver(usernameList, comboBox.getValue(comboBox.getSelectedIndex()), new AsyncCallback<String>() {
+				turnService.findDriver(usernameList, comboBox.getValue(comboBox.getSelectedIndex()), new AsyncCallback<List<String>>() {
 					public void onFailure(Throwable caught) {
 						// TODO
 					}
 
-					public void onSuccess(String result) {
-						lblDriver.setText(result);
+					public void onSuccess(List<String> result) {
+						lblDriver.setText(result.get(0));
+						btnFindDriver.setEnabled(false);
 						usernameList.clear();
 						
-						badgeService.calculateBadges(result, new AsyncCallback<Void>() {
+						badgeService.calculateBadges(result.get(1), new AsyncCallback<Void>() {
 							public void onFailure(Throwable caught) {
 								// TODO
 							}

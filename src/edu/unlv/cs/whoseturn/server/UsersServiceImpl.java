@@ -16,13 +16,17 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.domain.Badge;
 import edu.unlv.cs.whoseturn.domain.BadgeAwarded;
+import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.Strategy;
+import edu.unlv.cs.whoseturn.domain.Turn;
+import edu.unlv.cs.whoseturn.domain.TurnItem;
 import edu.unlv.cs.whoseturn.shared.EntryVerifier;
 
 /**
  * User service that allows the client to CRUD information about users.
  */
+@SuppressWarnings("serial")
 public class UsersServiceImpl extends RemoteServiceServlet implements
         UsersService  {
 
@@ -57,6 +61,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
          * User auth service.
          */
         UserService userService = UserServiceFactory.getUserService();
+        
         /**
          * Logged in user.
          */
@@ -373,7 +378,8 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         return resultStringList;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public final List<String> findAllUsers() {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
@@ -404,63 +410,259 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
          * The persistence manager.
          */
         PersistenceManager pm = PMF.get().getPersistenceManager();
-
+        
+        // Wipe the database
+        Query BadgeWipeQuery = pm.newQuery(Badge.class);
+        List <Badge> BadgeWipeList = (List<Badge>)BadgeWipeQuery.execute();
+        pm.deletePersistentAll(BadgeWipeList);
+        
+        Query BadgeAwardedWipeQuery = pm.newQuery(BadgeAwarded.class);
+        List <BadgeAwarded> BadgeAwardedWipeList = (List<BadgeAwarded>)BadgeAwardedWipeQuery.execute();
+        pm.deletePersistentAll(BadgeAwardedWipeList);
+        
+        Query CategoryWipeQuery = pm.newQuery(Category.class);
+        List <Category> CategoryWipeList = (List<Category>)CategoryWipeQuery.execute();
+        pm.deletePersistentAll(CategoryWipeList);
+        
+        Query StrategyWipeQuery = pm.newQuery(Strategy.class);
+        List <Strategy> StrategyWipeList = (List<Strategy>)StrategyWipeQuery.execute();
+        pm.deletePersistentAll(StrategyWipeList);
+        
+        Query TurnWipeQuery = pm.newQuery(Turn.class);
+        List <Turn> TurnWipeList = (List<Turn>)TurnWipeQuery.execute();
+        pm.deletePersistentAll(TurnWipeList);
+        
+        Query TurnItemWipeQuery = pm.newQuery(TurnItem.class);
+        List <TurnItem> TurnItemWipeList = (List<TurnItem>)TurnItemWipeQuery.execute();
+        pm.deletePersistentAll(TurnItemWipeList);
+        
+        Query UserWipeQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+        List <edu.unlv.cs.whoseturn.domain.User> UserWipeList = (List<edu.unlv.cs.whoseturn.domain.User>)UserWipeQuery.execute();
+        pm.deletePersistentAll(UserWipeList);
+        
         // Create badges
+        
+        List<Badge> badgeList = new ArrayList<Badge>();
+        
         Badge badge = new Badge();
-        badge.setBadgeCriteria("Test badge 1");
-        badge.setBadgeId(1);
-        badge.setBadgeName("Test1");
+        badge.setBadgeCriteria("User submitted a turn with only himself.");
+        badge.setBadgeId(1000);
+        badge.setBadgeName("Jackass");
         badge.setDeleted(false);
-        pm.makePersistent(badge);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
 
         badge = new Badge();
-        badge.setBadgeCriteria("Test badge 2");
-        badge.setBadgeId(2);
-        badge.setBadgeName("Test2");
+        badge.setBadgeCriteria("Selected out of group of 4.");
+        badge.setBadgeId(1001);
+        badge.setBadgeName("Corner Stone");
         badge.setDeleted(false);
-        pm.makePersistent(badge);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
 
         badge = new Badge();
-        badge.setBadgeCriteria("Test badge 3");
-        badge.setBadgeId(3);
-        badge.setBadgeName("Test3");
+        badge.setBadgeCriteria("Not selected out of a group of 4.");
+        badge.setBadgeId(1002);
+        badge.setBadgeName("Don't Cross The Streams.");
         badge.setDeleted(false);
-        pm.makePersistent(badge);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Selected out of a group of 5.");
+        badge.setBadgeId(1003);
+        badge.setBadgeName("Human Sacrifice");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
 
-        // Create strategies
+        badge = new Badge();
+        badge.setBadgeCriteria("Not selected out of a group of 5.");
+        badge.setBadgeId(1004);
+        badge.setBadgeName("Not The Thumb!");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Selected out of a group of 6.");
+        badge.setBadgeId(1005);
+        badge.setBadgeName("Six Minute Abs");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Not selected out of a group of 6.");
+        badge.setBadgeId(1006);
+        badge.setBadgeName("Pick Up Sticks");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Selected out of a group of 7.");
+        badge.setBadgeId(1007);
+        badge.setBadgeName("Crapped Out");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Not selected out of a group of 7.");
+        badge.setBadgeId(1008);
+        badge.setBadgeName("Lucky No. 7");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Selected out of a group of 8.");
+        badge.setBadgeId(1009);
+        badge.setBadgeName("Snow White");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Not selected out of a group of 8.");
+        badge.setBadgeId(1010);
+        badge.setBadgeName("Dwarf");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Selected out of a group of more than 8.");
+        badge.setBadgeId(1011);
+        badge.setBadgeName("FML");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Not selected out of a group of more than 8.");
+        badge.setBadgeId(1012);
+        badge.setBadgeName("Statisitcally Speaking");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User has no lies for 50 turns.");
+        badge.setBadgeId(1013);
+        badge.setBadgeName("Saint");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User is part of a turn with more than 10 people.");
+        badge.setBadgeId(1014);
+        badge.setBadgeName("Socialite");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User has participated in 10 turns.");
+        badge.setBadgeId(1015);
+        badge.setBadgeName("Rookie");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User has participated in 100 turns.");
+        badge.setBadgeId(1016);
+        badge.setBadgeName("Veteran");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User has participated in 250 turns.");
+        badge.setBadgeId(1017);
+        badge.setBadgeName("Elite");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User has every badge.");
+        badge.setBadgeId(1018);
+        badge.setBadgeName("Whose Turn Master");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("Everyone in a turn was selected.");
+        badge.setBadgeId(1019);
+        badge.setBadgeName("Team Cheater");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User is Chris Jones.");
+        badge.setBadgeId(1020);
+        badge.setBadgeName("StormShadow");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+        
+        badge = new Badge();
+        badge.setBadgeCriteria("User is Matthew Sowders");
+        badge.setBadgeId(1021);
+        badge.setBadgeName("MythBusters");
+        badge.setDeleted(false);
+        badge = pm.makePersistent(badge);
+        badgeList.add(badge);
+
+        // Create strategies & categories
         Strategy strategy = new Strategy();
         strategy.setDeleted(false);
         strategy.setStrategyName("Least Recently Gone");
         strategy.setStrategyId(1);
-        pm.makePersistent(strategy);
+        strategy = pm.makePersistent(strategy);
+        
+        Category category = new Category();
+        category.setDeleted(false);
+        category.setName("BeerLRG");
+        category.setStrategyKeyString(strategy.getKeyString());
+        category.setTimeBoundaryInHours(12);
+        category.setTurns(new HashSet<String>());
+        category = pm.makePersistent(category);
 
         strategy = new Strategy();
         strategy.setDeleted(false);
         strategy.setStrategyName("Lowest Ratio");
         strategy.setStrategyId(2);
-        pm.makePersistent(strategy);
+        strategy = pm.makePersistent(strategy);
 
-        strategy = new Strategy();
-        strategy.setDeleted(false);
-        strategy.setStrategyName("Lowest Ratio With Penalty");
-        strategy.setStrategyId(3);
-        pm.makePersistent(strategy);
+        category = new Category();
+        category.setDeleted(false);
+        category.setName("ChipsLR");
+        category.setStrategyKeyString(strategy.getKeyString());
+        category.setTimeBoundaryInHours(12);
+        category.setTurns(new HashSet<String>());
+        category = pm.makePersistent(category);
 
         strategy = new Strategy();
         strategy.setDeleted(false);
         strategy.setStrategyName("Completely Random");
-        strategy.setStrategyId(4);
-        pm.makePersistent(strategy);
+        strategy.setStrategyId(3);
+        strategy = pm.makePersistent(strategy);
+        
+        category = new Category();
+        category.setDeleted(false);
+        category.setName("DriveCR");
+        category.setStrategyKeyString(strategy.getKeyString());
+        category.setTimeBoundaryInHours(12);
+        category.setTurns(new HashSet<String>());
+        category = pm.makePersistent(category);
 
-        // Create test users
-        // TODO - JAO Why are we sleeping here? Is this a hack for the Async
-        // stuff?
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
         // Creates a new user object to add
         edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
 
@@ -469,33 +671,17 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setAvatarBlob(null);
         user.setDeleted(false);
         user.setEmail("lombar40@unlv.nevada.edu");
-        user.setUsername("ryan");
+        user.setUsername("Ryan Lombardo");
         user.setPenaltyCount(0);
         user.setBadges(new HashSet<String>());
 
-        /**
-         * Creation of the user's default badges.
-         */
-        Query query = pm.newQuery(Badge.class); // Query the database for all
-                                                // badge types
-        /**
-         * Results List.
-         */
-        List<Badge> results;
-
-        /**
-         * temporary badgeAwarded to be used for the user.
-         */
         BadgeAwarded tempBadgeAwarded;
 
-        // Execute the query and set the results
-        results = (List<Badge>) query.execute();
-
         // Make sure badges were found
-        if (!results.isEmpty()) {
+        if (!badgeList.isEmpty()) {
             // Loop through all the badge types and create a BadgeAwarded for
             // this user with count set to 0
-            for (Badge e : results) {
+            for (Badge e : badgeList) {
                 tempBadgeAwarded = new BadgeAwarded();
                 tempBadgeAwarded.setBadgeId(e.getBadgeId());
                 tempBadgeAwarded.setCount(0);
@@ -506,7 +692,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         }
 
         pm.makePersistent(user);
-        query.closeAll();
 
         user = new edu.unlv.cs.whoseturn.domain.User();
 
@@ -515,22 +700,15 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         user.setAvatarBlob(null);
         user.setDeleted(false);
         user.setEmail("test@example.com");
-        user.setUsername("test");
+        user.setUsername("Test User");
         user.setPenaltyCount(0);
         user.setBadges(new HashSet<String>());
 
-        // Creation of the user's default badges
-        query = pm.newQuery(Badge.class); // Query the database for all badge
-                                          // types
-
-        // Execute the query and set the results
-        results = (List<Badge>) query.execute();
-
         // Make sure badges were found
-        if (!results.isEmpty()) {
+        if (!badgeList.isEmpty()) {
             // Loop through all the badge types and create a BadgeAwarded for
             // this user with count set to 0
-            for (Badge e : results) {
+            for (Badge e : badgeList) {
                 tempBadgeAwarded = new BadgeAwarded();
                 tempBadgeAwarded.setBadgeId(e.getBadgeId());
                 tempBadgeAwarded.setCount(0);
@@ -542,7 +720,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 
         pm.makePersistent(user);
 
-        query.closeAll();
         pm.close();
     }
 

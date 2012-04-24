@@ -14,6 +14,7 @@ import edu.unlv.cs.whoseturn.client.CategoryService;
 import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.Strategy;
+import edu.unlv.cs.whoseturn.shared.EntryVerifier;
 
 /**
  * Category Service which allows the client to get information from the server
@@ -35,30 +36,59 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
         pm.makePersistent(category);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public final String addCategory(final String categoryName,
             final String strategy, final Integer timeBoundary) {
+		
+		/**
+		 * Persistence Manager
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		/**
+		 * Get the strategy keystring based off the supplied name
+		 */
+		Query q = pm.newQuery(Category.class, "name == n");
+		q.declareParameters("java.lang.String n");
 
-        String message = "TODO"; // EntryVerifier.isCategoryValid(categoryName);
-        String strategyKeyString = "TODO"; // Get keystring refering to the
-                                           // supplied strategy
+		List<Strategy> strategyObjects = (List<Strategy>) q.execute(categoryName);
+		/**
+		 * The error message to display when an invalid category is submitted (or success if valid)
+		 */
+		
+		categoryName.trim(); // Get rid of any whitespace before and after the name
+		String message;
 
-        if (message != "Valid") {
-            return message;
-        }
+		// A Valid categoryName will return "Valid"
+		// An invalid categoryName will return "Category must be more (less) than 2 (40) characters long
+		// A duplicate categoryName will return "Category already exists"
+		message = EntryVerifier.isCategoryValid(categoryName);
+		
+		if (message != "Valid") {
+			return message;
+		}		
+		
+		// A Valid timeBoundary will return "Valid"
+		// An invalid timeBoundary will return "A time boundary must be greater (less) than 1 (48) hour(s)
+		message = EntryVerifier.isTimeValid(timeBoundary);
+		
+		if (message != "Valid") {
+			return message;
+		}
 
-        PersistenceManager pm = PMF.get().getPersistenceManager();
-        Category category = new Category();
-        category.setName(categoryName);
-        category.setTimeBoundaryInHours(timeBoundary);
-        category.setStrategyKeyString(strategyKeyString);
-        try {
-            pm.makePersistent(category);
-            message = "Success";
-        } finally {
-            pm.close();
-        }
-        return message;
+		Category category = new Category();
+		category.setName(categoryName);
+		category.setTimeBoundaryInHours(timeBoundary);
+		category.setStrategyKeyString(strategyObjects.get(0).getKeyString());
+		try {
+			pm.makePersistent(category);
+			message = "Success";
+		} finally {
+			pm.close();
+		}
+		
+		return message;
     }
 
     @Override
