@@ -11,6 +11,7 @@
 *.suo
 gwt-unitCache/*
 war/WEB-INF/appengine-generated/*
+.gwt/*
 
 # Packages #
 ############
