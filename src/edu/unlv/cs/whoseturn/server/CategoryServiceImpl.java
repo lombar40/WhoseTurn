@@ -49,10 +49,10 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		/**
 		 * Get the strategy keystring based off the supplied name
 		 */
-		Query q = pm.newQuery(Category.class, "name == n");
-		q.declareParameters("java.lang.String n");
+		Query q = pm.newQuery(Strategy.class, "strategyName == strategyNameParam");
+		q.declareParameters("String strategyNameParam");
 
-		List<Strategy> strategyObjects = (List<Strategy>) q.execute(categoryName);
+		List<Strategy> strategyObjects = (List<Strategy>) q.execute(strategy);
 		/**
 		 * The error message to display when an invalid category is submitted (or success if valid)
 		 */
@@ -80,6 +80,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements
 		Category category = new Category();
 		category.setName(categoryName);
 		category.setTimeBoundaryInHours(timeBoundary);
+		category.setDeleted(false);
 		category.setStrategyKeyString(strategyObjects.get(0).getKeyString());
 		try {
 			pm.makePersistent(category);

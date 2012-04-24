@@ -1,6 +1,5 @@
 package edu.unlv.cs.whoseturn.domain;
 
-import java.util.HashSet;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -55,10 +54,6 @@ public class Category implements IsSerializable {
      */
     @Persistent
     private Boolean deleted;
-
-    // TODO JAO What is the purpose of this? Need to add java doc.
-    @Persistent
-    private HashSet<String> turns;
 
     // Getters and Setters.
     /**
@@ -154,34 +149,5 @@ public class Category implements IsSerializable {
      */
     public final void setDeleted(final Boolean deleted) {
         this.deleted = deleted;
-    }
-
-    /**
-     * Gets the turns.
-     * 
-     * @return The turns.
-     */
-    public final HashSet<String> getTurns() {
-        return turns;
-    }
-
-    /**
-     * Sets the turns.
-     * 
-     * @param turns
-     *            The turns.
-     */
-    public final void setTurns(final HashSet<String> turns) {
-        this.turns = turns;
-    }
-
-    /**
-     * Adds a turn.
-     * 
-     * @param turn
-     *            The turn to add.
-     */
-    public final void addTurn(final Turn turn) {
-        turns.add(turn.getKeyString());
     }
 }

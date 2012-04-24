@@ -632,7 +632,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         category.setName("BeerLRG");
         category.setStrategyKeyString(strategy.getKeyString());
         category.setTimeBoundaryInHours(12);
-        category.setTurns(new HashSet<String>());
         category = pm.makePersistent(category);
 
         strategy = new Strategy();
@@ -646,7 +645,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         category.setName("ChipsLR");
         category.setStrategyKeyString(strategy.getKeyString());
         category.setTimeBoundaryInHours(12);
-        category.setTurns(new HashSet<String>());
         category = pm.makePersistent(category);
 
         strategy = new Strategy();
@@ -660,7 +658,6 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         category.setName("DriveCR");
         category.setStrategyKeyString(strategy.getKeyString());
         category.setTimeBoundaryInHours(12);
-        category.setTurns(new HashSet<String>());
         category = pm.makePersistent(category);
 
         // Creates a new user object to add
