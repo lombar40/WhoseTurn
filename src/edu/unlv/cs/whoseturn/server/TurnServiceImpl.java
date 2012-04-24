@@ -49,7 +49,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		
 		String categoryName = category.getName();
 		
-		List<String> results = findDriver(usernames, categoryName);
+		List<String> results = findUnluckySoul(usernames, categoryName);
 		
 		usersSelected = getUserObjects(results);
 		
