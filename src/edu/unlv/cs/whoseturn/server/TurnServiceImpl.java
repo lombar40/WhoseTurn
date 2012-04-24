@@ -43,6 +43,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		List<String> usernames = new LinkedList<String>();
 		List<User> usersSelected; // = new LinkedList<User>();
 		
+		/*
 		for (User user : users) {
 			usernames.add(user.getUsername());
 		}
@@ -52,6 +53,14 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		List<String> results = findDriver(usernames, categoryName);
 		
 		usersSelected = getUserObjects(results);
+		*/
+		
+
+		// TODO: METHOD STUB. Does not actually calculate a valid selected user.
+		usersSelected = new LinkedList<User>();
+		if (users.size() > 0) {
+			usersSelected.add(users.get(0));
+		}
 		
 		return usersSelected;
 	}
