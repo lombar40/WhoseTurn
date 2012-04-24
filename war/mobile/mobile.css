@@ -3,19 +3,21 @@
 * {
 	margin: 0;
 	text-align: center;
+	
+	font-size: 18pt;
 }
 
 h1 {
-	font-size: 24pt;
+	font-size: 32pt;
 }
 h2 {
-	font-size: 20pt;
+	font-size: 26pt;
 	
 	text-align: left;
 	margin-left: 0.5em;
 }
 h3 {
-	font-size: 16pt;
+	font-size: 20pt;
 }
 
 body {

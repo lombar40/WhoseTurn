@@ -98,7 +98,7 @@ public class MobileLoggedinController extends HttpServlet {
 		// Proceed
 		RequestDispatcher view = request.getRequestDispatcher("loggedin.jspx");
 		try {
-			//testData();
+			testData();
 			
 			doStuff(request, response);
 			view.forward(request, response);
