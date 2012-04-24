@@ -25,7 +25,7 @@ h1 {
 }
 
 .serverResponseLabelError {
-  color: red;
+	color: red;
 }
 
 /** Set ids using widget.getElement().setId("idOfElement") */
@@ -36,4 +36,14 @@ h1 {
 }
 .Header {
 	font-size: 36px;
+}
+.SectionHeader {
+	border-top: 0px solid black;
+	border-right: 0px solid black;
+	border-bottom: 1px solid black;
+	border-left: 0px solid black;
+	font-size: 24px;
+}
+.ImageLink {
+	cursor: pointer;
 }

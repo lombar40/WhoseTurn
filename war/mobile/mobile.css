@@ -19,6 +19,7 @@ body {
 }
 
 .wrapper {
+	font-size: 40px;
 }
 
 .footer, .push {
@@ -26,6 +27,7 @@ body {
 	bottom: 0;
 	width: 100%;
 	background-color: #2B2E36;
+	font-size: 40px;
 }
 
 a.button, a.selected, a.unselected {

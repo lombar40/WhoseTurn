@@ -18,7 +18,6 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 import edu.unlv.cs.whoseturn.domain.Category;
-import edu.unlv.cs.whoseturn.domain.Fuser;
 import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.UserSelection;
 
@@ -81,24 +80,24 @@ public class MobileCategoryScreenController extends HttpServlet {
         String[] selectedKeyStrings = selectedKeys.split(",\\s*");
         
         // Find the currently selected users, add to model
-        List<Fuser> selectedUsers = new LinkedList<Fuser>();
+        List<edu.unlv.cs.whoseturn.domain.User> selectedUsers = new LinkedList<edu.unlv.cs.whoseturn.domain.User>();
         for (String personKey : selectedKeyStrings) {
         	if ((personKey == null) || (personKey.equals(""))) {
         		continue;
         	}
         	Object personObject;
         	try {
-            	personObject = manager.getObjectById(Fuser.class, personKey);
+            	personObject = manager.getObjectById(edu.unlv.cs.whoseturn.domain.User.class, personKey);
         	}
         	catch (JDOObjectNotFoundException e) {
         		// User manually mucked about with the URL, diregard
         		continue;
         	}
         	
-        	if (!(personObject instanceof Fuser)) {
+        	if (!(personObject instanceof edu.unlv.cs.whoseturn.domain.User)) {
         		continue;
         	}
-        	Fuser selectedUser = (Fuser)personObject;
+        	edu.unlv.cs.whoseturn.domain.User selectedUser = (edu.unlv.cs.whoseturn.domain.User)personObject;
         	selectedUsers.add(selectedUser);
         }
         
@@ -107,22 +106,22 @@ public class MobileCategoryScreenController extends HttpServlet {
         // List users
 
 		List<UserSelection> persons = new ArrayList<UserSelection>();
-		List<Fuser> users = new ArrayList<Fuser>();
+		List<edu.unlv.cs.whoseturn.domain.User> users = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
 //		
 //		Extent<Category> extent = manager.getExtent(Category.class, true);
 //		for (Category category : extent) {
 //			categories.add(category);
 //		}
 		
-		javax.jdo.Query query = manager.newQuery(Fuser.class);
+		javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
 		List<Object> results;
 		try {
 			results = (List<Object>)query.execute();
 			
 			for (Object result : results) {
-				if (result instanceof Fuser)
+				if (result instanceof edu.unlv.cs.whoseturn.domain.User)
 				{
-					Fuser domainUser = (Fuser)result;
+					edu.unlv.cs.whoseturn.domain.User domainUser = (edu.unlv.cs.whoseturn.domain.User)result;
 					users.add(domainUser);
 					
 					boolean selected = selectedUsers.contains(domainUser);

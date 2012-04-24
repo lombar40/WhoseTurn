@@ -48,21 +48,21 @@ public class MobileLoggedinController extends HttpServlet {
 		category.setName("Roshambo");
 		manager.makePersistent(category);
 		
-		edu.unlv.cs.whoseturn.domain.Fuser person;
+		edu.unlv.cs.whoseturn.domain.User person;
 		
-		person = new edu.unlv.cs.whoseturn.domain.Fuser();
+		person = new edu.unlv.cs.whoseturn.domain.User();
 		person.setUsername("Ryan Or Oravec");
 		person.setDeleted(false);
 		person.setEmail("roo@test.com");
 		manager.makePersistent(person);
 		
-		person = new edu.unlv.cs.whoseturn.domain.Fuser();
+		person = new edu.unlv.cs.whoseturn.domain.User();
 		person.setUsername("Eddie Fogherty");
 		person.setDeleted(false);
 		person.setEmail("ef@test.com");
 		manager.makePersistent(person);
 		
-		person = new edu.unlv.cs.whoseturn.domain.Fuser();
+		person = new edu.unlv.cs.whoseturn.domain.User();
 		person.setUsername("George Harris");
 		person.setDeleted(false);
 		person.setEmail("gh@test.com");
@@ -98,7 +98,7 @@ public class MobileLoggedinController extends HttpServlet {
 		// Proceed
 		RequestDispatcher view = request.getRequestDispatcher("loggedin.jspx");
 		try {
-			testData();
+			//testData();
 			
 			doStuff(request, response);
 			view.forward(request, response);
