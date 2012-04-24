@@ -33,7 +33,7 @@ public class MobileCategoryScreenController extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) {
 		RequestDispatcher view = request.getRequestDispatcher("categoryscreen.jspx");
 		try {
-			doStuff(request, response);
+			modelCategory(request, response);
 			view.forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
@@ -42,26 +42,13 @@ public class MobileCategoryScreenController extends HttpServlet {
 		}
 	}
 	
-	private void doStuff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void modelCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String dbg = "";
 		
+		
+		Category category = getCategory(request, response);
+
 		PersistenceManager manager = PMF.get().getPersistenceManager();
-		
-		// Find which category, ensure validity
-		String categoryKey = request.getParameter("keyString");
-		
-		if (categoryKey == null) {
-			response.getOutputStream().print("Error: invalid category");
-			return;
-		}
-		
-		Object categoryKeyStringObject = manager.getObjectById(Category.class, categoryKey);
-		if (!(categoryKeyStringObject instanceof Category)) {
-			response.getOutputStream().print("Error: invalid category");
-			return;
-		}
-		Category category = (Category)categoryKeyStringObject;
-		
 		request.setAttribute("currentCategory", category);
 		
 		// Model who is logged in
@@ -70,7 +57,65 @@ public class MobileCategoryScreenController extends HttpServlet {
         
         request.setAttribute("currentUser", user);
         
-        // Model who is currently selected
+        // Model who was selected
+        List<edu.unlv.cs.whoseturn.domain.User> selectedUsers = getSelectedUsers(request, manager);
+        
+        request.setAttribute("selectedPersons", selectedUsers);
+		
+        // List users
+
+		List<UserSelection> persons = new ArrayList<UserSelection>();
+		List<edu.unlv.cs.whoseturn.domain.User> users = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+		
+		javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		List<Object> results;
+		try {
+			results = (List<Object>)query.execute();
+			
+			for (Object result : results) {
+				if (result instanceof edu.unlv.cs.whoseturn.domain.User)
+				{
+					edu.unlv.cs.whoseturn.domain.User domainUser = (edu.unlv.cs.whoseturn.domain.User)result;
+					users.add(domainUser);
+					
+					boolean selected = selectedUsers.contains(domainUser);
+					UserSelection userSelection = new UserSelection(domainUser, selected);
+					persons.add(userSelection);
+				}
+			}
+		} finally {
+			query.closeAll();
+			manager.close();
+		}
+		
+		request.setAttribute("persons", persons);
+	}
+
+	protected Category getCategory(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		{	
+			PersistenceManager manager = PMF.get().getPersistenceManager();
+			
+			// Find which category, ensure validity
+			String categoryKey = request.getParameter("keyString");
+			
+			if (categoryKey == null) {
+				response.getOutputStream().print("Error: invalid category");
+				throw new IOException("Invalid category - null categoryKey");
+			}
+			
+			Object categoryKeyStringObject = manager.getObjectById(Category.class, categoryKey);
+			if (!(categoryKeyStringObject instanceof Category)) {
+				response.getOutputStream().print("Error: invalid category");
+				throw new IOException("Invalid category - bad categoryKey");
+			}
+			return (Category)categoryKeyStringObject;
+		}
+	}
+
+	protected List<edu.unlv.cs.whoseturn.domain.User> getSelectedUsers(
+			HttpServletRequest request, PersistenceManager manager) {
+		// Model who is currently selected
         String selectedKeys = request.getParameter("selectedPersons");
         if (selectedKeys == null) {
         	selectedKeys =  "";
@@ -100,40 +145,6 @@ public class MobileCategoryScreenController extends HttpServlet {
         	edu.unlv.cs.whoseturn.domain.User selectedUser = (edu.unlv.cs.whoseturn.domain.User)personObject;
         	selectedUsers.add(selectedUser);
         }
-        
-        request.setAttribute("selectedPersons", selectedUsers);
-		
-        // List users
-
-		List<UserSelection> persons = new ArrayList<UserSelection>();
-		List<edu.unlv.cs.whoseturn.domain.User> users = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
-//		
-//		Extent<Category> extent = manager.getExtent(Category.class, true);
-//		for (Category category : extent) {
-//			categories.add(category);
-//		}
-		
-		javax.jdo.Query query = manager.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
-		List<Object> results;
-		try {
-			results = (List<Object>)query.execute();
-			
-			for (Object result : results) {
-				if (result instanceof edu.unlv.cs.whoseturn.domain.User)
-				{
-					edu.unlv.cs.whoseturn.domain.User domainUser = (edu.unlv.cs.whoseturn.domain.User)result;
-					users.add(domainUser);
-					
-					boolean selected = selectedUsers.contains(domainUser);
-					UserSelection userSelection = new UserSelection(domainUser, selected);
-					persons.add(userSelection);
-				}
-			}
-		} finally {
-			query.closeAll();
-			manager.close();
-		}
-		
-		request.setAttribute("persons", persons);
+		return selectedUsers;
 	}
 }

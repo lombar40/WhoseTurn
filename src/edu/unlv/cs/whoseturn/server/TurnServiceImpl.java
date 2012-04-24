@@ -3,6 +3,7 @@ package edu.unlv.cs.whoseturn.server;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -31,6 +32,30 @@ import edu.unlv.cs.whoseturn.domain.TurnItem;
 public class TurnServiceImpl extends RemoteServiceServlet implements
 		TurnService {
 
+	/**
+	 * Alternative (better) form of findDriver
+	 * Adapts to the inferior form of findDriver which uses print-friendly strings
+	 * @param users
+	 * @param category
+	 * @return
+	 */
+	public List<edu.unlv.cs.whoseturn.domain.User> findDriver(List<edu.unlv.cs.whoseturn.domain.User> users, Category category) {
+		List<String> usernames = new LinkedList<String>();
+		List<edu.unlv.cs.whoseturn.domain.User> usersSelected; // = new LinkedList<edu.unlv.cs.whoseturn.domain.User>();
+		
+		for (edu.unlv.cs.whoseturn.domain.User user : users) {
+			usernames.add(user.getUsername());
+		}
+		
+		String categoryName = category.getName();
+		
+		List<String> results = findDriver(usernames, categoryName);
+		
+		usersSelected = getUserObjects(results);
+		
+		return usersSelected;
+	}
+	
 	/**
 	 * findDriver is called from another function located in a service call on
 	 * the client layer.
