@@ -46,7 +46,7 @@
 
 			var docfrag = document.createDocumentFragment();
 			var form = document.createElement('form');
-			form.setAttribute('action', '?keyString=${currentCategory.keyString}')
+			form.setAttribute('action', 'selectionresult?keyString=${currentCategory.keyString}')
 			form.setAttribute('method', 'post');
 			var input = document.createElement('input');
 			input.setAttribute('type', 'hidden');
