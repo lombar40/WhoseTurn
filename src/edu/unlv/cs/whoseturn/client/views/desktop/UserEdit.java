@@ -135,6 +135,7 @@ public class UserEdit extends AbstractNavigationView implements NavigationView {
 						chkDeleted.getValue(), new AsyncCallback<String>() {
 							public void onFailure(final Throwable caught) {
 								lblError.setText("There was an unknown error.");
+								System.err.println(caught.getStackTrace());
 							}
 
 							public void onSuccess(final String result) {

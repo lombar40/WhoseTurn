@@ -32,14 +32,14 @@ public class Whoseturn implements EntryPoint {
 
         usersService.isLoggedIn(new AsyncCallback<Boolean>() {
             public void onFailure(final Throwable caught) {
-                // TODO Add error message
+            	System.err.println(caught.getStackTrace());
             }
 
             public void onSuccess(final Boolean result) {
                 if (result) {
                     usersService.getUsername(new AsyncCallback<String>() {
                         public void onFailure(final Throwable caught) {
-                            // TODO Add error message
+                        	System.err.println(caught.getStackTrace());
                         }
 
                         public void onSuccess(final String result) {

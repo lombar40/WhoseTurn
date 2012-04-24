@@ -52,7 +52,7 @@ public class UserNotFound implements View {
                 usersService.getLogoutURL(finalURL,
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
-                                //
+                            	System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {

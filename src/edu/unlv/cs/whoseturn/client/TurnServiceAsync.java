@@ -15,5 +15,5 @@ public interface TurnServiceAsync {
 	 * 			@1	Keystring of the turn
 	 * @throws IllegalArgumentException
 	 */
-	void findDriver(List<String> usernames, String categoryName, AsyncCallback<List<String>> callback) throws IllegalArgumentException;
+	void findUnluckySoul(List<String> usernames, String categoryName, AsyncCallback<List<String>> callback) throws IllegalArgumentException;
 }

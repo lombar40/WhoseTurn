@@ -47,7 +47,7 @@ public class CategoryList extends AbstractNavigationView implements
 
         categoryService.getAllCategories(new AsyncCallback<List<String>>() {
             public void onFailure(final Throwable caught) {
-                // TODO
+            	System.err.println(caught.getStackTrace());
             }
 
             public void onSuccess(final List<String> results) {

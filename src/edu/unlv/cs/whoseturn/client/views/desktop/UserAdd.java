@@ -81,6 +81,7 @@ public class UserAdd extends AbstractNavigationView implements NavigationView {
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
                                 lblError.setText("There was an unknown error.");
+                                System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {

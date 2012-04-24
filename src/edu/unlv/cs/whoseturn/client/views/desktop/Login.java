@@ -111,7 +111,7 @@ public class Login implements View {
             public void onClick(final ClickEvent event) {
                 usersService.initializeServer(new AsyncCallback<Void>() {
                     public void onFailure(final Throwable caught) {
-                        // TODO
+                    	System.err.println(caught.getStackTrace());
                     }
 
                     public void onSuccess(final Void result) {
@@ -139,6 +139,7 @@ public class Login implements View {
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
                                 lblCreated.setText("FAILURE");
+                                System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {
@@ -146,7 +147,6 @@ public class Login implements View {
                                 // successful
                                 lblKeystring.setText(result);
                                 lblCreated.setVisible(true);
-                                // lblKeystring.setText(result);
                             }
                         });
             }
@@ -158,6 +158,7 @@ public class Login implements View {
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
                                 lblNewLabel.setText("FAILURE");
+                                System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {
@@ -173,6 +174,7 @@ public class Login implements View {
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
                                 lblNewLabel.setText("FAILURE");
+                                System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {
@@ -188,6 +190,7 @@ public class Login implements View {
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
                                 lblNewLabel.setText("FAILURE");
+                                System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {
@@ -203,6 +206,7 @@ public class Login implements View {
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
                                 lblNewLabel.setText("FAILURE");
+                                System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {
@@ -218,6 +222,7 @@ public class Login implements View {
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
                                 lblNewLabel.setText("FAILURE");
+                                System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {

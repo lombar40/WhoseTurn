@@ -71,6 +71,7 @@ public class Main extends AbstractNavigationView implements NavigationView {
                 usersService.findUsers(new AsyncCallback<List<String[]>>() {
                     public void onFailure(final Throwable caught) {
                         textArea.setText("FAILURE");
+                        System.err.println(caught.getStackTrace());
                     }
 
                     public void onSuccess(final List<String[]> result) {

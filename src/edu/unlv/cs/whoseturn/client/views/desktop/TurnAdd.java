@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -68,9 +69,9 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		lblTitle.setText("Turn Add");
 		turnAddPanel.add(lblTitle);
 
-		final ListBox comboBox = new ListBox();
-		turnAddPanel.add(comboBox, 10, 73);
-		comboBox.setSize("122px", "22px");
+		final ListBox cmbbxStrategy = new ListBox();
+		turnAddPanel.add(cmbbxStrategy, 10, 73);
+		cmbbxStrategy.setSize("122px", "22px");
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		turnAddPanel.add(horizontalPanel, 10, 105);
@@ -88,8 +89,8 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		horizontalPanel.add(verticalPanel_2);
 		verticalPanel_2.setSize("300px", "0");
 
-		final Button btnFindDriver = new Button("Find Driver");
-		turnAddPanel.add(btnFindDriver, 10, 446);
+		final Button btnSubmit = new Button("Select Unlucky Soul");
+		turnAddPanel.add(btnSubmit, 10, 446);
 
 		Label lblChooseCategory = new Label("Choose Category");
 		turnAddPanel.add(lblChooseCategory, 10, 51);
@@ -100,65 +101,80 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		final Label lblDriver = new Label("");
 		turnAddPanel.add(lblDriver, 95, 446);
 		lblNoCategoriesFound.setVisible(false);
-
-		categoryService.getAllCategories(new AsyncCallback<List<String>>() {
-			public void onFailure(Throwable caught) {
-				// TODO
-			}
-
-			public void onSuccess(List<String> results) {
-				if (results.size() >= 1) {
-					for (int i = 0; i < results.size(); i++)
-						comboBox.addItem(results.get(i));
-				} else {
-					comboBox.setVisible(false);
-					btnFindDriver.setEnabled(false);
-					lblNoCategoriesFound.setVisible(true);
-				}
-			}
-		});
-
+		
 		/**
 		 * A list that we will be able to iterate through to see which buttons
 		 * are toggle and which are not.
 		 */
 		final List<ToggleButton> toggleButtonList = new ArrayList<ToggleButton>();
+	
+		final List<String> usernameList = new ArrayList<String>();
+		
+		usersService.getUsername(new AsyncCallback<String>() {
+            public void onFailure(final Throwable caught) {
+            	System.err.println(caught.getStackTrace());
+            }
 
-		usersService.findUsers(new AsyncCallback<List<String[]>>() {
+            public void onSuccess(final String username) {
+            	usersService.findUsers(new AsyncCallback<List<String[]>>() {
+        			public void onFailure(Throwable caught) {
+        				System.err.println(caught.getStackTrace());
+        			}
+
+        			public void onSuccess(List<String[]> usersList) {
+        				ToggleButton tempToggle;
+        				Integer horizontalCounter = 1;
+        				if (usersList != null) {
+        					for (String[] userListItem : usersList) {
+        						if (!username.equals(userListItem[0])) {
+	        						tempToggle = new ToggleButton(userListItem[0]);
+	        						tempToggle.setSize("310px", "26px");
+	        						switch (horizontalCounter) {
+	        						case 1:
+	        							verticalPanel.add(tempToggle);
+	        							break;
+	        						case 2:
+	        							verticalPanel_1.add(tempToggle);
+	        							break;
+	        						case 3:
+	        							verticalPanel_2.add(tempToggle);
+	        							break;
+        							default:
+        								throw new IllegalStateException();
+	        						}
+	        						toggleButtonList.add(tempToggle);
+	        						horizontalCounter++;
+	        						if (horizontalCounter >= 4)
+	        							horizontalCounter = 1;
+        						}
+        					}
+        				}
+        			}
+        		});
+            }
+
+        });
+		
+
+		categoryService.getAllCategories(new AsyncCallback<List<String>>() {
 			public void onFailure(Throwable caught) {
-				// TODO
+				System.err.println(caught.getStackTrace());
 			}
 
-			public void onSuccess(List<String[]> result) {
-				ToggleButton tempToggle;
-				Integer horizontalCounter = 1;
-				if (result != null) {
-					for (String[] row : result) {
-						tempToggle = new ToggleButton(row[0]);
-						tempToggle.setSize("310px", "26px");
-						switch (horizontalCounter) {
-						case 1:
-							verticalPanel.add(tempToggle);
-							break;
-						case 2:
-							verticalPanel_1.add(tempToggle);
-							break;
-						case 3:
-							verticalPanel_2.add(tempToggle);
-							break;
-						}
-						toggleButtonList.add(tempToggle);
-						horizontalCounter++;
-						if (horizontalCounter >= 4)
-							horizontalCounter = 1;
-					}
+			public void onSuccess(List<String> results) {
+				if (results.size() >= 1) {
+					for (int i = 0; i < results.size(); i++)
+						cmbbxStrategy.addItem(results.get(i));
+				} else {
+					cmbbxStrategy.setVisible(false);
+					btnSubmit.setEnabled(false);
+					lblNoCategoriesFound.setVisible(true);
 				}
 			}
 		});
 
-		final List<String> usernameList = new ArrayList<String>();
 		
-		btnFindDriver.addClickHandler(new ClickHandler() {
+		btnSubmit.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				System.out.print("The following people are selected: ");
 				int count = 0;
@@ -171,25 +187,24 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 				}
 
 				System.out.print("\nTotal count: ");
-				System.out.println(count);
+				System.out.println(count+1);
 				
-				turnService.findDriver(usernameList, comboBox.getValue(comboBox.getSelectedIndex()), new AsyncCallback<List<String>>() {
+				turnService.findUnluckySoul(usernameList, cmbbxStrategy.getValue(cmbbxStrategy.getSelectedIndex()), new AsyncCallback<List<String>>() {
 					public void onFailure(Throwable caught) {
-						// TODO
+						System.err.println(caught.getStackTrace());
 					}
 
 					public void onSuccess(List<String> result) {
 						lblDriver.setText(result.get(0));
-						btnFindDriver.setEnabled(false);
 						usernameList.clear();
 						
 						badgeService.calculateBadges(result.get(1), new AsyncCallback<Void>() {
 							public void onFailure(Throwable caught) {
-								// TODO
+								System.err.println(caught.getStackTrace());
 							}
 
 							public void onSuccess(Void result) {
-																
+								System.out.println("Badges Added");
 							}
 						});
 					}

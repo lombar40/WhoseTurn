@@ -660,65 +660,53 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         category.setTimeBoundaryInHours(12);
         category = pm.makePersistent(category);
 
-        // Creates a new user object to add
-        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
-
-        // Set properties of the user
-        user.setAdmin(true);
-        user.setAvatarBlob(null);
-        user.setDeleted(false);
-        user.setEmail("lombar40@unlv.nevada.edu");
-        user.setUsername("Ryan Lombardo");
-        user.setPenaltyCount(0);
-        user.setBadges(new HashSet<String>());
-
-        BadgeAwarded tempBadgeAwarded;
-
-        // Make sure badges were found
-        if (!badgeList.isEmpty()) {
-            // Loop through all the badge types and create a BadgeAwarded for
-            // this user with count set to 0
-            for (Badge e : badgeList) {
-                tempBadgeAwarded = new BadgeAwarded();
-                tempBadgeAwarded.setBadgeId(e.getBadgeId());
-                tempBadgeAwarded.setCount(0);
-                tempBadgeAwarded.setDeleted(false);
-                pm.makePersistent(tempBadgeAwarded);
-                user.addBadge(tempBadgeAwarded);
-            }
-        }
-
-        pm.makePersistent(user);
-
-        user = new edu.unlv.cs.whoseturn.domain.User();
-
-        // Set properties of the user
-        user.setAdmin(true);
-        user.setAvatarBlob(null);
-        user.setDeleted(false);
-        user.setEmail("test@example.com");
-        user.setUsername("Test User");
-        user.setPenaltyCount(0);
-        user.setBadges(new HashSet<String>());
-
-        // Make sure badges were found
-        if (!badgeList.isEmpty()) {
-            // Loop through all the badge types and create a BadgeAwarded for
-            // this user with count set to 0
-            for (Badge e : badgeList) {
-                tempBadgeAwarded = new BadgeAwarded();
-                tempBadgeAwarded.setBadgeId(e.getBadgeId());
-                tempBadgeAwarded.setCount(0);
-                tempBadgeAwarded.setDeleted(false);
-                pm.makePersistent(tempBadgeAwarded);
-                user.addBadge(tempBadgeAwarded);
-            }
-        }
-
-        pm.makePersistent(user);
+        // Create initial users
+        createNewUser(badgeList, "Ryan Lombardo", "lombar40@unlv.nevada.edu");
+        createNewUser(badgeList, "Test User", "test@example.com");
+        createNewUser(badgeList, "Dane Strong", "strongd@unlv.nevada.edu");
+        createNewUser(badgeList, "James Oravec", "james.oravec@gmail.com");
+        createNewUser(badgeList, "Matthew Sowders", "matthewsowders@gmail.com");
+        createNewUser(badgeList, "Chris Jones", "chris.pip@gmail.com");
+        createNewUser(badgeList, "Ernesto Pavon", "pavone@unlv.nevada.edu");
+        createNewUser(badgeList, "Shane Dieckmann", "dieckma3@unlv.nevada.edu");
+        createNewUser(badgeList, "Shawn Cannon", "kyriobs@gmail.com");
+        createNewUser(badgeList, "Corbin Benally", "benallyc@unlv.nevada.edu");
+        createNewUser(badgeList, "James Dabinett", "dabinett@unlv.nevada.edu");
 
         pm.close();
     }
+
+	private void createNewUser(List<Badge> badgeList, String username, String email) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
+		BadgeAwarded tempBadgeAwarded;
+
+        // Set properties of the user
+        user.setAdmin(true);
+        user.setAvatarBlob(null);
+        user.setDeleted(false);
+		user.setEmail(email);
+        user.setUsername(username);
+        user.setPenaltyCount(0);
+        user.setBadges(new HashSet<String>());
+
+        // Make sure badges were found
+        if (!badgeList.isEmpty()) {
+            // Loop through all the badge types and create a BadgeAwarded for
+            // this user with count set to 0
+            for (Badge e : badgeList) {
+                tempBadgeAwarded = new BadgeAwarded();
+                tempBadgeAwarded.setBadgeId(e.getBadgeId());
+                tempBadgeAwarded.setCount(0);
+                tempBadgeAwarded.setDeleted(false);
+                pm.makePersistent(tempBadgeAwarded);
+                user.addBadge(tempBadgeAwarded);
+            }
+        }
+
+        pm.makePersistent(user);
+	}
 
     @SuppressWarnings("unchecked")
 	@Override

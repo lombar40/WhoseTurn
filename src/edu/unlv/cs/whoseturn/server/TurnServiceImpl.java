@@ -39,7 +39,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @param category	The category name of the turn.
 	 * @return a String which will represent the selected driver of Whose Turn
 	 */
-	public List<String> findDriver(List<String> usernames, String categoryName) {
+	public List<String> findUnluckySoul(List<String> usernames, String categoryName) {
 		edu.unlv.cs.whoseturn.domain.User driver;
 
 		/**
@@ -413,7 +413,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		 */
 		Integer index = 0;											// Set the index inlitally to the first user in the list
 		Long tempCurrentMilliSeconds = millisecondsList.get(0);		// Set the currentMilliseconds to the first user in the list
-		Integer sameCounter = 0;									// Set the samecounter to 0
+		Integer sameCounter = 1;									// Set the samecounter to 0
 		
 		/**
 		 * Loops through the milliseconds list to find the highest value.

@@ -34,7 +34,7 @@ public class StatusBarImpl implements StatusBar {
      */
     public StatusBarImpl() {
         // status = "";
-        status = "Status bar status";
+        status = "";
     }
 
     /**

@@ -82,7 +82,7 @@ public class CategoryAdd extends AbstractNavigationView implements
 
         categoryService.getAllStrategies(new AsyncCallback<List<String>>() {
             public void onFailure(final Throwable caught) {
-                // TODO
+            	System.err.println(caught.getStackTrace());
             }
 
             public void onSuccess(final List<String> results) {
@@ -104,12 +104,12 @@ public class CategoryAdd extends AbstractNavigationView implements
                         timeBoundaryInteger.getValue(),
                         new AsyncCallback<String>() {
                             public void onFailure(final Throwable caught) {
-                                btnAdd.setEnabled(true);
+                            	System.err.println(caught.getStackTrace());
                             }
 
                             public void onSuccess(final String result) {
                                 btnAdd.setEnabled(true);
-                                if (result != "Success") {
+                                if (!result.equals("Success")) {
                                     txtbxName.setFocus(true);
                                     setStatus(result);
                                     lblErrorLabel.setText(result);

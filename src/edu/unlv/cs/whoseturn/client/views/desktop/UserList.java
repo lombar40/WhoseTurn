@@ -148,24 +148,6 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                             }
                         }
                     });
-//                  usersService.getAllUsers(new AsyncCallback<List<edu.unlv.cs.whoseturn.shared.User>>() {
-//
-//                      @Override
-//                      public void onFailure(Throwable caught) {
-//                          System.err.println(caught.getStackTrace());
-//                      }
-//
-//                      @Override
-//                      public void onSuccess(final List<edu.unlv.cs.whoseturn.shared.User> results) {
-//                          if (results != null) {
-//                              // Write all user names to the list.
-//                              for (int i = 0; i < results.size(); i++) {
-//                                  guestListBox.addItem(results.get(i).getUsername());
-//                              }
-//                              guestListBox.setItemSelected(0, true);
-//                          }
-//                      }
-//                  });
                 } else {
                     // Users see only non-deleted users.
                     usersService.findNonDeletedUsers(new AsyncCallback<List<String>>() {

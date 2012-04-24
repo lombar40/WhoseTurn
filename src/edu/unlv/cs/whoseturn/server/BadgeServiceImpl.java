@@ -21,8 +21,7 @@ import edu.unlv.cs.whoseturn.domain.User;
 /**
  * The badge service, used to go through the badge checks and reward users.
  */
-public class BadgeServiceImpl extends RemoteServiceServlet implements
-		BadgeService {
+public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeService {
 
 	/**
 	 * Allows the class to be serialized.
@@ -50,20 +49,17 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
 			// get the key of the user who owns this turn item and then get the
 			// user
-			Key ownerKey = KeyFactory
-					.stringToKey(turn_item.getOwnerKeyString());
+			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			// Jackass badge check
 			if (turn.getNumberOfUsers() == 1) {
 				for (int i = 0; i < badgeSet.size(); i++) {
 					// get key for the BadgeAwarded entity and retrieve the
 					// object
-					Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-							.next());
-					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class,
-							badgeKey);
+					Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 					if (badge.getBadgeId().equals(1000)) {
 						badge.increaseBadgeCount();
@@ -108,23 +104,19 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			// award the badge to everyone in the turn
 			for (String turn_key : turn_items) {
 				Key turnItemKey = KeyFactory.stringToKey(turn_key);
-				TurnItem turn_item = pm.getObjectById(TurnItem.class,
-						turnItemKey);
+				TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
 
 				// get the key of the user who owns this turn item and then get
 				// the user
-				Key ownerKey = KeyFactory.stringToKey(turn_item
-						.getOwnerKeyString());
+				Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 				User user = pm.getObjectById(User.class, ownerKey);
-				Set<String> badgeSet = user.getBadges();
+				List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 				for (int i = 0; i < badgeSet.size(); i++) {
 					// get key for the BadgeAwarded entity and retrieve the
 					// object
-					Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-							.next());
-					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class,
-							badgeKey);
+					Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 					if (badge.getBadgeId().equals(1019)) {
 						badge.increaseBadgeCount();
@@ -159,10 +151,9 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
 			// get the key of the user who owns this turn item and then get the
 			// user
-			Key ownerKey = KeyFactory
-					.stringToKey(turn_item.getOwnerKeyString());
+			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			// Badge Check
 			if (turn.getNumberOfUsers() == 4) {
@@ -171,10 +162,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1001)) {
 							badge.increaseBadgeCount();
@@ -187,10 +176,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object.
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1002)) {
 							badge.increaseBadgeCount();
@@ -227,10 +214,9 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 
 			// Get the key of the user who owns this turn item and then get the
 			// user.
-			Key ownerKey = KeyFactory
-					.stringToKey(turn_item.getOwnerKeyString());
+			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			// Badge Check
 			if (turn.getNumberOfUsers() == 5) {
@@ -239,10 +225,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1003)) {
 							badge.increaseBadgeCount();
@@ -255,10 +239,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1004)) {
 							badge.increaseBadgeCount();
@@ -294,10 +276,9 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
 			// get the key of the user who owns this turn item and then get the
 			// user
-			Key ownerKey = KeyFactory
-					.stringToKey(turn_item.getOwnerKeyString());
+			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			// Badge Check
 			if (turn.getNumberOfUsers() == 6) {
@@ -306,10 +287,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object.
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1005)) {
 							badge.increaseBadgeCount();
@@ -322,10 +301,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object.
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1006)) {
 							badge.increaseBadgeCount();
@@ -361,10 +338,9 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
 			// get the key of the user who owns this turn item and then get the
 			// user
-			Key ownerKey = KeyFactory
-					.stringToKey(turn_item.getOwnerKeyString());
+			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			// Badge Check
 			if (turn.getNumberOfUsers() == 7) {
@@ -373,10 +349,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object.
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1007)) {
 							badge.increaseBadgeCount();
@@ -389,10 +363,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1008)) {
 							badge.increaseBadgeCount();
@@ -428,10 +400,9 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
 			// get the key of the user who owns this turn item and then get the
 			// user
-			Key ownerKey = KeyFactory
-					.stringToKey(turn_item.getOwnerKeyString());
+			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			// Badge Check
 			if (turn.getNumberOfUsers() == 8) {
@@ -440,10 +411,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1009)) {
 							badge.increaseBadgeCount();
@@ -456,10 +425,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1010)) {
 							badge.increaseBadgeCount();
@@ -494,10 +461,9 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			Key turnItemKey = KeyFactory.stringToKey(turn_key);
 			TurnItem turn_item = pm.getObjectById(TurnItem.class, turnItemKey);
 			// get the key of the user who owns this turn item
-			Key ownerKey = KeyFactory
-					.stringToKey(turn_item.getOwnerKeyString());
+			Key ownerKey = KeyFactory.stringToKey(turn_item.getOwnerKeyString());
 			User user = pm.getObjectById(User.class, ownerKey);
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			// Badge Check
 			if (turn.getNumberOfUsers() > 8) {
@@ -506,10 +472,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1011)) {
 							badge.increaseBadgeCount();
@@ -522,10 +486,8 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 					for (int i = 0; i < badgeSet.size(); i++) {
 						// get key for the BadgeAwarded entity and retrieve the
 						// object
-						Key badgeKey = KeyFactory.stringToKey(badgeSet
-								.iterator().next());
-						BadgeAwarded badge = pm.getObjectById(
-								BadgeAwarded.class, badgeKey);
+						Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+						BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 						if (badge.getBadgeId().equals(1012)) {
 							badge.increaseBadgeCount();
@@ -553,27 +515,23 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		Integer countTurns = user.getTurnItems().size();
-		Set<String> badgeSet = user.getBadges();
+		List<String> badgeSet = new ArrayList<String>(user.getBadges());
 		BadgeAwarded userSaintBadge = null;
 		boolean noLies = true;
 
 		if (countTurns == 50) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-						.next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
-						badgeKey);
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 				if (userBadge.getBadgeId().equals(1013)) {
-					userSaintBadge = pm.getObjectById(BadgeAwarded.class,
-							badgeKey);
+					userSaintBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 				}
 
 				// check if user does not have any liar badges (Jackass or
 				// TeamCheater)
-				if (userBadge.getBadgeId().equals(1000)
-						|| userBadge.getBadgeId().equals(1019)) {
+				if (userBadge.getBadgeId().equals(1000) || userBadge.getBadgeId().equals(1019)) {
 					if (!userBadge.getCount().equals(0)) {
 						noLies = false;
 					}
@@ -607,24 +565,20 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 			for (String turnItemKeyString : turn.getTurnItems()) {
 				// get key for the TurnItem and retrieve the object
 				Key turnItemKey = KeyFactory.stringToKey(turnItemKeyString);
-				TurnItem turnItem = pm.getObjectById(TurnItem.class,
-						turnItemKey);
+				TurnItem turnItem = pm.getObjectById(TurnItem.class, turnItemKey);
 				// get key for user of the turn item, and then get the user
 				String ownerKeyString = turnItem.getOwnerKeyString();
 				Key ownerKey = KeyFactory.stringToKey(ownerKeyString);
 				User user = pm.getObjectById(User.class, ownerKey);
-				Set<String> badgeSet = user.getBadges();
+				List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 				for (int i = 0; i < badgeSet.size(); i++) {
 					// get key for the BadgeAwarded entity and retrieve the
 					// object
-					Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-							.next());
-					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class,
-							badgeKey);
+					Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+					BadgeAwarded badge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-					if (badge.getBadgeId().equals(1014)
-							&& badge.getCount() == 0) {
+					if (badge.getBadgeId().equals(1014) && badge.getCount() == 0) {
 						badge.increaseBadgeCount();
 						break;
 					}
@@ -651,17 +605,14 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		Integer number_of_turns = user.getTurnItems().size();
 
 		if (number_of_turns == 10) {
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-						.next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
-						badgeKey);
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-				if (userBadge.getBadgeId().equals(1015)
-						&& userBadge.getCount() == 0) {
+				if (userBadge.getBadgeId().equals(1015) && userBadge.getCount() == 0) {
 					userBadge.increaseBadgeCount();
 					break;
 				}
@@ -687,17 +638,14 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		Integer number_of_turns = user.getTurnItems().size();
 
 		if (number_of_turns == 100) {
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-						.next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
-						badgeKey);
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-				if (userBadge.getBadgeId().equals(1016)
-						&& userBadge.getCount() == 0) {
+				if (userBadge.getBadgeId().equals(1016) && userBadge.getCount() == 0) {
 					userBadge.increaseBadgeCount();
 					break;
 				}
@@ -723,17 +671,14 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		Integer number_of_turns = user.getTurnItems().size();
 
 		if (number_of_turns == 250) {
-			Set<String> badgeSet = user.getBadges();
+			List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-						.next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
-						badgeKey);
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-				if (userBadge.getBadgeId().equals(1017)
-						&& userBadge.getCount() == 0) {
+				if (userBadge.getBadgeId().equals(1017) && userBadge.getCount() == 0) {
 					userBadge.increaseBadgeCount();
 					break;
 				}
@@ -758,24 +703,20 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		 */
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		Set<String> badgeSet = user.getBadges();
+		List<String> badgeSet = new ArrayList<String>(user.getBadges());
 		BadgeAwarded masterBadge = null;
 		boolean hasEveryBadge = true;
 
 		for (int i = 0; i < badgeSet.size(); i++) {
 			// get key for the BadgeAwarded entity and retrieve the object
-			Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator().next());
-			BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
-					badgeKey);
+			Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+			BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
 			if (userBadge.getBadgeId().equals(1018)) {
 				masterBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 			}
 
-			if (userBadge.getCount() == 0
-					&& !(userBadge.getBadgeId().equals(1018)
-							|| userBadge.getBadgeId().equals(1020) || userBadge
-							.getBadgeId().equals(1021))) {
+			if (userBadge.getCount() == 0 && !(userBadge.getBadgeId().equals(1018) || userBadge.getBadgeId().equals(1020) || userBadge.getBadgeId().equals(1021))) {
 				hasEveryBadge = false;
 			}
 		}
@@ -800,18 +741,15 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		 */
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		Set<String> badgeSet = user.getBadges();
+		List<String> badgeSet = new ArrayList<String>(user.getBadges());
 
 		if (user.getUsername().equals("Chris Jones")) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object.
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-						.next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
-						badgeKey);
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-				if (userBadge.getBadgeId().equals(1020)
-						&& userBadge.getCount() == 0) {
+				if (userBadge.getBadgeId().equals(1020) && userBadge.getCount() == 0) {
 					userBadge.increaseBadgeCount();
 					break;
 				}
@@ -834,17 +772,14 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements
 		 */
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		Set<String> badgeSet = user.getBadges();
+		List<String> badgeSet = new ArrayList<String>(user.getBadges());
 		if (user.getUsername().equals("Matthew Sowders")) {
 			for (int i = 0; i < badgeSet.size(); i++) {
 				// get key for the BadgeAwarded entity and retrieve the object
-				Key badgeKey = KeyFactory.stringToKey(badgeSet.iterator()
-						.next());
-				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class,
-						badgeKey);
+				Key badgeKey = KeyFactory.stringToKey(badgeSet.get(i));
+				BadgeAwarded userBadge = pm.getObjectById(BadgeAwarded.class, badgeKey);
 
-				if (userBadge.getBadgeId().equals(1021)
-						&& userBadge.getCount() == 0) {
+				if (userBadge.getBadgeId().equals(1021) && userBadge.getCount() == 0) {
 					userBadge.increaseBadgeCount();
 					break;
 				}

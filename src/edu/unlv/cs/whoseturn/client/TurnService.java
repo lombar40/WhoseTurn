@@ -18,5 +18,5 @@ public interface TurnService extends RemoteService {
 	 * 			@1	Keystring of the turn
 	 * @throws IllegalArgumentException
 	 */
-	List<String> findDriver(List<String> usernames, String category) throws IllegalArgumentException;
+	List<String> findUnluckySoul(List<String> usernames, String category) throws IllegalArgumentException;
 }
