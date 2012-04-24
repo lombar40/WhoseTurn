@@ -82,7 +82,7 @@ public class MobileLoggedinController extends HttpServlet {
 		// If the user is not logged in, prompt for login
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn()) {
-			String url = userService.createLoginURL("/mobile");
+			String url = userService.createLoginURL("/mobile/index");
 			RequestDispatcher view = request.getRequestDispatcher(url);
 			try {
 				view.forward(request, response);
