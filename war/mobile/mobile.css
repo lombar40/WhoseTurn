@@ -3,11 +3,21 @@
 * {
 	margin: 0;
 	text-align: center;
+	
+	font-size: 18pt;
 }
 
+h1 {
+	font-size: 32pt;
+}
 h2 {
+	font-size: 26pt;
+	
 	text-align: left;
 	margin-left: 0.5em;
+}
+h3 {
+	font-size: 20pt;
 }
 
 body {
@@ -19,7 +29,6 @@ body {
 }
 
 .wrapper {
-	font-size: 40px;
 }
 
 .footer, .push {
@@ -27,7 +36,6 @@ body {
 	bottom: 0;
 	width: 100%;
 	background-color: #2B2E36;
-	font-size: 40px;
 }
 
 a.button, a.selected, a.unselected {
