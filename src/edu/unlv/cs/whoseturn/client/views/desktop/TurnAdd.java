@@ -99,7 +99,7 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		turnAddPanel.add(lblNoCategoriesFound, 10, 73);
 		
 		final Label lblDriver = new Label("");
-		turnAddPanel.add(lblDriver, 95, 446);
+		turnAddPanel.add(lblDriver, 150, 452);
 		lblNoCategoriesFound.setVisible(false);
 		
 		/**

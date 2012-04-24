@@ -8,12 +8,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.client.views.desktop.CategoryAdd;
-import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryList;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
-import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * This is a navigation bar that will be seen by admin users.
@@ -30,17 +28,16 @@ public class NavigationBarAdmin implements View {
          * A panel used for navigating between various views of our program.
          */
         FlowPanel navigationBar = new FlowPanel();
-        navigationBar.setSize("1000px", "200");
 
         /**
          * Links to list categories
          */
         Button listTurnNavItem = new Button();
-        listTurnNavItem.setText("Turns");
+        listTurnNavItem.setText("Turn");
         listTurnNavItem.addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
                 RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new TurnList()).asWidget());
+                RootPanel.get("overall").add((new TurnAdd()).asWidget());
             }
         });
         Button listCategory = new Button();
@@ -62,14 +59,6 @@ public class NavigationBarAdmin implements View {
             }
         });
         navigationBar.add(listUserNavItem);
-
-        /**
-         * Links to list users.
-         */
-
-        /**
-         * Links to create Turn
-         */
 
         return navigationBar;
     }

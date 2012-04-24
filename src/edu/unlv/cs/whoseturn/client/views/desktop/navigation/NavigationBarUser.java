@@ -8,8 +8,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import edu.unlv.cs.whoseturn.client.views.View;
-import edu.unlv.cs.whoseturn.client.views.ViewImpl2;
-import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
+import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
 
 /**
@@ -30,11 +29,11 @@ public class NavigationBarUser implements View {
         navigationBar.setSize("1000px", "200");
 
         Button listTurnNavItem = new Button();
-        listTurnNavItem.setText("Turns");
+        listTurnNavItem.setText("Turn");
         listTurnNavItem.addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
                 RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new TurnList()).asWidget());
+                RootPanel.get("overall").add((new TurnAdd()).asWidget());
             }
         });
         

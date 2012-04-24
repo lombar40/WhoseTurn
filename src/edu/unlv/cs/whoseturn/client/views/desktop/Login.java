@@ -25,213 +25,206 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
  */
 public class Login implements View {
 
-    /**
-     * The user service.
-     */
-    private final UsersServiceAsync usersService = GWT
-            .create(UsersService.class);
+	/**
+	 * The user service.
+	 */
+	private final UsersServiceAsync usersService = GWT.create(UsersService.class);
 
-    /**
-     * @wbp.parser.entryPoint
-     */
-    @Override
-    public final Widget asWidget() {
-        String url = GWT.getHostPageBaseURL();
-        if (!GWT.isProdMode()) {
-            url += "?gwt.codesvr=127.0.0.1:9997";
-        }
-        final String finalURL = url;
-        // Add the nameField and sendButton to the RootPanel
-        // Use RootPanel.get() to get the entire body element
+	/**
+	 * @wbp.parser.entryPoint
+	 */
+	@Override
+	public final Widget asWidget() {
+		String url = GWT.getHostPageBaseURL();
+		if (!GWT.isProdMode()) {
+			url += "?gwt.codesvr=127.0.0.1:9997";
+		}
+		final String finalURL = url;
+		// Add the nameField and sendButton to the RootPanel
+		// Use RootPanel.get() to get the entire body element
 
-        final AbsolutePanel loginPanel = new AbsolutePanel();
-        loginPanel.setSize("1000px", "500px");
+		final AbsolutePanel loginPanel = new AbsolutePanel();
+		loginPanel.setSize("1000px", "352px");
+		
+		AbsolutePanel absolutePanel = new AbsolutePanel();
+		loginPanel.add(absolutePanel, 304, 10);
+		absolutePanel.setSize("405px", "218px");
+		
+		final Label lblKeystring = new Label("");
+		absolutePanel.add(lblKeystring, 10, 87);
+		lblKeystring.setSize("60px", "18px");
 
-        final Label lblNewLabel = new Label(
-                "Please login choose one of the following options.");
-        loginPanel.add(lblNewLabel);
+		Button btnInitalizeDatabase = new Button("Initalize Database");
+		btnInitalizeDatabase.addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				usersService.initializeServer(new AsyncCallback<Void>() {
+					public void onFailure(final Throwable caught) {
+						System.err.println(caught.getStackTrace());
+					}
 
-        Image googleImage = new Image("images/googleW.png");
-        googleImage.setStyleName("ImageLink");
-        googleImage.addMouseOverHandler(new MouseOverHandler() {
-            public void onMouseOver(final MouseOverEvent event) {
+					public void onSuccess(final Void result) {
+						lblKeystring.setText("Initialized");
+					}
+				});
+			}
+		});
+		loginPanel.add(btnInitalizeDatabase, 440, 251);
 
-            }
-        });
-        loginPanel.add(googleImage);
+		
 
-        Image yahooImage = new Image("images/yahooW.png");
-        yahooImage.setStyleName("ImageLink");
-        loginPanel.add(yahooImage);
+		final Label lblNewLabel = new Label("Please login by choosing one of the following authentication options.");
+		absolutePanel.add(lblNewLabel);
 
-        Image aolImage = new Image("images/aolW.png");
-        aolImage.setStyleName("ImageLink");
-        loginPanel.add(aolImage);
+		Image googleImage = new Image("images/googleW.png");
+		absolutePanel.add(googleImage, 53, 24);
+		googleImage.setStyleName("ImageLink");
 
-        Image myspaceImage = new Image("images/myspaceW.png");
-        myspaceImage.setStyleName("ImageLink");
-        loginPanel.add(myspaceImage);
+		Image yahooImage = new Image("images/yahooW.png");
+		absolutePanel.add(yahooImage, 113, 24);
+		yahooImage.setStyleName("ImageLink");
 
-        Image openIDImage = new Image("images/myopenidW.png");
-        openIDImage.setStyleName("ImageLink");
-        loginPanel.add(openIDImage);
+		Image aolImage = new Image("images/aolW.png");
+		absolutePanel.add(aolImage, 173, 24);
+		aolImage.setStyleName("ImageLink");
 
-        final TextBox txtbxEmail = new TextBox();
-        loginPanel.add(txtbxEmail, 79, 60);
+		Image myspaceImage = new Image("images/myspaceW.png");
+		absolutePanel.add(myspaceImage, 233, 24);
+		myspaceImage.setStyleName("ImageLink");
 
-        final Label lblEmail = new Label("Email:");
-        loginPanel.add(lblEmail, 36, 60);
+		Image openIDImage = new Image("images/myopenidW.png");
+		absolutePanel.add(openIDImage, 293, 24);
+		openIDImage.setStyleName("ImageLink");
 
-        final Label lblUsername = new Label("Username:");
-        loginPanel.add(lblUsername, 10, 100);
+		final TextBox txtbxEmail = new TextBox();
+		absolutePanel.add(txtbxEmail, 160, 87);
 
-        Label lblAdmin = new Label("Admin:");
-        loginPanel.add(lblAdmin, 34, 140);
+		final Label lblEmail = new Label("Email:");
+		absolutePanel.add(lblEmail, 111, 95);
+		lblEmail.setSize("41px", "18px");
 
-        final CheckBox chckbxAdmin = new CheckBox("");
-        loginPanel.add(chckbxAdmin, 81, 140);
+		final Label lblUsername = new Label("Username:");
+		absolutePanel.add(lblUsername, 82, 55);
+		lblUsername.setSize("70px", "18px");
 
-        final TextBox txtbxUsername = new TextBox();
-        loginPanel.add(txtbxUsername, 79, 100);
+		Label lblAdmin = new Label("Admin:");
+		absolutePanel.add(lblAdmin, 111, 123);
 
-        Button btnAdduser = new Button("adduser");
-        loginPanel.add(btnAdduser, 269, 82);
+		final CheckBox chckbxAdmin = new CheckBox("");
+		absolutePanel.add(chckbxAdmin, 160, 123);
 
-        btnAdduser.setText("Add User");
+		final TextBox txtbxUsername = new TextBox();
+		absolutePanel.add(txtbxUsername, 160, 47);
 
-        final Label lblCreated = new Label("Created user with keystring:");
-        loginPanel.add(lblCreated, 10, 177);
+		Button btnAdduser = new Button("adduser");
+		absolutePanel.add(btnAdduser, 160, 149);
 
-        final Label lblKeystring = new Label("");
-        loginPanel.add(lblKeystring, 178, 177);
-        lblKeystring.setSize("53px", "18px");
+		btnAdduser.setText("Add User");
 
-        Button btnInitalizeDatabase = new Button("Initalize Database");
-        btnInitalizeDatabase.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                usersService.initializeServer(new AsyncCallback<Void>() {
-                    public void onFailure(final Throwable caught) {
-                    	System.err.println(caught.getStackTrace());
-                    }
+		btnAdduser.addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				// Checks if the e-mail has a chance to be valid and if it
+				// already exists.
+				/*
+				 * if (!FieldVerifier.isEmailValid(txtbxEmail.getText(),
+				 * lblKeystring)) { return; } // Checks to see if the user name
+				 * already exists if
+				 * (!FieldVerifier.isUsernameValid(txtbxUsername.getText(),
+				 * lblKeystring)) { return; }
+				 */
+				usersService.addNewUser(txtbxUsername.getText(), txtbxEmail.getText(), chckbxAdmin.getValue(), new AsyncCallback<String>() {
+					public void onFailure(final Throwable caught) {
+						System.err.println(caught.getStackTrace());
+					}
 
-                    public void onSuccess(final Void result) {
-                        lblKeystring.setText("Initialized");
-                    }
-                });
-            }
-        });
-        loginPanel.add(btnInitalizeDatabase, 80, 247);
-        lblCreated.setVisible(false);
+					public void onSuccess(final String result) {
+						// Result is an error message or the key if
+						// successful
+						lblKeystring.setText(result);
+					}
+				});
+			}
+		});
 
-        btnAdduser.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                // Checks if the e-mail has a chance to be valid and if it
-                // already exists.
-                /*
-                 * if (!FieldVerifier.isEmailValid(txtbxEmail.getText(),
-                 * lblKeystring)) { return; } // Checks to see if the user name
-                 * already exists if
-                 * (!FieldVerifier.isUsernameValid(txtbxUsername.getText(),
-                 * lblKeystring)) { return; }
-                 */
-                usersService.addNewUser(txtbxUsername.getText(),
-                        txtbxEmail.getText(), chckbxAdmin.getValue(),
-                        new AsyncCallback<String>() {
-                            public void onFailure(final Throwable caught) {
-                                lblCreated.setText("FAILURE");
-                                System.err.println(caught.getStackTrace());
-                            }
+		openIDImage.addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				usersService.getLoginURL("myopenid", finalURL, new AsyncCallback<String>() {
+					public void onFailure(final Throwable caught) {
+						lblNewLabel.setText("FAILURE");
+						System.err.println(caught.getStackTrace());
+					}
 
-                            public void onSuccess(final String result) {
-                                // Result is an error message or the key if
-                                // successful
-                                lblKeystring.setText(result);
-                                lblCreated.setVisible(true);
-                            }
-                        });
-            }
-        });
+					public void onSuccess(final String result) {
+						Window.open(result, "_self", "");
+					}
+				});
+			}
+		});
 
-        googleImage.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                usersService.getLoginURL("google", finalURL,
-                        new AsyncCallback<String>() {
-                            public void onFailure(final Throwable caught) {
-                                lblNewLabel.setText("FAILURE");
-                                System.err.println(caught.getStackTrace());
-                            }
+		myspaceImage.addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				usersService.getLoginURL("myspace", finalURL, new AsyncCallback<String>() {
+					public void onFailure(final Throwable caught) {
+						lblNewLabel.setText("FAILURE");
+						System.err.println(caught.getStackTrace());
+					}
 
-                            public void onSuccess(final String result) {
-                                Window.open(result, "_self", "");
-                            }
-                        });
-            }
-        });
+					public void onSuccess(final String result) {
+						Window.open(result, "_self", "");
+					}
+				});
+			}
+		});
 
-        yahooImage.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                usersService.getLoginURL("yahoo", finalURL,
-                        new AsyncCallback<String>() {
-                            public void onFailure(final Throwable caught) {
-                                lblNewLabel.setText("FAILURE");
-                                System.err.println(caught.getStackTrace());
-                            }
+		aolImage.addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				usersService.getLoginURL("aol", finalURL, new AsyncCallback<String>() {
+					public void onFailure(final Throwable caught) {
+						lblNewLabel.setText("FAILURE");
+						System.err.println(caught.getStackTrace());
+					}
 
-                            public void onSuccess(final String result) {
-                                Window.open(result, "_self", "");
-                            }
-                        });
-            }
-        });
+					public void onSuccess(final String result) {
+						Window.open(result, "_self", "");
+					}
+				});
+			}
+		});
 
-        aolImage.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                usersService.getLoginURL("aol", finalURL,
-                        new AsyncCallback<String>() {
-                            public void onFailure(final Throwable caught) {
-                                lblNewLabel.setText("FAILURE");
-                                System.err.println(caught.getStackTrace());
-                            }
+		yahooImage.addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				usersService.getLoginURL("yahoo", finalURL, new AsyncCallback<String>() {
+					public void onFailure(final Throwable caught) {
+						lblNewLabel.setText("FAILURE");
+						System.err.println(caught.getStackTrace());
+					}
 
-                            public void onSuccess(final String result) {
-                                Window.open(result, "_self", "");
-                            }
-                        });
-            }
-        });
+					public void onSuccess(final String result) {
+						Window.open(result, "_self", "");
+					}
+				});
+			}
+		});
+		googleImage.addMouseOverHandler(new MouseOverHandler() {
+			public void onMouseOver(final MouseOverEvent event) {
 
-        myspaceImage.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                usersService.getLoginURL("myspace", finalURL,
-                        new AsyncCallback<String>() {
-                            public void onFailure(final Throwable caught) {
-                                lblNewLabel.setText("FAILURE");
-                                System.err.println(caught.getStackTrace());
-                            }
+			}
+		});
 
-                            public void onSuccess(final String result) {
-                                Window.open(result, "_self", "");
-                            }
-                        });
-            }
-        });
+		googleImage.addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				usersService.getLoginURL("google", finalURL, new AsyncCallback<String>() {
+					public void onFailure(final Throwable caught) {
+						lblNewLabel.setText("FAILURE");
+						System.err.println(caught.getStackTrace());
+					}
 
-        openIDImage.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                usersService.getLoginURL("myopenid", finalURL,
-                        new AsyncCallback<String>() {
-                            public void onFailure(final Throwable caught) {
-                                lblNewLabel.setText("FAILURE");
-                                System.err.println(caught.getStackTrace());
-                            }
+					public void onSuccess(final String result) {
+						Window.open(result, "_self", "");
+					}
+				});
+			}
+		});
 
-                            public void onSuccess(final String result) {
-                                Window.open(result, "_self", "");
-                            }
-                        });
-            }
-        });
-
-        return loginPanel;
-    }
+		return loginPanel;
+	}
 }

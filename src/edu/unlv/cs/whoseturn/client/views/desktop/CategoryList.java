@@ -93,6 +93,8 @@ public class CategoryList extends AbstractNavigationView implements NavigationVi
 		categoryListPanel.add(btnEditCategory, 256, 149);
 		btnEditCategory.setSize("162px", "28px");
 
+		categoryListBox.setSelectedIndex(0);
+		
 		return categoryListPanel;
 	}
 }
