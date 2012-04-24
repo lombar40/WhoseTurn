@@ -52,4 +52,8 @@ public interface CategoryService extends RemoteService {
      * @return List of all strategies to select from.
      */
     List<String> getAllStrategies();
+
+	List<String[]> getCategoryInfo(String categoryName);
+
+	String categoryUpdate(String originalCategoryName, String newCategoryName, String newStrategy, String newTimeBoundary, Boolean deleted);
 }

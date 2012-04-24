@@ -5,7 +5,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import edu.unlv.cs.whoseturn.client.views.desktop.Login;
-import edu.unlv.cs.whoseturn.client.views.desktop.Main;
+import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserNotFound;
 
 /**
@@ -50,7 +50,7 @@ public class Whoseturn implements EntryPoint {
                             } else {
                                 RootPanel.get("overall").clear();
                                 RootPanel.get("overall").add(
-                                        (new Main()).asWidget());
+                                        (new TurnAdd()).asWidget());
                             }
                         }
 

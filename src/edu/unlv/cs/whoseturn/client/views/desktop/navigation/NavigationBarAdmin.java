@@ -13,7 +13,6 @@ import edu.unlv.cs.whoseturn.client.views.desktop.CategoryEdit;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryList;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnList;
-import edu.unlv.cs.whoseturn.client.views.desktop.Main;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
 
 /**
@@ -34,36 +33,18 @@ public class NavigationBarAdmin implements View {
         navigationBar.setSize("1000px", "200");
 
         /**
-         * Links to create category
-         */
-        Button createCategory = new Button();
-        createCategory.setText("Category Add");
-        createCategory.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new CategoryAdd()).asWidget());
-            }
-        });
-        navigationBar.add(createCategory);
-
-        /**
-         * Links to edit category
-         */
-        Button editCategory = new Button();
-        editCategory.setText("Category Edit");
-        editCategory.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new CategoryEdit()).asWidget());
-            }
-        });
-        navigationBar.add(editCategory);
-
-        /**
          * Links to list categories
          */
+        Button listTurnNavItem = new Button();
+        listTurnNavItem.setText("Turns");
+        listTurnNavItem.addClickHandler(new ClickHandler() {
+            public void onClick(final ClickEvent event) {
+                RootPanel.get("overall").clear();
+                RootPanel.get("overall").add((new TurnList()).asWidget());
+            }
+        });
         Button listCategory = new Button();
-        listCategory.setText("Category List");
+        listCategory.setText("Categories");
         listCategory.addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
                 RootPanel.get("overall").clear();
@@ -71,23 +52,7 @@ public class NavigationBarAdmin implements View {
             }
         });
         navigationBar.add(listCategory);
-
-        /**
-         * Links to main pane.
-         */
-        Button mainNavItem = new Button();
-        mainNavItem.setText("Main");
-        mainNavItem.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new Main()).asWidget());
-            }
-        });
-        navigationBar.add(mainNavItem);
-
-        /**
-         * Links to list users.
-         */
+        navigationBar.add(listTurnNavItem);
         Button listUserNavItem = new Button();
         listUserNavItem.setText("Users");
         listUserNavItem.addClickHandler(new ClickHandler() {
@@ -99,30 +64,12 @@ public class NavigationBarAdmin implements View {
         navigationBar.add(listUserNavItem);
 
         /**
-         * Links to create Turn
+         * Links to list users.
          */
-        Button createTurnNavItem = new Button();
-        createTurnNavItem.setText("Turn Add");
-        createTurnNavItem.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new TurnAdd()).asWidget());
-            }
-        });
-        navigationBar.add(createTurnNavItem);
 
         /**
          * Links to create Turn
          */
-        Button listTurnNavItem = new Button();
-        listTurnNavItem.setText("Turn List");
-        listTurnNavItem.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                RootPanel.get("overall").clear();
-                RootPanel.get("overall").add((new TurnList()).asWidget());
-            }
-        });
-        navigationBar.add(listTurnNavItem);
 
         return navigationBar;
     }

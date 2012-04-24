@@ -53,4 +53,8 @@ public interface CategoryServiceAsync {
      * @param async The async callback.
      */
     void getAllStrategies(AsyncCallback<List<String>> async);
+
+	void getCategoryInfo(String categoryName, AsyncCallback<List<String[]>> asyncCallback);
+
+	void categoryUpdate(String originalCategoryName, String newCategoryName, String newStrategy, String newTimeBoundary, Boolean deleted, AsyncCallback<String> asyncCallback);
 }
