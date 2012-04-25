@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,23 +27,20 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.DockPanel;
 
 /**
  * Allows a user to add a Turn instance to the program.
  */
 public class TurnAdd extends AbstractNavigationView implements NavigationView {
 
-	private final UsersServiceAsync usersService = GWT
-			.create(UsersService.class);
+	private final UsersServiceAsync usersService = GWT.create(UsersService.class);
 
-	private final CategoryServiceAsync categoryService = GWT
-			.create(CategoryService.class);
-	
-	private final TurnServiceAsync turnService = GWT
-			.create(TurnService.class);
-	
-	private final BadgeServiceAsync badgeService = GWT
-			.create(BadgeService.class);
+	private final CategoryServiceAsync categoryService = GWT.create(CategoryService.class);
+
+	private final TurnServiceAsync turnService = GWT.create(TurnService.class);
+
+	private final BadgeServiceAsync badgeService = GWT.create(BadgeService.class);
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -72,22 +70,6 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		turnAddPanel.add(cmbbxStrategy, 10, 73);
 		cmbbxStrategy.setSize("122px", "22px");
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		turnAddPanel.add(horizontalPanel, 10, 105);
-		horizontalPanel.setSize("980px", "300px");
-
-		final VerticalPanel verticalPanel = new VerticalPanel();
-		horizontalPanel.add(verticalPanel);
-		verticalPanel.setSize("300px", "");
-
-		final VerticalPanel verticalPanel_1 = new VerticalPanel();
-		horizontalPanel.add(verticalPanel_1);
-		verticalPanel_1.setSize("300px", "");
-
-		final VerticalPanel verticalPanel_2 = new VerticalPanel();
-		horizontalPanel.add(verticalPanel_2);
-		verticalPanel_2.setSize("300px", "0");
-		
 		final Label lblNoCategoriesFound = new Label("No categories found");
 		turnAddPanel.add(lblNoCategoriesFound, 10, 73);
 		lblNoCategoriesFound.setVisible(false);
@@ -97,63 +79,83 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 
 		Label lblChooseCategory = new Label("Choose Category");
 		turnAddPanel.add(lblChooseCategory, 10, 51);
-		
+
 		final Label lblDriver = new Label("");
 		turnAddPanel.add(lblDriver, 150, 452);
-		
+
+		ScrollPanel scrollPanel = new ScrollPanel();
+		scrollPanel.setVerticalScrollPosition(1);
+		turnAddPanel.add(scrollPanel, 0, 111);
+		scrollPanel.setSize("1000px", "300px");
+
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		scrollPanel.add(horizontalPanel);
+		horizontalPanel.setSize("967px", "300px");
+
+		final VerticalPanel verticalPanel = new VerticalPanel();
+		horizontalPanel.add(verticalPanel);
+		verticalPanel.setSize("250px", "");
+
+		final VerticalPanel verticalPanel_1 = new VerticalPanel();
+		horizontalPanel.add(verticalPanel_1);
+		verticalPanel_1.setSize("250px", "");
+
+		final VerticalPanel verticalPanel_2 = new VerticalPanel();
+		horizontalPanel.add(verticalPanel_2);
+		verticalPanel_2.setSize("250px", "0");
+
 		/**
 		 * A list that we will be able to iterate through to see which buttons
 		 * are toggle and which are not.
 		 */
 		final List<ToggleButton> toggleButtonList = new ArrayList<ToggleButton>();
-	
+
 		final List<String> usernameList = new ArrayList<String>();
-		
+
 		usersService.getUsername(new AsyncCallback<String>() {
-            public void onFailure(final Throwable caught) {
-            	System.err.println(caught.getStackTrace());
-            }
+			public void onFailure(final Throwable caught) {
+				System.err.println(caught.getStackTrace());
+			}
 
-            public void onSuccess(final String username) {
-            	usersService.findUsers(new AsyncCallback<List<String[]>>() {
-        			public void onFailure(Throwable caught) {
-        				System.err.println(caught.getStackTrace());
-        			}
+			public void onSuccess(final String username) {
+				usersService.findUsers(new AsyncCallback<List<String[]>>() {
+					public void onFailure(Throwable caught) {
+						System.err.println(caught.getStackTrace());
+					}
 
-        			public void onSuccess(List<String[]> usersList) {
-        				ToggleButton tempToggle;
-        				Integer horizontalCounter = 1;
-        				if (usersList != null) {
-        					for (String[] userListItem : usersList) {
-        						if (!username.equals(userListItem[0])) {
-	        						tempToggle = new ToggleButton(userListItem[0]);
-	        						tempToggle.setSize("310px", "26px");
-	        						switch (horizontalCounter) {
-	        						case 1:
-	        							verticalPanel.add(tempToggle);
-	        							break;
-	        						case 2:
-	        							verticalPanel_1.add(tempToggle);
-	        							break;
-	        						case 3:
-	        							verticalPanel_2.add(tempToggle);
-	        							break;
-        							default:
-        								throw new IllegalStateException();
-	        						}
-	        						toggleButtonList.add(tempToggle);
-	        						horizontalCounter++;
-	        						if (horizontalCounter >= 4)
-	        							horizontalCounter = 1;
-        						}
-        					}
-        				}
-        			}
-        		});
-            }
+					public void onSuccess(List<String[]> usersList) {
+						ToggleButton tempToggle;
+						Integer horizontalCounter = 1;
+						if (usersList != null) {
+							for (String[] userListItem : usersList) {
+								if (!username.equals(userListItem[0])) {
+									tempToggle = new ToggleButton(userListItem[0]);
+									tempToggle.setSize("250px", "26px");
+									switch (horizontalCounter) {
+									case 1:
+										verticalPanel.add(tempToggle);
+										break;
+									case 2:
+										verticalPanel_1.add(tempToggle);
+										break;
+									case 3:
+										verticalPanel_2.add(tempToggle);
+										break;
+									default:
+										throw new IllegalStateException();
+									}
+									toggleButtonList.add(tempToggle);
+									horizontalCounter++;
+									if (horizontalCounter >= 4)
+										horizontalCounter = 1;
+								}
+							}
+						}
+					}
+				});
+			}
 
-        });
-		
+		});
 
 		categoryService.getAllCategories(new AsyncCallback<List<String>>() {
 			public void onFailure(Throwable caught) {
@@ -172,7 +174,6 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 			}
 		});
 
-		
 		btnSubmit.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				System.out.print("The following people are selected: ");
@@ -186,8 +187,8 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 				}
 
 				System.out.print("\nTotal count: ");
-				System.out.println(count+1);
-				
+				System.out.println(count + 1);
+
 				turnService.findUnluckySoul(usernameList, cmbbxStrategy.getValue(cmbbxStrategy.getSelectedIndex()), new AsyncCallback<List<String>>() {
 					public void onFailure(Throwable caught) {
 						System.err.println(caught.getStackTrace());
@@ -196,7 +197,7 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 					public void onSuccess(List<String> result) {
 						lblDriver.setText(result.get(0));
 						usernameList.clear();
-						
+
 						badgeService.calculateBadges(result.get(1), new AsyncCallback<Void>() {
 							public void onFailure(Throwable caught) {
 								System.err.println(caught.getStackTrace());

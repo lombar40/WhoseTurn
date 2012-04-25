@@ -125,4 +125,6 @@ public interface UsersService extends RemoteService {
      */
     String updateUser(String previousUsername, String previousEmail,  String userName, String email, Boolean admin,
             Boolean deleted);
+
+	List<String[]> getProfileInfo(String userName);
 }

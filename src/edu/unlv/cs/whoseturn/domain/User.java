@@ -59,7 +59,7 @@ public class User implements IsSerializable  {
      * Possible way to display a blob for a user.
      */
     @Persistent
-    private byte[] avatarBlob;
+    private Integer avatarId;
 
     /**
      * How many times a user has lied.
@@ -170,24 +170,6 @@ public class User implements IsSerializable  {
         this.deleted = deleted;
     }
 
-    /**
-     * Get the avatar blob.
-     * 
-     * @return The avatar blob.
-     */
-    public final byte[] getAvatarBlob() {
-        return avatarBlob;
-    }
-
-    /**
-     * Set the avatar blob.
-     * 
-     * @param avatarBlob The avatar blob.
-     */
-    public final void setAvatarBlob(final byte[] avatarBlob) {
-        this.avatarBlob = avatarBlob;
-    }
-
     public final Set<String> getTurnItems() {
         return turnItems;
     }
@@ -262,5 +244,13 @@ public class User implements IsSerializable  {
         this.penaltyCount++;
 
     }
+
+	public Integer getAvatarId() {
+		return avatarId;
+	}
+
+	public void setAvatarId(Integer avatarId) {
+		this.avatarId = avatarId;
+	}
 
 }

@@ -76,6 +76,15 @@ public class StatusBarImpl implements StatusBar {
         });        
         panel.add(btnLogout);
         
+        Button btnMobile = new Button("Mobile");
+        btnMobile.addClickHandler(new ClickHandler() {
+        	public void onClick(ClickEvent event) {
+        		Window.open("/mobile/index", "_self", "");
+        	}
+        });
+        btnMobile.setText("Mobile View");
+        panel.add(btnMobile);
+        
         return panel;
     }
 

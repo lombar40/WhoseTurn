@@ -24,7 +24,7 @@ public class Turn {
     private String keyString;
 
     /**
-     * Time stampl.
+     * Time stamp.
      */
     @Persistent
     private Date turnDateTime;
