@@ -100,7 +100,7 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		}
 
 		// TeamCheater badge check: see if everyone in the turn was selected
-		if (selected_count == user_count) {
+		if (selected_count == user_count && user_count > 1) {
 			// award the badge to everyone in the turn
 			for (String turn_key : turn_items) {
 				Key turnItemKey = KeyFactory.stringToKey(turn_key);

@@ -98,9 +98,14 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         List<User> results = (List<User>) query
                 .execute(user.getEmail());
 
+        if (results.size() == 0) {
+        	return "UserNotFound";
+        }
+        
         // Check to make sure only one user was found and return the username
-        if (results.size() != 1) {
-        	throw new IllegalStateException();
+        if (results.size() >= 2) {
+        	System.err.println("More than one user found with the email: " + user.getEmail());
+        	return "UserNotFound";
         }
         
         return results.get(0).getUsername();
