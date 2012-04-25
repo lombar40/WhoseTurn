@@ -17,53 +17,53 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 /**
  * Class used to represent Badges that are awarded to users.
  * 
- * List of Badges: (Extra returns are to allow autoformat to keep things aligned properly.)
+ * <p>List of Badges: (Extra returns are to allow autoformat to keep things aligned properly.)
  * 
- * BadgeID | Badge Name | Badge Criterion
+ * <p>BadgeID | Badge Name | Badge Criterion
  * 
- * 1000 | Jackass | User submitted a turn with only himself.
+ * <p>1000 | Jackass | User submitted a turn with only himself.
  * 
- * 1001 | Corner Stone | Selected out of group of 4
+ * <p>1001 | Corner Stone | Selected out of group of 4
  * 
- * 1002 | Don't Cross The Streams | Not selected out of group of 4
+ * <p>1002 | Don't Cross The Streams | Not selected out of group of 4
  * 
- * 1003 | Human Sacrifice | Selected out of group of 5
+ * <p>1003 | Human Sacrifice | Selected out of group of 5
  * 
- * 1004 | Not The Thumb | Not selected out of group of 5
+ * <p>1004 | Not The Thumb | Not selected out of group of 5
  * 
- * 1005 | Six Minute Abs | Selected out of group of 6
+ * <p>1005 | Six Minute Abs | Selected out of group of 6
  * 
- * 1006 | Pick Up Sticks | Not selected out of group of 6
+ * <p>1006 | Pick Up Sticks | Not selected out of group of 6
  * 
- * 1007 | Crapped Out | Selected out of group of 7
+ * <p>1007 | Crapped Out | Selected out of group of 7
  * 
- * 1008 | Lucky No. 7 | Not selected out of group of 7
+ * <p>1008 | Lucky No. 7 | Not selected out of group of 7
  * 
- * 1009 | Snow White | Selected out of group of 8
+ * <p>1009 | Snow White | Selected out of group of 8
  * 
- * 1010 | Dwarf | Not selected out of group of 8
+ * <p>1010 | Dwarf | Not selected out of group of 8
  * 
- * 1011 | FML | Selected out of group of more than 8
+ * <p>1011 | FML | Selected out of group of more than 8
  * 
- * 1012 | Statistically Speaking | Not selected out of group of more than 8
+ * <p>1012 | Statistically Speaking | Not selected out of group of more than 8
  * 
- * 1013 | Saint | User has no lies for 50 turns.
+ * <p>1013 | Saint | User has no lies for 50 turns.
  * 
- * 1014 | Socialite | User is part of a turn with more than 10 people
+ * <p>1014 | Socialite | User is part of a turn with more than 10 people
  * 
- * 1015 | Rookie | User has participated in 10 turns
+ * <p>1015 | Rookie | User has participated in 10 turns
  * 
- * 1016 | Veteran | User has participated in 100 turns
+ * <p>1016 | Veteran | User has participated in 100 turns
  * 
- * 1017 | Elite | User has participated in 250 turns
+ * <p>1017 | Elite | User has participated in 250 turns
  * 
- * 1018 | Whose Turn Master | User has every badge except StormShadow and MythBusters
+ * <p>1018 | Whose Turn Master | User has every badge except StormShadow and MythBusters
  * 
- * 1019 | Team Cheater | Everyone in a turn was selected.
+ * <p>1019 | Team Cheater | Everyone in a turn was selected.
  * 
- * 1020 | StormShadow | User is Chris Jones
+ * <p>1020 | StormShadow | User is Chris Jones
  * 
- * 1021 | MythBusters | User is Matthew Sowders
+ * <p>1021 | MythBusters | User is Matthew Sowders
  */
 //@PersistenceCapable
 @PersistenceCapable(identityType=IdentityType.APPLICATION,detachable="true")

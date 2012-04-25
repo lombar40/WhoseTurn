@@ -43,8 +43,8 @@ public class UserNotFound implements View {
                 "This e-mail address was not found in our database. Please contact an administrator to be invited.");
         userNotFoundPanel.add(lblNotloggedin);
 
-        Button btnUserNotFoundLogout = new Button("Logout");
-        btnUserNotFoundLogout.setText("Return to Login");
+        Button btnUserNotFoundLogout = new Button("Return to Login");
+        //btnUserNotFoundLogout.setText("Return to Login");
         userNotFoundPanel.add(btnUserNotFoundLogout);
 
         btnUserNotFoundLogout.addClickHandler(new ClickHandler() {

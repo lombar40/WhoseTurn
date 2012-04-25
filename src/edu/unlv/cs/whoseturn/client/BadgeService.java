@@ -8,7 +8,7 @@ public interface BadgeService extends RemoteService {
 	/**
 	 * Used to calculate badges. This method initiates the calculation of all badges.
 	 * 
-	 * @param turnKeyString The turn's keystring
+	 * @param turnKeyString The turn's keystring.
 	 */
 	public void calculateBadges(String turnKeyString) throws IllegalArgumentException;
 	

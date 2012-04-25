@@ -30,12 +30,18 @@ public class Whoseturn implements EntryPoint {
         final RootPanel rootPanel = RootPanel.get("overall");
         rootPanel.setSize("1000px", "750px");
 
+        /**
+         * Checks to see if the user is logged in through OpenID
+         */
         usersService.isLoggedIn(new AsyncCallback<Boolean>() {
             public void onFailure(final Throwable caught) {
             	System.err.println(caught.getStackTrace());
             }
 
             public void onSuccess(final Boolean result) {
+            	/**
+            	 * Since the user is logged in, try to retrieve the username
+            	 */
                 if (result) {
                     usersService.getUsername(new AsyncCallback<String>() {
                         public void onFailure(final Throwable caught) {
@@ -43,11 +49,18 @@ public class Whoseturn implements EntryPoint {
                         }
 
                         public void onSuccess(final String result) {
-                            if (result.equals("UserNotFound")) {
+                            /**
+                             * The username was not found so present the UserNotFound screen.
+                             */
+                        	if (result.equals("UserNotFound")) {
                                 RootPanel.get("overall").clear();
                                 RootPanel.get("overall").add(
                                         (new UserNotFound()).asWidget());
-                            } else {
+                            } 
+                        	/**
+                        	 * The username was found so present the TurnAdd screen.
+                        	 */
+                        	else {
                                 RootPanel.get("overall").clear();
                                 RootPanel.get("overall").add(
                                         (new TurnAdd()).asWidget());
@@ -55,7 +68,12 @@ public class Whoseturn implements EntryPoint {
                         }
 
                     });
-                } else {
+                  
+                } 
+                /**
+            	 * User isn't logged in, so present the login screen.
+            	 */
+                else {   
                     RootPanel.get("overall").clear();
                     RootPanel.get("overall").add((new Login()).asWidget());
                 }
