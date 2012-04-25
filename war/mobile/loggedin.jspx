@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<h1><br />Whose Turn?<br /><br /></h1>
+		<h1><br />Whose Turn<img src="/images/logo.png" /><br /><br /></h1>
 		<h3>Hello ${ currentUser.nickname }!<br /><br /></h3>
 		<h2>Category selection</h2>
 		<h3>
@@ -29,7 +29,8 @@
 	<div class="footer">
 		<br />
 		<a href="logout" class="button">Log out</a>
-		<a href="" class="button">App Settings</a>
+		<a href="/" class="button">Configure</a>
+<!-- 	<a href="" class="button">App Settings</a> -->
 	</div>
 	
 </body>
