@@ -2,7 +2,6 @@ package edu.unlv.cs.whoseturn.mobile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.jdo.Extent;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -82,7 +80,7 @@ public class MobileLoggedinController extends HttpServlet {
 		// If the user is not logged in, prompt for login
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn()) {
-			String url = userService.createLoginURL("/mobile");
+			String url = userService.createLoginURL("/mobile/index");
 			RequestDispatcher view = request.getRequestDispatcher(url);
 			try {
 				view.forward(request, response);
@@ -98,7 +96,7 @@ public class MobileLoggedinController extends HttpServlet {
 		// Proceed
 		RequestDispatcher view = request.getRequestDispatcher("loggedin.jspx");
 		try {
-			testData();
+//			testData();
 			
 			doStuff(request, response);
 			view.forward(request, response);

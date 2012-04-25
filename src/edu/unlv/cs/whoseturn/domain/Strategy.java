@@ -1,10 +1,12 @@
 package edu.unlv.cs.whoseturn.domain;
 
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
 
 @PersistenceCapable
 public class Strategy {
@@ -18,8 +20,13 @@ public class Strategy {
     private String strategyName;
 
 	@Persistent
+	private Integer strategyId;
+	
+	@Persistent
     private Boolean deleted;
 
+	
+	// Getters and Setters.
 	public String getKeyString() {
 		return keyString;
 	}
@@ -43,4 +50,13 @@ public class Strategy {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
+
+	public Integer getStrategyId() {
+		return strategyId;
+	}
+
+	public void setStrategyId(Integer strategyId) {
+		this.strategyId = strategyId;
+	}
 }
+	
