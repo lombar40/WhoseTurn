@@ -7,12 +7,12 @@ import javax.jdo.Query;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import edu.unlv.cs.whoseturn.domain.PMF;
+import edu.unlv.cs.whoseturn.domain.User;
 
 /**
  * EntryVerifier validates that the data the user enters is valid.
  */
-public class EntryVerifier 
-{	
+public class EntryVerifier {	
 	private static String errorMessage; // The message to be displayed when an error occurs
 	
 	/**
@@ -21,11 +21,9 @@ public class EntryVerifier
 	 * @return true if valid, false if invalid
 	 */
 	@SuppressWarnings("unchecked")
-	public static String isEmailValid(String email)
-	{
+	public static String isEmailValid(String email) {
 		// The email can't be null
-		if (email.isEmpty())
-		{
+		if (email.isEmpty()) {
 			errorMessage = "E-mail cannot be empty.";
 			return errorMessage;
 		}
@@ -36,8 +34,7 @@ public class EntryVerifier
 		boolean isValid = validator.isValid(email);
 		
 		// For one reason or another (invalid characters, no domain, no "@", etc.), the email address is invalid
-		if (!isValid)
-		{
+		if (!isValid) {
 			errorMessage = "Invalid e-mail address";
 			return errorMessage;
 		}
@@ -45,21 +42,18 @@ public class EntryVerifier
 		
 		// The following checks for a duplicate email address in the database of current users
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		Query query = pm.newQuery(User.class);
 
-		List<edu.unlv.cs.whoseturn.domain.User> results;
+		List<User> results;
 	    
-	    results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
-	   	if (!results.isEmpty()) 
-	   	{
-	            for (edu.unlv.cs.whoseturn.domain.User e : results) 
-	            {
-	                if (email.equals(e.getEmail()))
-	                {
-	                	errorMessage = "Email already exists";
-	                	return errorMessage;
-	                }
-	            }
+	    results = (List<User>) query.execute();
+	   	if (!results.isEmpty()) {
+            for (User e : results) {
+                if (email.equals(e.getEmail())) {
+                	errorMessage = "Email already exists";
+                	return errorMessage;
+                }
+            }
 	   	}
 		
 		// If we're here, the email is new and (hopefully) valid	
@@ -72,42 +66,35 @@ public class EntryVerifier
 	 * @return true if valid, false if invalid
 	 */
 	@SuppressWarnings("unchecked")
-	public static String isUsernameValid(String username)
-	{
+	public static String isUsernameValid(String username) {
 		// The username can't be less than 3 characters
-		if (username.length() < 3)
-		{
+		if (username.length() < 3) {
 			errorMessage = "Username must have at least 3 characters";
 			return errorMessage;
 		}
 		
 		// The username can't be longer than 30 characters
-		if (username.length() > 30)
-		{
+		if (username.length() > 30) {
 			errorMessage = "Username must be under 30 characters";
 			return errorMessage;
 		}
 		
 		// The username can't contain special characters
-		if (!username.matches("^[a-zA-Z0-9 _]+$"))
-		{
+		if (!username.matches("^[a-zA-Z0-9 _]+$")) {
 			errorMessage = "Username can't contain special characters";
 			return errorMessage;
 		}
 
 		// The following checks for a duplicate username in the database of current users
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+		Query query = pm.newQuery(User.class);
 
-		List<edu.unlv.cs.whoseturn.domain.User> results;
+		List<User> results;
 			    
-		results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
-		if (!results.isEmpty()) 
-		{
-			for (edu.unlv.cs.whoseturn.domain.User e : results) 
-			{
-				if (username.equals(e.getUsername()))
-				{
+		results = (List<User>) query.execute();
+		if (!results.isEmpty()) {
+			for (User e : results) {
+				if (username.equals(e.getUsername())) {
 					errorMessage = "Username already exists";
 					return errorMessage;
 				}
@@ -151,12 +138,9 @@ public class EntryVerifier
 			    
 		results = (List<edu.unlv.cs.whoseturn.domain.Category>) query.execute();
 		
-		if (!results.isEmpty()) 
-		{
-			for (edu.unlv.cs.whoseturn.domain.Category queriedCategory : results) 
-			{
-				if (category.equals(queriedCategory.getName()))
-				{
+		if (!results.isEmpty()) {
+			for (edu.unlv.cs.whoseturn.domain.Category queriedCategory : results) {
+				if (category.equals(queriedCategory.getName())) {
 					errorMessage = "Category already exists";
 					return errorMessage;
 				}

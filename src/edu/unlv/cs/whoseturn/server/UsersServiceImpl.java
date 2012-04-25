@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -21,6 +20,7 @@ import edu.unlv.cs.whoseturn.domain.PMF;
 import edu.unlv.cs.whoseturn.domain.Strategy;
 import edu.unlv.cs.whoseturn.domain.Turn;
 import edu.unlv.cs.whoseturn.domain.TurnItem;
+import edu.unlv.cs.whoseturn.domain.User;
 import edu.unlv.cs.whoseturn.shared.EntryVerifier;
 
 /**
@@ -65,7 +65,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Logged in user.
          */
-        User user = userService.getCurrentUser();
+        com.google.appengine.api.users.User user = userService.getCurrentUser();
 
         // Ensure the user is logged in
         if (user == null) {
@@ -80,7 +80,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Query to find the user based off the email
          */
-        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class,
+        Query query = pm.newQuery(User.class,
                 "email == emailParam");
 
         /**
@@ -91,20 +91,15 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Execute the query with the email parameter
          */
-        List<edu.unlv.cs.whoseturn.domain.User> results = (List<edu.unlv.cs.whoseturn.domain.User>) query
+        List<User> results = (List<User>) query
                 .execute(user.getEmail());
 
         // Check to make sure only one user was found and return the username
-        if (results.size() == 1) {
-            return results.get(0).getUsername();
+        if (results.size() != 1) {
+        	throw new IllegalStateException();
         }
-        if (results.size() == 0) {
-            return "UserNotFound";
-        }
-
-        // TODO, should we change this to throw illegal states instead?
-        // Something went wrong if we're down here
-        return "ErrorFindingUser";
+        
+        return results.get(0).getUsername();
     }
 
     @SuppressWarnings("unchecked")
@@ -118,7 +113,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Logged in user.
          */
-        User user = userService.getCurrentUser();
+        com.google.appengine.api.users.User user = userService.getCurrentUser();
 
         // Ensure the user is logged in
         if (user == null) {
@@ -133,7 +128,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Query to find the user based off the email
          */
-        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class,
+        Query query = pm.newQuery(User.class,
                 "email == emailParam");
 
         /**
@@ -144,7 +139,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Execute the query with the email parameter
          */
-        List<edu.unlv.cs.whoseturn.domain.User> results = (List<edu.unlv.cs.whoseturn.domain.User>) query
+        List<User> results = (List<User>) query
                 .execute(user.getEmail());
 
         // Check to make sure only one user was found and return the username
@@ -214,7 +209,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * New user object to add.
          */
-        edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
+        User user = new User();
 
         // Set properties of the user
         user.setAdmin(admin);
@@ -280,7 +275,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Query for the users.
          */
-        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+        Query query = pm.newQuery(User.class);
 
         /**
          * Result string list.
@@ -290,12 +285,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Result List.
          */
-        List<edu.unlv.cs.whoseturn.domain.User> results;
+        List<User> results;
 
         try {
-            results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+            results = (List<User>) query.execute();
             if (!results.isEmpty()) {
-                for (edu.unlv.cs.whoseturn.domain.User e : results) {
+                for (User e : results) {
                     if (e.getUsername().equals(usermame)) {
                         resultStringList.add(new String[] { e.getUsername(),
                                 e.getEmail(), e.getAdmin().toString(),
@@ -323,7 +318,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Query for the users.
          */
-        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+        Query query = pm.newQuery(User.class);
 
         /**
          * Result string list.
@@ -333,12 +328,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Result List.
          */
-        List<edu.unlv.cs.whoseturn.domain.User> results;
+        List<User> results;
 
         try {
-            results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+            results = (List<User>) query.execute();
             if (!results.isEmpty()) {
-                for (edu.unlv.cs.whoseturn.domain.User e : results) {
+                for (User e : results) {
                     resultStringList.add(new String[] { e.getUsername(),
                             e.getEmail(), e.getAdmin().toString() });
                 }
@@ -356,16 +351,16 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
     @Override
     public final List<String> findNonDeletedUsers() {
         PersistenceManager pm = PMF.get().getPersistenceManager();
-        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class,
+        Query query = pm.newQuery(User.class,
                 "deleted != true");
 
         List<String> resultStringList = new ArrayList<String>();
-        List<edu.unlv.cs.whoseturn.domain.User> results;
+        List<User> results;
 
         try {
-            results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+            results = (List<User>) query.execute();
             if (!results.isEmpty()) {
-                for (edu.unlv.cs.whoseturn.domain.User e : results) {
+                for (User e : results) {
                     resultStringList.add(e.getUsername());
                 }
             } else {
@@ -382,15 +377,15 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	@Override
     public final List<String> findAllUsers() {
         PersistenceManager pm = PMF.get().getPersistenceManager();
-        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
+        Query query = pm.newQuery(User.class);
 
         List<String> resultStringList = new ArrayList<String>();
-        List<edu.unlv.cs.whoseturn.domain.User> results;
+        List<User> results;
 
         try {
-            results = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+            results = (List<User>) query.execute();
             if (!results.isEmpty()) {
-                for (edu.unlv.cs.whoseturn.domain.User e : results) {
+                for (User e : results) {
                     resultStringList.add(e.getUsername());
                 }
             } else {
@@ -436,8 +431,8 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         List <TurnItem> TurnItemWipeList = (List<TurnItem>)TurnItemWipeQuery.execute();
         pm.deletePersistentAll(TurnItemWipeList);
         
-        Query UserWipeQuery = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
-        List <edu.unlv.cs.whoseturn.domain.User> UserWipeList = (List<edu.unlv.cs.whoseturn.domain.User>)UserWipeQuery.execute();
+        Query UserWipeQuery = pm.newQuery(User.class);
+        List <User> UserWipeList = (List<User>)UserWipeQuery.execute();
         pm.deletePersistentAll(UserWipeList);
         
         // Create badges
@@ -679,7 +674,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	private void createNewUser(List<Badge> badgeList, String username, String email) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		edu.unlv.cs.whoseturn.domain.User user = new edu.unlv.cs.whoseturn.domain.User();
+		User user = new User();
 		BadgeAwarded tempBadgeAwarded;
 
         // Set properties of the user
@@ -762,7 +757,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Query to find the user based off the email
          */
-        Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class,
+        Query query = pm.newQuery(User.class,
                 "username == usernameParam");
 
         /**
@@ -773,13 +768,13 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
         /**
          * Execute the query with the email parameter
          */
-        List<edu.unlv.cs.whoseturn.domain.User> resultList = (List<edu.unlv.cs.whoseturn.domain.User>) query
+        List<User> resultList = (List<User>) query
                 .execute(previousUsername);
 
         /**
          * User object to update.
          */
-        edu.unlv.cs.whoseturn.domain.User user = resultList.get(0);
+        User user = resultList.get(0);
 
         // Set properties of the user
         user.setAdmin(admin);

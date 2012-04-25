@@ -40,12 +40,6 @@ public interface CategoryService extends RemoteService {
     List<String> getAllCategories();
 
     /**
-     * A way to help populate the database with some useful info, for testing,
-     * debugging, etc.
-     */
-    void loadInitialCategories();
-
-    /**
      * Returns a list of all strategies in the system. Useful for when adding a
      * new category.
      * 

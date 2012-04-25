@@ -1,13 +1,11 @@
 package edu.unlv.cs.whoseturn.server;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.unlv.cs.whoseturn.client.CategoryService;
@@ -20,20 +18,11 @@ import edu.unlv.cs.whoseturn.shared.EntryVerifier;
  * Category Service which allows the client to get information from the server
  * regarding categories.
  */
-public class CategoryServiceImpl extends RemoteServiceServlet implements CategoryService, Serializable, IsSerializable {
-
+public class CategoryServiceImpl extends RemoteServiceServlet implements CategoryService {
 	/**
-	 * Variable used to allow the class to be serialized.
+	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	public final void loadInitialCategories() {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Category category = new Category();
-		category.setName("Drive");
-		pm.makePersistent(category);
-	}
+	private static final long serialVersionUID = 3438866264260075434L;
 
 	@SuppressWarnings("unchecked")
 	@Override

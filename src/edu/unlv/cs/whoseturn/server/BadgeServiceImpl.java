@@ -800,11 +800,11 @@ public class BadgeServiceImpl extends RemoteServiceServlet implements BadgeServi
 		Key turnKey = KeyFactory.stringToKey(turnKeyString);
 		Turn turn = pm.getObjectById(Turn.class, turnKey);
 		// Retrieve a list of all users in the database for badge calculation.
-		Query query = pm.newQuery(edu.unlv.cs.whoseturn.domain.User.class);
-		List<edu.unlv.cs.whoseturn.domain.User> userQueryList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
-		List<edu.unlv.cs.whoseturn.domain.User> userList = new ArrayList<edu.unlv.cs.whoseturn.domain.User>();
+		Query query = pm.newQuery(User.class);
+		List<User> userQueryList = new ArrayList<User>();
+		List<User> userList = new ArrayList<User>();
 
-		userQueryList = (List<edu.unlv.cs.whoseturn.domain.User>) query.execute();
+		userQueryList = (List<User>) query.execute();
 		for (User user : userQueryList) {
 			userList.add(user);
 		}

@@ -321,7 +321,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		Integer index = 0;								// Index of the currently chosen user
 		Double tempCurrentRatio = ratioList.get(0);		// Sets the first ratio to the first user in the list
 		Double tempRatio;								// Storage of a user's ratio to compare to the currentratio
-		Integer sameCounter = 0;						// Counter to check if all the users in the turn have the same ratio.
+		Integer sameCounter = 1;						// Counter to check if all the users in the turn have the same ratio.
 
 		/**
 		 * Calculate what user in the turn has the lowest ratio.
@@ -447,7 +447,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		 */
 		Integer index = 0;											// Set the index inlitally to the first user in the list
 		Long tempCurrentMilliSeconds = millisecondsList.get(0);		// Set the currentMilliseconds to the first user in the list
-		Integer sameCounter = 0;									// Set the samecounter to 0
+		Integer sameCounter = 1;									// Set the samecounter to 1
 		
 		/**
 		 * Loops through the milliseconds list to find the highest value.

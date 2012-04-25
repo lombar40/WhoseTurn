@@ -44,15 +44,15 @@ public class Login implements View {
 		// Use RootPanel.get() to get the entire body element
 
 		final AbsolutePanel loginPanel = new AbsolutePanel();
-		loginPanel.setSize("1000px", "352px");
-		
-		AbsolutePanel absolutePanel = new AbsolutePanel();
-		loginPanel.add(absolutePanel, 304, 10);
-		absolutePanel.setSize("405px", "218px");
-		
-		final Label lblKeystring = new Label("");
-		absolutePanel.add(lblKeystring, 10, 87);
-		lblKeystring.setSize("60px", "18px");
+		loginPanel.setSize("1000px", "300px");
+
+		AbsolutePanel loginAbsolutePanel = new AbsolutePanel();
+		loginPanel.add(loginAbsolutePanel, 304, 10);
+		loginAbsolutePanel.setSize("405px", "218px");
+
+		final Label lblStatus = new Label("");
+		loginPanel.add(lblStatus, 565, 251);
+		lblStatus.setSize("60px", "18px");
 
 		Button btnInitalizeDatabase = new Button("Initalize Database");
 		btnInitalizeDatabase.addClickHandler(new ClickHandler() {
@@ -63,62 +63,62 @@ public class Login implements View {
 					}
 
 					public void onSuccess(final Void result) {
-						lblKeystring.setText("Initialized");
+						lblStatus.setText("Initialized");
 					}
 				});
 			}
 		});
-		loginPanel.add(btnInitalizeDatabase, 440, 251);
+		loginPanel.add(btnInitalizeDatabase, 440, 245);
 
-		
-
-		final Label lblNewLabel = new Label("Please login by choosing one of the following authentication options.");
-		absolutePanel.add(lblNewLabel);
+		final Label lblTitle = new Label("Please login by choosing one of the following authentication options.");
+		loginAbsolutePanel.add(lblTitle);
 
 		Image googleImage = new Image("images/googleW.png");
-		absolutePanel.add(googleImage, 53, 24);
+		loginAbsolutePanel.add(googleImage, 53, 24);
 		googleImage.setStyleName("ImageLink");
 
 		Image yahooImage = new Image("images/yahooW.png");
-		absolutePanel.add(yahooImage, 113, 24);
+		loginAbsolutePanel.add(yahooImage, 113, 24);
 		yahooImage.setStyleName("ImageLink");
 
 		Image aolImage = new Image("images/aolW.png");
-		absolutePanel.add(aolImage, 173, 24);
+		loginAbsolutePanel.add(aolImage, 173, 24);
 		aolImage.setStyleName("ImageLink");
 
 		Image myspaceImage = new Image("images/myspaceW.png");
-		absolutePanel.add(myspaceImage, 233, 24);
+		loginAbsolutePanel.add(myspaceImage, 233, 24);
 		myspaceImage.setStyleName("ImageLink");
 
 		Image openIDImage = new Image("images/myopenidW.png");
-		absolutePanel.add(openIDImage, 293, 24);
+		loginAbsolutePanel.add(openIDImage, 293, 24);
 		openIDImage.setStyleName("ImageLink");
-		
-				final TextBox txtbxUsername = new TextBox();
-				absolutePanel.add(txtbxUsername, 160, 47);
+
+		final TextBox txtbxUsername = new TextBox();
+		txtbxUsername.setMaxLength(100);
+		loginAbsolutePanel.add(txtbxUsername, 160, 47);
 
 		final TextBox txtbxEmail = new TextBox();
-		absolutePanel.add(txtbxEmail, 160, 87);
+		txtbxEmail.setMaxLength(100);
+		loginAbsolutePanel.add(txtbxEmail, 160, 87);
 
 		final Label lblEmail = new Label("Email:");
-		absolutePanel.add(lblEmail, 111, 95);
+		loginAbsolutePanel.add(lblEmail, 111, 95);
 		lblEmail.setSize("41px", "18px");
 
 		final Label lblUsername = new Label("Username:");
-		absolutePanel.add(lblUsername, 82, 55);
+		loginAbsolutePanel.add(lblUsername, 82, 55);
 		lblUsername.setSize("70px", "18px");
 
 		Label lblAdmin = new Label("Admin:");
-		absolutePanel.add(lblAdmin, 111, 123);
+		loginAbsolutePanel.add(lblAdmin, 111, 123);
 
 		final CheckBox chckbxAdmin = new CheckBox("");
-		absolutePanel.add(chckbxAdmin, 160, 123);
+		loginAbsolutePanel.add(chckbxAdmin, 160, 123);
 
 		Button btnAdduser = new Button("adduser");
-		absolutePanel.add(btnAdduser, 160, 149);
-
+		loginAbsolutePanel.add(btnAdduser, 160, 149);
 		btnAdduser.setText("Add User");
+
 
 		btnAdduser.addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
@@ -139,7 +139,7 @@ public class Login implements View {
 					public void onSuccess(final String result) {
 						// Result is an error message or the key if
 						// successful
-						lblKeystring.setText(result);
+						lblStatus.setText(result);
 					}
 				});
 			}
@@ -149,7 +149,7 @@ public class Login implements View {
 			public void onClick(final ClickEvent event) {
 				usersService.getLoginURL("myopenid", finalURL, new AsyncCallback<String>() {
 					public void onFailure(final Throwable caught) {
-						lblNewLabel.setText("FAILURE");
+						lblTitle.setText("FAILURE");
 						System.err.println(caught.getStackTrace());
 					}
 
@@ -164,7 +164,7 @@ public class Login implements View {
 			public void onClick(final ClickEvent event) {
 				usersService.getLoginURL("myspace", finalURL, new AsyncCallback<String>() {
 					public void onFailure(final Throwable caught) {
-						lblNewLabel.setText("FAILURE");
+						lblTitle.setText("FAILURE");
 						System.err.println(caught.getStackTrace());
 					}
 
@@ -179,7 +179,7 @@ public class Login implements View {
 			public void onClick(final ClickEvent event) {
 				usersService.getLoginURL("aol", finalURL, new AsyncCallback<String>() {
 					public void onFailure(final Throwable caught) {
-						lblNewLabel.setText("FAILURE");
+						lblTitle.setText("FAILURE");
 						System.err.println(caught.getStackTrace());
 					}
 
@@ -194,7 +194,7 @@ public class Login implements View {
 			public void onClick(final ClickEvent event) {
 				usersService.getLoginURL("yahoo", finalURL, new AsyncCallback<String>() {
 					public void onFailure(final Throwable caught) {
-						lblNewLabel.setText("FAILURE");
+						lblTitle.setText("FAILURE");
 						System.err.println(caught.getStackTrace());
 					}
 
@@ -214,7 +214,7 @@ public class Login implements View {
 			public void onClick(final ClickEvent event) {
 				usersService.getLoginURL("google", finalURL, new AsyncCallback<String>() {
 					public void onFailure(final Throwable caught) {
-						lblNewLabel.setText("FAILURE");
+						lblTitle.setText("FAILURE");
 						System.err.println(caught.getStackTrace());
 					}
 
