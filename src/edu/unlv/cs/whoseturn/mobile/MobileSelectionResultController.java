@@ -40,6 +40,12 @@ public class MobileSelectionResultController extends MobileCategoryScreenControl
 		}
 	}
 	
+	/**
+	 * Models the active and inactive users (users elected and users not elected)
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	private void doStuff(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		modelCategory(request, response);
 		PersistenceManager manager = PMF.get().getPersistenceManager();
@@ -54,10 +60,23 @@ public class MobileSelectionResultController extends MobileCategoryScreenControl
         
         List<User> inactiveUsers = new LinkedList<User>();
         for (User user : selectedUsers) {
+        	/*
         	if (activeUsers.contains(user)) {
         		continue;
         	}
+        	*/
         	
+        	// TODO: Make User implement comparable
+        	boolean active = false;
+        	for (User activeUser : activeUsers) {
+        		if (activeUser.getUsername().equals(user.getUsername())) {
+        			active = true;
+        		}
+        	}
+        	
+        	if (active) {
+        		continue;
+        	}
         	inactiveUsers.add(user);
         }
         

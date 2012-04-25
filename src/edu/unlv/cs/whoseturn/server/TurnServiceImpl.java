@@ -23,6 +23,7 @@ import edu.unlv.cs.whoseturn.domain.Strategy;
 import edu.unlv.cs.whoseturn.domain.Turn;
 import edu.unlv.cs.whoseturn.domain.TurnItem;
 import edu.unlv.cs.whoseturn.domain.User;
+import edu.unlv.cs.whoseturn.domain.UserSelection;
 
 /**
  * Category Service which allows the client to get information from the server
@@ -41,26 +42,54 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 */
 	public List<User> findDriver(List<User> users, Category category) {
 		List<String> usernames = new LinkedList<String>();
-		List<User> usersSelected; // = new LinkedList<User>();
+		List<User> usersSelected = new LinkedList<User>();
 		
-		/*
 		for (User user : users) {
 			usernames.add(user.getUsername());
 		}
 		
 		String categoryName = category.getName();
 		
-		List<String> results = findDriver(usernames, categoryName);
+		List<String> results = findUnluckySoul(usernames, categoryName);
 		
-		usersSelected = getUserObjects(results);
-		*/
+//		usersSelected = getUserObjects(results);
+
+		{
+			PersistenceManager manager = PMF.get().getPersistenceManager();
+			
+			List<UserSelection> persons = new ArrayList<UserSelection>();
+			List<User> users1 = new ArrayList<User>();
+			
+			javax.jdo.Query query = manager.newQuery(User.class);
+			List<Object> results1;
+			try {
+				results1 = (List<Object>)query.execute();
+				
+				for (Object result : results1) {
+					if (result instanceof User)
+					{
+						User domainUser = (User)result;
+						users1.add(domainUser);
+						
+						if (results.contains(domainUser.getUsername())) {
+							usersSelected.add(domainUser);
+						}
+					}
+				}
+			} finally {
+				query.closeAll();
+				manager.close();
+			}
+		}
 		
 
+		/*
 		// TODO: METHOD STUB. Does not actually calculate a valid selected user.
 		usersSelected = new LinkedList<User>();
 		if (users.size() > 0) {
 			usersSelected.add(users.get(0));
 		}
+		*/
 		
 		return usersSelected;
 	}

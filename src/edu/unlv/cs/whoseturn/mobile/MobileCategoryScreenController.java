@@ -18,6 +18,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
+import edu.unlv.cs.whoseturn.domain.Strategy;
 import edu.unlv.cs.whoseturn.domain.UserSelection;
 import edu.unlv.cs.whoseturn.domain.User;
 
@@ -43,6 +44,12 @@ public class MobileCategoryScreenController extends HttpServlet {
 	}
 	
 	@SuppressWarnings("unchecked")
+	/**
+	 * Models selectable users
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	protected void modelCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String dbg = "";
 		
@@ -90,6 +97,36 @@ public class MobileCategoryScreenController extends HttpServlet {
 		}
 		
 		request.setAttribute("persons", persons);
+		
+		Strategy strategy = getStrategy(request, response, category);
+		request.setAttribute("strategy", strategy);
+	}
+
+	protected Strategy getStrategy(HttpServletRequest request,
+			HttpServletResponse response, Category cateogry) throws IOException {
+		{	
+			PersistenceManager manager = PMF.get().getPersistenceManager();
+
+			javax.jdo.Query query = manager.newQuery(Strategy.class);
+			List<Object> results;
+			try {
+				results = (List<Object>)query.execute();
+				
+				for (Object result : results) {
+					if (result instanceof Strategy)
+					{
+						Strategy strategy = (Strategy)result;
+						
+						return strategy;
+					}
+				}
+			} finally {
+				query.closeAll();
+				manager.close();
+			}
+			
+			return null;
+		}
 	}
 
 	protected Category getCategory(HttpServletRequest request,
