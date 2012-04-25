@@ -3,7 +3,7 @@ package edu.unlv.cs.whoseturn.client.views;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Interface for view. Allows for view to returned as a panel widget.
+ * Interface for view. Allows for view to be returned as a panel widget.
  */
 public interface View {
     /**

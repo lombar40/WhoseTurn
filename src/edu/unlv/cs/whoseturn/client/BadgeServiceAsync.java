@@ -5,9 +5,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface BadgeServiceAsync {
 
 	/**
-	 * Used to calculate badges. This method initiates the calculation of all badges.
+	 * Used to calculate badges. This method initiates the calculation of all badges. Async version.
 	 * 
-	 * @param turnKeyString The turn's keystring
+	 * @param turnKeyString The turn's keystring.
 	 * @param callback The async callback.
 	 */
 	void calculateBadges(String turnKeyString, AsyncCallback<Void> callback) throws IllegalArgumentException;

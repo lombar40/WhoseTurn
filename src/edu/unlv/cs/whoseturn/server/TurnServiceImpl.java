@@ -164,7 +164,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		turn = pm.getObjectById(Turn.class, KeyFactory.stringToKey(turnKeyString));
 
 		/**
-		 * Generate turn items for reach user and persist those for each user,
+		 * Generate turn items for each user and persist those for each user,
 		 * adding it to their TurnItem lists.
 		 */
 		for (int i = 0; i < userObjects.size(); i++) {

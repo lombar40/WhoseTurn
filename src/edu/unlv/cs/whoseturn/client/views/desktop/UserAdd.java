@@ -49,6 +49,10 @@ public class UserAdd extends AbstractNavigationView implements NavigationView {
 
         Label lblEmail = new Label("Email:");
         panel.add(lblEmail, 10, 80);
+        
+                final TextBox txtbxEmail = new TextBox();
+                panel.add(txtbxEmail, 98, 80);
+                txtbxEmail.setSize("161px", "20px");
 
         final CheckBox chckbxAdmin = new CheckBox("");
         panel.add(chckbxAdmin, 98, 118);
@@ -56,10 +60,6 @@ public class UserAdd extends AbstractNavigationView implements NavigationView {
         final Label lblError = new Label("");
         lblError.setStyleName("serverResponseLabelError");
         panel.add(lblError, 141, 148);
-
-        final TextBox txtbxEmail = new TextBox();
-        panel.add(txtbxEmail, 98, 80);
-        txtbxEmail.setSize("161px", "20px");
 
         Button btnAdd = new Button("Add");
         panel.add(btnAdd, 98, 143);

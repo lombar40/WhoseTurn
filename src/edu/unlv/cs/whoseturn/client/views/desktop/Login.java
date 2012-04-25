@@ -94,6 +94,9 @@ public class Login implements View {
 		Image openIDImage = new Image("images/myopenidW.png");
 		absolutePanel.add(openIDImage, 293, 24);
 		openIDImage.setStyleName("ImageLink");
+		
+				final TextBox txtbxUsername = new TextBox();
+				absolutePanel.add(txtbxUsername, 160, 47);
 
 		final TextBox txtbxEmail = new TextBox();
 		absolutePanel.add(txtbxEmail, 160, 87);
@@ -111,9 +114,6 @@ public class Login implements View {
 
 		final CheckBox chckbxAdmin = new CheckBox("");
 		absolutePanel.add(chckbxAdmin, 160, 123);
-
-		final TextBox txtbxUsername = new TextBox();
-		absolutePanel.add(txtbxUsername, 160, 47);
 
 		Button btnAdduser = new Button("adduser");
 		absolutePanel.add(btnAdduser, 160, 149);
