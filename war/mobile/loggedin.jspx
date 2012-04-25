@@ -28,7 +28,7 @@
 	
 	<div class="footer">
 		<br />
-		<a href="" class="button">Confirm 3 turns</a>
+		<a href="logout" class="button">Log out</a>
 		<a href="" class="button">App Settings</a>
 	</div>
 	
