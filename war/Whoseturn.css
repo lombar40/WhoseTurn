@@ -76,3 +76,9 @@ h1 {
 .imageBronze {
 	background-color: peru;
 }
+.notawarded {
+	opacity:0.1;
+	filter:alpha(opacity=10); /* For IE8 and earlier */
+}
+.awarded {
+}
