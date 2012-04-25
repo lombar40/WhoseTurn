@@ -1,4 +1,4 @@
-package edu.unlv.cs.whoseturn.tests;
+package edu.unlv.cs.whoseturn.test;
 
 import static org.junit.Assert.*;
 

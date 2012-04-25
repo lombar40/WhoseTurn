@@ -34,6 +34,4 @@ public class TurnTest {
 		turnItems.add(testString2);
 		assertEquals(2, turnItems.size());
 	}
-	
-
 }
