@@ -72,6 +72,15 @@
 		<servlet-name>MobileSelectionResultController</servlet-name>
 		<url-pattern>/mobile/selectionresult</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MobileResetDatabase</servlet-name>
+		<servlet-class>edu.unlv.cs.whoseturn.mobile.MobileResetDatabase</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MobileResetDatabase</servlet-name>
+		<url-pattern>/mobile/reset</url-pattern>
+	</servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
