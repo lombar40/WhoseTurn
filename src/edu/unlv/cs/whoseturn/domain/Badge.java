@@ -107,11 +107,6 @@ public class Badge implements IsSerializable {
 	@Persistent
 	private Boolean deleted;
 
-	/**
-	 * Persistence manager, used for CRUD operations.
-	 */
-	PersistenceManager pm = PMF.get().getPersistenceManager();
-
 	// Getters and Setters.
 	/**
 	 * Gets the keyString.

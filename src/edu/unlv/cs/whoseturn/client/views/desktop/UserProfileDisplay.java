@@ -1,6 +1,9 @@
 package edu.unlv.cs.whoseturn.client.views.desktop;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,47 +38,36 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 		panel.setSize("1000px", "500px");
 
 		Label labelPlaceHolder = new Label();
+		labelPlaceHolder.setStyleName("SectionHeader");
 		panel.add(labelPlaceHolder);
 		labelPlaceHolder.setText("User Display");
 
-		Label userLabel = new Label("User:");
-		panel.add(userLabel, 65, 37);
+		Label userLabel = new Label("Username:");
+		panel.add(userLabel, 43, 66);
 
 		Label emailLabel = new Label("Email:");
-		panel.add(emailLabel, 65, 59);
+		panel.add(emailLabel, 65, 88);
 		emailLabel.setSize("41px", "16px");
 
-		Label userNameValue = new Label("UserNameValue");
-		panel.add(userNameValue, 129, 37);
-		userNameValue.setSize("56px", "16px");
+		final Label userNameValue = new Label("");
+		panel.add(userNameValue, 129, 66);
 
-		Label lblUseremailvalue = new Label("UserEmailValue");
-		panel.add(lblUseremailvalue, 129, 59);
-		lblUseremailvalue.setSize("56px", "16px");
+		final Label emailValue = new Label("");
+		panel.add(emailValue, 129, 88);
 
-		Image cornerStoneImage = new Image("images/badges/CornerStone50x50.jpg");
-		cornerStoneImage.setAltText("Corner Stone");
-		panel.add(cornerStoneImage, 206, 133);
-		cornerStoneImage.setSize("50px", "50px");
-
-		Image jackass = new Image("images/badges/JackAss50x50.jpg");
-		jackass.setAltText("Jack Ass");
-		panel.add(jackass, 135, 133);
-		jackass.setSize("50px", "50px");
+		Image cornerStone = new Image("images/CornerStone50x50trans.png");
+		cornerStone.setAltText("Corner Stone");
+		panel.add(cornerStone, 206, 133);
+		cornerStone.setSize("50px", "50px");
 
 		Image snowWhite = new Image("images/badges/SnowWhite50x50.jpg");
 		snowWhite.setAltText("Snow White");
 		panel.add(snowWhite, 206, 274);
 		snowWhite.setSize("50px", "50px");
 
-		Image liar = new Image("images/badges/Liar50x50.jpg");
-		liar.setAltText("Liar");
-		panel.add(liar, 406, 274);
-		liar.setSize("50px", "50px");
-
-		Image image_4 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_4, 133, 416);
-		image_4.setSize("50px", "50px");
+		Image veteran = new Image("images/badges/Veteran50x50.jpg");
+		panel.add(veteran, 133, 416);
+		veteran.setSize("50px", "50px");
 
 		Image crappedOut = new Image("images/badges/CrappedOut50x50.jpg");
 		crappedOut.setAltText("Crapped Out - Holy Crap!");
@@ -92,14 +84,9 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 		panel.add(socialite, 275, 343);
 		socialite.setSize("50px", "50px");
 
-		Image submitter = new Image("images/badges/Submitter50x50.jpg");
-		submitter.setAltText("Submitter");
-		panel.add(submitter, 406, 343);
-		submitter.setSize("50px", "50px");
-
-		Image image_9 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_9, 206, 416);
-		image_9.setSize("50px", "50px");
+		Image elite = new Image("images/badges/Elite50x50.jpg");
+		panel.add(elite, 206, 416);
+		elite.setSize("50px", "50px");
 
 		Image fML = new Image("images/badges/FML50x50.jpg");
 		fML.setAltText("FML");
@@ -116,13 +103,13 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 		panel.add(stormShadow, 406, 201);
 		stormShadow.setSize("50px", "50px");
 
-		Image image_13 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_13, 275, 274);
-		image_13.setSize("50px", "50px");
+		Image dwarf = new Image("images/badges/Dwarf50x50.jpg");
+		panel.add(dwarf, 275, 274);
+		dwarf.setSize("50px", "50px");
 
-		Image image_14 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_14, 135, 274);
-		image_14.setSize("50px", "50px");
+		Image luckyNo7 = new Image("images/badges/LuckNo750x50.jpg");
+		panel.add(luckyNo7, 135, 274);
+		luckyNo7.setSize("50px", "50px");
 
 		Image humanSacrifice = new Image("images/badges/HumanSacrifice50x50.jpg");
 		humanSacrifice.setAltText("Human Sacrifice");
@@ -139,45 +126,48 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 		panel.add(teamCheater, 342, 416);
 		teamCheater.setSize("50px", "50px");
 
-		Image image_18 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_18, 342, 343);
-		image_18.setSize("50px", "50px");
+		Image rookie = new Image("images/badges/Rookie50x50.jpg");
+		panel.add(rookie, 342, 343);
+		rookie.setSize("50px", "50px");
 
-		Image image_19 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_19, 135, 201);
-		image_19.setSize("50px", "50px");
+		Image notTheThumb = new Image("images/badges/NotTheThumb50x50.jpg");
+		panel.add(notTheThumb, 135, 201);
+		notTheThumb.setSize("50px", "50px");
 
-		Label lblSubmitCount = new Label("Submit Count:");
-		panel.add(lblSubmitCount, 20, 81);
-		lblSubmitCount.setSize("86px", "16px");
+		Image pickUpSticks = new Image("images/badges/PickUpSticks50x50.jpg");
+		panel.add(pickUpSticks, 275, 201);
+		pickUpSticks.setSize("50px", "50px");
 
-		Label lblSubmitCount_1 = new Label("Submit Count");
-		panel.add(lblSubmitCount_1, 129, 81);
-		lblSubmitCount_1.setSize("127px", "16px");
+		Image crossStreams = new Image("images/badges/DontCrossTheStreams50x50.jpg");
+		panel.add(crossStreams, 275, 133);
+		crossStreams.setSize("50px", "50px");
 
-		Label lblLieCount = new Label("Lie Count:");
-		panel.add(lblLieCount, 42, 103);
-		lblLieCount.setSize("64px", "16px");
+		Image statSpeaking = new Image("images/badges/StatisticallySpeaking50x50.jpg");
+		panel.add(statSpeaking, 133, 343);
+		statSpeaking.setSize("50px", "50px");
 
-		Label lblLieCount_1 = new Label("Lie Count");
-		panel.add(lblLieCount_1, 129, 103);
-		lblLieCount_1.setSize("127px", "16px");
-		
-		Image image = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image, 275, 201);
-		image.setSize("50px", "50px");
-		
-		Image image_1 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_1, 275, 133);
-		image_1.setSize("50px", "50px");
-		
-		Image image_2 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_2, 133, 343);
-		image_2.setSize("50px", "50px");
-		
-		Image image_3 = new Image("images/badges/CornerStone50x50.jpg");
-		panel.add(image_3, 275, 416);
-		image_3.setSize("50px", "50px");
+		Image whoseTurnMaster = new Image("images/badges/WhoseTurnMaster.jpg");
+		panel.add(whoseTurnMaster, 275, 416);
+		whoseTurnMaster.setSize("50px", "50px");
+
+		Image jackass = new Image("images/badges/JackAss50x50.jpg");
+		panel.add(jackass, 133, 133);
+		jackass.setAltText("Jack Ass");
+		jackass.setSize("50px", "50px");
+
+		usersService.getProfileInfo(userName, new AsyncCallback<List<String[]>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				System.err.println(caught.getStackTrace());
+			}
+
+			@Override
+			public void onSuccess(List<String[]> result) {
+				System.out.println(result.get(0)[0]);
+				userNameValue.setText(result.get(0)[0]);
+				emailValue.setText(result.get(0)[1]);
+			}
+		});
 
 		return panel;
 	}
@@ -191,5 +181,4 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 	public void setUsername(String userName) {
 		this.userName = userName;
 	}
-
 }

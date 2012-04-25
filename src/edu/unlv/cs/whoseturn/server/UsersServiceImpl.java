@@ -1,5 +1,7 @@
 package edu.unlv.cs.whoseturn.server;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -213,7 +217,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 
         // Set properties of the user
         user.setAdmin(admin);
-        user.setAvatarBlob(null);
+        user.setAvatarId(0);
         user.setDeleted(false);
         user.setEmail(email);
         user.setUsername(username);
@@ -679,7 +683,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 
         // Set properties of the user
         user.setAdmin(true);
-        user.setAvatarBlob(null);
+        user.setAvatarId(0);
         user.setDeleted(false);
 		user.setEmail(email);
         user.setUsername(username);
@@ -787,4 +791,62 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 
         return "Success";
     }
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<String[]> getProfileInfo(String userName) {
+		/**
+		 * Persistence manager for CRUD.
+		 */
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		/**
+		 * Query for the users.
+		 */
+		Query usernameQuery = pm.newQuery(User.class, "username == usernameParam");
+		usernameQuery.declareParameters("String usernameParam");
+
+		/**
+		 * Result string list.
+		 */
+		List<String[]> userProfileInfo = new ArrayList<String[]>();
+
+		/**
+		 * Result List.
+		 */
+		List<User> userResults;
+
+		userResults = (List<User>) usernameQuery.execute(userName);
+		User userObject = userResults.get(0);
+		List<String> badgeKeyStrings = new ArrayList<String>(userObject.getBadges());
+		List<BadgeAwarded> badges = new ArrayList<BadgeAwarded>();
+		Key tempBadgeKey;
+		
+		for (int i=0; i < badgeKeyStrings.size(); i++) {
+			tempBadgeKey = KeyFactory.stringToKey(badgeKeyStrings.get(i));
+			badges.add(pm.getObjectById(BadgeAwarded.class, tempBadgeKey));
+		}
+		
+		Collections.sort(badges, new Comparator(){
+            public int compare(Object o1, Object o2) {
+                BadgeAwarded p1 = (BadgeAwarded) o1;
+                BadgeAwarded p2 = (BadgeAwarded) o2;
+               return p1.getBadgeId().compareTo(p2.getBadgeId());
+            }
+        });
+		
+		userProfileInfo.add(new String[] { userObject.getUsername(), userObject.getEmail() });
+		
+		String[] badgeCount = new String[22];
+		
+		for (int i=0; i < badges.size(); i++){
+			badgeCount[i] = badges.get(i).getCount().toString();
+		}
+		
+		userProfileInfo.add(badgeCount);
+		
+		pm.close();
+		
+		return userProfileInfo;
+	}
 }

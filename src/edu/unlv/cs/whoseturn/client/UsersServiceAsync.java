@@ -130,4 +130,6 @@ public interface UsersServiceAsync {
      */
     void updateUser(String previousUsername, String previousEmail, String userName, String email, Boolean admin, Boolean deleted, AsyncCallback<String> callback);
 
+	void getProfileInfo(String userName, AsyncCallback<List<String[]>> asyncCallback);
+
 }
