@@ -66,8 +66,9 @@
 		<h1>${currentCategory.name}</h1>
 		
 		<h3>
-			Strategy <a href="" class="inlinebutton">S:P ratios <font size="1">(Change)</font></a>
+ <!--			Strategy <a href="" class="inlinebutton">${strategy.strategyName}<font size="1">(Change)</font></a> -->
 		</h3>
+		<br />
 		
 		<h2>Participant selection</h2>
 		<h3>

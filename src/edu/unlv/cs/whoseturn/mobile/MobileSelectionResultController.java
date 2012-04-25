@@ -1,6 +1,7 @@
 package edu.unlv.cs.whoseturn.mobile;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.unlv.cs.whoseturn.domain.Category;
 import edu.unlv.cs.whoseturn.domain.PMF;
+import edu.unlv.cs.whoseturn.domain.User;
 import edu.unlv.cs.whoseturn.server.TurnServiceImpl;
 
 public class MobileSelectionResultController extends MobileCategoryScreenController {
@@ -38,17 +40,47 @@ public class MobileSelectionResultController extends MobileCategoryScreenControl
 		}
 	}
 	
+	/**
+	 * Models the active and inactive users (users elected and users not elected)
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	private void doStuff(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		modelCategory(request, response);
 		PersistenceManager manager = PMF.get().getPersistenceManager();
-        List<edu.unlv.cs.whoseturn.domain.User> selectedUsers = getSelectedUsers(request, manager);
+        List<User> selectedUsers = getSelectedUsers(request, manager);
         
         Category category = getCategory(request, response);
         
         TurnServiceImpl turnService = new TurnServiceImpl();
-        List<edu.unlv.cs.whoseturn.domain.User> activeUsers = turnService.findDriver(selectedUsers, category);
+        List<User> activeUsers = turnService.findDriver(selectedUsers, category);
         
         request.setAttribute("activeUsers", activeUsers);
+        
+        List<User> inactiveUsers = new LinkedList<User>();
+        for (User user : selectedUsers) {
+        	/*
+        	if (activeUsers.contains(user)) {
+        		continue;
+        	}
+        	*/
+        	
+        	// TODO: Make User implement comparable
+        	boolean active = false;
+        	for (User activeUser : activeUsers) {
+        		if (activeUser.getUsername().equals(user.getUsername())) {
+        			active = true;
+        		}
+        	}
+        	
+        	if (active) {
+        		continue;
+        	}
+        	inactiveUsers.add(user);
+        }
+        
+        request.setAttribute("inactiveUsers", inactiveUsers);
 	}
 
 }

@@ -16,16 +16,23 @@
 	<div class="wrapper">
 		<h5><a href="index" class="button">Return to category selection</a><br /></h5>
 		<h1>${currentCategory.name}</h1>
-		
+		<br />
+		<h2>Selected participants</h2>
 		<c:forEach var="person" varStatus="personStatus" items="${activeUsers}">
-			${person.username} was selected!<br />
+			<div class="participant">${person.username}</div>
 		</c:forEach>
+		<br />
+		<h2>Passive participants</h2>
+		<c:forEach var="person" varStatus="personStatus" items="${inactiveUsers}">
+			<div class="participant">${person.username}</div>
+		</c:forEach>
+		
 		
 	</div>
 	
 	<div class="footer">
 		<br />
-		<a href="" class="button">Summary</a>
+		<a href="index" class="button">Return to category selection</a><br />
 	</div>
 	
 </body>

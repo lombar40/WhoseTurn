@@ -28,6 +28,19 @@ body {
 	padding-bottom: 7em;
 }
 
+.participant {
+	font-weight: bold;
+	border: 0.4em;
+	border-color: #142332;
+	border-style: solid;
+	margin: 0.4em;
+	
+	color: #EBF2D0;
+	text-decoration: none;
+	display: block;
+	background-color: #142332;
+}
+
 .wrapper {
 }
 
