@@ -50,45 +50,45 @@ public class UserEdit extends AbstractNavigationView implements NavigationView {
 	public final Widget bodyAsWidget() {
 
 		// The body of the view.
-		final AbsolutePanel panel = new AbsolutePanel();
-		panel.setSize("1000px", "500px");
+		final AbsolutePanel userEditPanel = new AbsolutePanel();
+		userEditPanel.setSize("1000px", "500px");
 
 		Label lblLbltitle = new Label("User Edit");
 		lblLbltitle.setStyleName("SectionHeader");
-		panel.add(lblLbltitle);
+		userEditPanel.add(lblLbltitle);
 
 		Label lblUsername = new Label("UserName:");
-		panel.add(lblUsername, 17, 50);
+		userEditPanel.add(lblUsername, 17, 50);
 		final TextBox txtbxUsername = new TextBox();
-		panel.add(txtbxUsername, 98, 45);
+		userEditPanel.add(txtbxUsername, 98, 45);
 		txtbxUsername.setSize("161px", "16px");
 
 		Label lblEmail = new Label("Email:");
-		panel.add(lblEmail, 45, 87);
+		userEditPanel.add(lblEmail, 45, 87);
 		final TextBox txtbxEmail = new TextBox();
-		panel.add(txtbxEmail, 98, 80);
+		userEditPanel.add(txtbxEmail, 98, 80);
 		txtbxEmail.setSize("161px", "20px");
 
 		Label lblAdmin = new Label("Admin:");
-		panel.add(lblAdmin, 41, 118);
+		userEditPanel.add(lblAdmin, 41, 118);
 		final CheckBox chckbxAdmin = new CheckBox("");
-		panel.add(chckbxAdmin, 98, 117);
+		userEditPanel.add(chckbxAdmin, 98, 117);
 
 		Label lblDeleted = new Label("Deleted:");
-		panel.add(lblDeleted, 34, 143);
+		userEditPanel.add(lblDeleted, 34, 143);
 		final CheckBox chkDeleted = new CheckBox("");
-		panel.add(chkDeleted, 98, 143);
+		userEditPanel.add(chkDeleted, 98, 143);
 		chkDeleted.setSize("20px", "19px");
 
 		final Label lblError = new Label("");
 		lblError.setStyleName("serverResponseLabelError");
-		panel.add(lblError, 161, 192);
+		userEditPanel.add(lblError, 161, 192);
 
 		Button btnSave = new Button("Save");
-		panel.add(btnSave, 98, 187);
+		userEditPanel.add(btnSave, 98, 187);
 
 		final Label lblSuccess = new Label("Successfully updated user.");
-		panel.add(lblSuccess, 161, 192);
+		userEditPanel.add(lblSuccess, 161, 192);
 		lblSuccess.setVisible(false);
 
 		// Get the user info and populate it to the form.
@@ -149,7 +149,7 @@ public class UserEdit extends AbstractNavigationView implements NavigationView {
 			}
 		});
 
-		return panel;
+		return userEditPanel;
 	}
 
 	/**

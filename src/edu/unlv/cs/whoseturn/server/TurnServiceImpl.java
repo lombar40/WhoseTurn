@@ -40,6 +40,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @param category
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "unused" })
 	public List<User> findDriver(List<User> users, Category category) {
 		List<String> usernames = new LinkedList<String>();
 		List<User> usersSelected = new LinkedList<User>();

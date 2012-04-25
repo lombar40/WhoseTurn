@@ -35,18 +35,18 @@ public class UserList extends AbstractNavigationView implements NavigationView {
     @Override
     public final Widget bodyAsWidget() {
         // The body of the view.
-        final AbsolutePanel panel = new AbsolutePanel();
-        panel.setSize("1000px", "500px");
+        final AbsolutePanel userListPanel = new AbsolutePanel();
+        userListPanel.setSize("1000px", "500px");
 
         Label labelTitle = new Label();
         labelTitle.setStyleName("SectionHeader");
         labelTitle.setText("Users");
-        panel.add(labelTitle);
+        userListPanel.add(labelTitle);
 
-        final ListBox guestListBox = new ListBox();
-        panel.add(guestListBox, 10, 40);
-        guestListBox.setSize("206px", "450px");
-        guestListBox.setVisibleItemCount(5);
+        final ListBox userListBox = new ListBox();
+        userListPanel.add(userListBox, 10, 40);
+        userListBox.setSize("206px", "450px");
+        userListBox.setVisibleItemCount(5);
         
         // Add User
         final Button btnAddUser = new Button("Add User");
@@ -66,7 +66,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
 
             public void onSuccess(final Boolean isAdmin) {
                 if(isAdmin) {
-                    panel.add(btnAddUser, 256, 106);
+                    userListPanel.add(btnAddUser, 256, 106);
                     btnAddUser.setSize("162px", "28px");
                 }
             }
@@ -80,8 +80,8 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                 UserEdit userEdit = new UserEdit();
 
                 // Check to make sure a record is selected before trying to redirect
-                if(guestListBox.getSelectedIndex() > -1){
-                    userEdit.setUsername(guestListBox.getItemText(guestListBox.getSelectedIndex()));
+                if(userListBox.getSelectedIndex() > -1){
+                    userEdit.setUsername(userListBox.getItemText(userListBox.getSelectedIndex()));
                     RootPanel.get("overall").add(userEdit.asWidget());
                 }
             }
@@ -96,7 +96,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
 
             public void onSuccess(final Boolean isAdmin) {
                 if(isAdmin){
-                    panel.add(btnEditUser, 256, 149);
+                    userListPanel.add(btnEditUser, 256, 149);
                     btnEditUser.setSize("162px", "28px");
                 }
             }
@@ -110,14 +110,14 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                 UserProfileDisplay userProfileDisplay = new UserProfileDisplay();
                 
                 // Check to make sure a record is selected before trying to redirect
-                if(guestListBox.getSelectedIndex() > -1){
-                    userProfileDisplay.setUsername(guestListBox.getItemText(guestListBox.getSelectedIndex()));
+                if(userListBox.getSelectedIndex() > -1){
+                    userProfileDisplay.setUsername(userListBox.getItemText(userListBox.getSelectedIndex()));
                     RootPanel.get("overall").add(userProfileDisplay.asWidget());
                     
                 }
             }
         });
-        panel.add(btnUserProfile, 256, 196);
+        userListPanel.add(btnUserProfile, 256, 196);
         btnUserProfile.setSize("162px", "28px");
 
         // Display list depends on if it is an admin or not. An admin sees deleted users, where a normal users does not
@@ -142,9 +142,9 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                             if (results != null) {
                                 // Write all user names to the list.
                                 for (int i = 0; i < results.size(); i++) {
-                                    guestListBox.addItem(results.get(i));
+                                    userListBox.addItem(results.get(i));
                                 }
-                                guestListBox.setItemSelected(0, true);
+                                userListBox.setItemSelected(0, true);
                             }
                         }
                     });
@@ -160,9 +160,9 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                             if (results != null) {
                                 // Write all user names to the list
                                 for (int i = 0; i < results.size(); i++) {
-                                    guestListBox.addItem(results.get(i));
+                                    userListBox.addItem(results.get(i));
                                 }
-                                guestListBox.setItemSelected(0, true);
+                                userListBox.setItemSelected(0, true);
                             }
                         }
                     });
@@ -170,6 +170,6 @@ public class UserList extends AbstractNavigationView implements NavigationView {
             }
         });
 
-        return panel;
+        return userListPanel;
     }
 }

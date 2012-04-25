@@ -51,8 +51,6 @@ public class MobileCategoryScreenController extends HttpServlet {
 	 * @throws IOException
 	 */
 	protected void modelCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String dbg = "";
-		
 		
 		Category category = getCategory(request, response);
 
@@ -102,6 +100,7 @@ public class MobileCategoryScreenController extends HttpServlet {
 		request.setAttribute("strategy", strategy);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Strategy getStrategy(HttpServletRequest request,
 			HttpServletResponse response, Category cateogry) throws IOException {
 		{	

@@ -12,15 +12,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 import edu.unlv.cs.whoseturn.client.UsersService;
 import edu.unlv.cs.whoseturn.client.UsersServiceAsync;
-import edu.unlv.cs.whoseturn.client.Whoseturn;
 import edu.unlv.cs.whoseturn.client.views.AbstractNavigationView;
 import edu.unlv.cs.whoseturn.client.views.NavigationView;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
 
 /**
  * Displays a User's profile.
@@ -42,26 +39,26 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 	 */
 	@Override
 	public final Widget bodyAsWidget() {
-		AbsolutePanel panel = new AbsolutePanel();
-		panel.setSize("1000px", "500px");
+		AbsolutePanel userDisplayPanel = new AbsolutePanel();
+		userDisplayPanel.setSize("1000px", "500px");
 
-		Label labelPlaceHolder = new Label();
-		labelPlaceHolder.setStyleName("SectionHeader");
-		panel.add(labelPlaceHolder);
-		labelPlaceHolder.setText("User Display");
+		Label labelTitle = new Label();
+		labelTitle.setStyleName("SectionHeader");
+		userDisplayPanel.add(labelTitle);
+		labelTitle.setText("User Display");
 
 		Label userLabel = new Label("Username:");
-		panel.add(userLabel, 43, 66);
+		userDisplayPanel.add(userLabel, 43, 66);
 
 		Label emailLabel = new Label("Email:");
-		panel.add(emailLabel, 65, 88);
+		userDisplayPanel.add(emailLabel, 65, 88);
 		emailLabel.setSize("41px", "16px");
 
 		final Label userNameValue = new Label("");
-		panel.add(userNameValue, 129, 66);
+		userDisplayPanel.add(userNameValue, 129, 66);
 
 		final Label emailValue = new Label("");
-		panel.add(emailValue, 129, 88);
+		userDisplayPanel.add(emailValue, 129, 88);
 
 		List<String> titles = new ArrayList<String>();
 		titles.add("Jackass");
@@ -118,112 +115,112 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 		List<Image> images = new ArrayList<Image>();
 
 		final Image jackass = new Image("images/badges/Jackass50x50trans.png");
-		panel.add(jackass, 133, 133);
+		userDisplayPanel.add(jackass, 133, 133);
 		jackass.setSize("50px", "50px");
 		images.add(jackass);
 
 		final Image cornerStone = new Image("images/badges/CornerStone50x50trans.png");
-		panel.add(cornerStone, 206, 133);
+		userDisplayPanel.add(cornerStone, 206, 133);
 		cornerStone.setSize("50px", "50px");
 		images.add(cornerStone);
 
 		final Image crossStreams = new Image("images/badges/DontCrossTheStreams50x50trans.png");
-		panel.add(crossStreams, 275, 133);
+		userDisplayPanel.add(crossStreams, 275, 133);
 		crossStreams.setSize("50px", "50px");
 		images.add(crossStreams);
 
 		final Image humanSacrifice = new Image("images/badges/HumanSacrifice50x50trans.png");
-		panel.add(humanSacrifice, 342, 133);
+		userDisplayPanel.add(humanSacrifice, 342, 133);
 		humanSacrifice.setSize("50px", "50px");
 		images.add(humanSacrifice);
 
 		final Image notTheThumb = new Image("images/badges/NotTheThumb50x50trans.png");
-		panel.add(notTheThumb, 135, 201);
+		userDisplayPanel.add(notTheThumb, 135, 201);
 		notTheThumb.setSize("50px", "50px");
 		images.add(notTheThumb);
 
 		final Image sixMinuteAbs = new Image("images/badges/SixMinuteAbs50x50trans.png");
-		panel.add(sixMinuteAbs, 206, 201);
+		userDisplayPanel.add(sixMinuteAbs, 206, 201);
 		sixMinuteAbs.setSize("50px", "50px");
 		images.add(sixMinuteAbs);
 
 		final Image pickUpSticks = new Image("images/badges/PickUpSticks50x50trans.png");
-		panel.add(pickUpSticks, 275, 201);
+		userDisplayPanel.add(pickUpSticks, 275, 201);
 		pickUpSticks.setSize("50px", "50px");
 		images.add(pickUpSticks);
 
 		final Image crappedOut = new Image("images/badges/CrappedOut50x50trans.png");
-		panel.add(crappedOut, 342, 201);
+		userDisplayPanel.add(crappedOut, 342, 201);
 		crappedOut.setSize("50px", "50px");
 		images.add(crappedOut);
 
 		final Image luckyNo7 = new Image("images/badges/LuckNo750x50trans.png");
-		panel.add(luckyNo7, 135, 274);
+		userDisplayPanel.add(luckyNo7, 135, 274);
 		luckyNo7.setSize("50px", "50px");
 		images.add(luckyNo7);
 
 		final Image snowWhite = new Image("images/badges/SnowWhite50x50trans.png");
-		panel.add(snowWhite, 206, 274);
+		userDisplayPanel.add(snowWhite, 206, 274);
 		snowWhite.setSize("50px", "50px");
 		images.add(snowWhite);
 
 		final Image dwarf = new Image("images/badges/Dwarf50x50trans.png");
-		panel.add(dwarf, 275, 274);
+		userDisplayPanel.add(dwarf, 275, 274);
 		dwarf.setSize("50px", "50px");
 		images.add(dwarf);
 
 		final Image fML = new Image("images/badges/FML50x50trans.png");
-		panel.add(fML, 342, 274);
+		userDisplayPanel.add(fML, 342, 274);
 		fML.setSize("50px", "50px");
 		images.add(fML);
 
 		final Image statSpeaking = new Image("images/badges/StatisticallySpeaking50x50trans.png");
-		panel.add(statSpeaking, 133, 343);
+		userDisplayPanel.add(statSpeaking, 133, 343);
 		statSpeaking.setSize("50px", "50px");
 		images.add(statSpeaking);
 
 		final Image saint = new Image("images/badges/Saint50x50trans.png");
-		panel.add(saint, 206, 343);
+		userDisplayPanel.add(saint, 206, 343);
 		saint.setSize("50px", "50px");
 		images.add(saint);
 
 		final Image socialite = new Image("images/badges/Socialite50x50trans.png");
-		panel.add(socialite, 275, 343);
+		userDisplayPanel.add(socialite, 275, 343);
 		socialite.setSize("50px", "50px");
 		images.add(socialite);
 
 		final Image rookie = new Image("images/badges/Rookie50x50.jpg");
-		panel.add(rookie, 342, 343);
+		userDisplayPanel.add(rookie, 342, 343);
 		rookie.setSize("50px", "50px");
 		images.add(rookie);
 
 		final Image veteran = new Image("images/badges/Veteran50x50.jpg");
-		panel.add(veteran, 133, 416);
+		userDisplayPanel.add(veteran, 133, 416);
 		veteran.setSize("50px", "50px");
 		images.add(veteran);
 
 		final Image elite = new Image("images/badges/Elite50x50.jpg");
-		panel.add(elite, 206, 416);
+		userDisplayPanel.add(elite, 206, 416);
 		elite.setSize("50px", "50px");
 		images.add(elite);
 
 		final Image whoseTurnMaster = new Image("images/badges/WhoseTurnMaster.jpg");
-		panel.add(whoseTurnMaster, 275, 416);
+		userDisplayPanel.add(whoseTurnMaster, 275, 416);
 		whoseTurnMaster.setSize("50px", "50px");
 		images.add(whoseTurnMaster);
 
 		final Image teamCheater = new Image("images/badges/TeamCheater50x50trans.png");
-		panel.add(teamCheater, 342, 416);
+		userDisplayPanel.add(teamCheater, 342, 416);
 		teamCheater.setSize("50px", "50px");
 		images.add(teamCheater);
 
 		final Image stormShadow = new Image("images/badges/StormShadow50x50.jpg");
-		panel.add(stormShadow, 406, 201);
+		userDisplayPanel.add(stormShadow, 406, 201);
 		stormShadow.setSize("50px", "50px");
 		images.add(stormShadow);
 
 		final Image mythBusters = new Image("images/badges/MythBusters50x50.jpg");
-		panel.add(mythBusters, 406, 133);
+		userDisplayPanel.add(mythBusters, 406, 133);
 		mythBusters.setSize("50px", "50px");
 		images.add(mythBusters);
 
@@ -252,7 +249,7 @@ public class UserProfileDisplay extends AbstractNavigationView implements Naviga
 			}
 		});
 
-		return panel;
+		return userDisplayPanel;
 	}
 
 	/**

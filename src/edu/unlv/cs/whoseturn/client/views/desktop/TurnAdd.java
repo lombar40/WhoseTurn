@@ -80,15 +80,16 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		turnAddPanel.add(lblChooseCategory, 10, 51);
 
 		final Label lblDriver = new Label("");
-		turnAddPanel.add(lblDriver, 150, 452);
+		lblDriver.setStyleName("Header");
+		turnAddPanel.add(lblDriver, 159, 446);
 
-		ScrollPanel scrollPanel = new ScrollPanel();
-		scrollPanel.setVerticalScrollPosition(1);
-		turnAddPanel.add(scrollPanel, 0, 111);
-		scrollPanel.setSize("1000px", "300px");
+		ScrollPanel userScrollPanel = new ScrollPanel();
+		userScrollPanel.setVerticalScrollPosition(1);
+		turnAddPanel.add(userScrollPanel, 0, 111);
+		userScrollPanel.setSize("1000px", "300px");
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		scrollPanel.add(horizontalPanel);
+		userScrollPanel.add(horizontalPanel);
 		horizontalPanel.setSize("967px", "300px");
 
 		final VerticalPanel verticalPanel = new VerticalPanel();

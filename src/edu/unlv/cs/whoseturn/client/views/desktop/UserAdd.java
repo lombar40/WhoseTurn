@@ -33,42 +33,42 @@ public class UserAdd extends AbstractNavigationView implements NavigationView {
     @Override
     public final Widget bodyAsWidget() {
         // The body of the view.
-        AbsolutePanel panel = new AbsolutePanel();
-        panel.setSize("1000px", "500px");
+        AbsolutePanel userAddPanel = new AbsolutePanel();
+        userAddPanel.setSize("1000px", "500px");
 
         Label lblLbltitle = new Label("User Add");
         lblLbltitle.setStyleName("SectionHeader");
-        panel.add(lblLbltitle);
+        userAddPanel.add(lblLbltitle);
 
         final TextBox txtbxUsername = new TextBox();
-        panel.add(txtbxUsername, 98, 42);
+        userAddPanel.add(txtbxUsername, 98, 42);
         txtbxUsername.setSize("161px", "16px");
 
         Label lblUsername = new Label("UserName:");
-        panel.add(lblUsername, 10, 42);
+        userAddPanel.add(lblUsername, 10, 42);
 
         Label lblEmail = new Label("Email:");
-        panel.add(lblEmail, 10, 80);
+        userAddPanel.add(lblEmail, 10, 80);
         
                 final TextBox txtbxEmail = new TextBox();
-                panel.add(txtbxEmail, 98, 80);
+                userAddPanel.add(txtbxEmail, 98, 80);
                 txtbxEmail.setSize("161px", "20px");
 
         final CheckBox chckbxAdmin = new CheckBox("");
-        panel.add(chckbxAdmin, 98, 118);
+        userAddPanel.add(chckbxAdmin, 98, 118);
 
         final Label lblError = new Label("");
         lblError.setStyleName("serverResponseLabelError");
-        panel.add(lblError, 141, 148);
+        userAddPanel.add(lblError, 141, 148);
 
         Button btnAdd = new Button("Add");
-        panel.add(btnAdd, 98, 143);
+        userAddPanel.add(btnAdd, 98, 143);
 
         Label lblAdmin = new Label("Admin:");
-        panel.add(lblAdmin, 10, 118);
+        userAddPanel.add(lblAdmin, 10, 118);
 
         final Label lblSuccess = new Label("Successfully added user.");
-        panel.add(lblSuccess, 141, 148);
+        userAddPanel.add(lblSuccess, 141, 148);
         lblSuccess.setVisible(false);
 
         btnAdd.addClickHandler(new ClickHandler() {
@@ -95,6 +95,6 @@ public class UserAdd extends AbstractNavigationView implements NavigationView {
             }
         });
 
-        return panel;
+        return userAddPanel;
     }
 }

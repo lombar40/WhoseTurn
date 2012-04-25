@@ -65,6 +65,10 @@ public class CategoryEdit extends AbstractNavigationView implements
 
     			Label lblStrategy = new Label("Strategy:");
     			categoryEditPanel.add(lblStrategy, 107, 82);
+    			
+    			final ListBox cmbbxStrategy = new ListBox();
+    			categoryEditPanel.add(cmbbxStrategy, 167, 79);
+    			cmbbxStrategy.setSize("167px", "22px");
     			final TextBox txtbxTimeBoundary = new TextBox();
     			categoryEditPanel.add(txtbxTimeBoundary, 167, 105);
     			txtbxTimeBoundary.setSize("161px", "20px");
@@ -87,10 +91,6 @@ public class CategoryEdit extends AbstractNavigationView implements
 
     			final Label lblSuccess = new Label("Successfully updated category.");
     			categoryEditPanel.add(lblSuccess, 171, 197);
-    			
-    			final ListBox cmbbxStrategy = new ListBox();
-    			categoryEditPanel.add(cmbbxStrategy, 167, 79);
-    			cmbbxStrategy.setSize("167px", "22px");
     			lblSuccess.setVisible(false);
 
     			categoryService.getAllStrategies(new AsyncCallback<List<String>>() {

@@ -28,7 +28,7 @@ public class Whoseturn implements EntryPoint {
          * The rootPanel of the display, the root panel of our entry point.
          */
         final RootPanel rootPanel = RootPanel.get("overall");
-        rootPanel.setSize("1000px", "750px");
+        rootPanel.setSize("1000px", "600px");
 
         /**
          * Checks to see if the user is logged in through OpenID
