@@ -234,6 +234,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		List<String> returnList = new ArrayList<String>();
 		returnList.add(driver.getUsername());
 		returnList.add(turn.getKeyString());
+		System.out.println(driver.getUsername());
 		return returnList;
 	}
 
@@ -313,6 +314,8 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 			 * Add the ratio to the ratio list.
 			 */
 			ratioList.add(tempSelectedCount / tempTurnCount);
+
+			System.out.println(users.get(i).getUsername() + ": " + tempSelectedCount/tempTurnCount);
 		}
 
 		/**
@@ -329,6 +332,14 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		for (int i = 1; i < ratioList.size(); i++) {
 			tempRatio = ratioList.get(i);				// Gets the ratio of the user from the ratioList
 
+
+			/**
+			 * Increases the counter if the current user has the same ratio as the first user
+			 */
+			if (tempRatio.equals(tempCurrentRatio)) {
+				sameCounter++;
+			}
+			
 			/**
 			 * Checks if the ratio of this user is lower than the current lowest user.
 			 * If so, set the currentRatio to this user's ratio, and set the index to this user.
@@ -336,13 +347,6 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 			if (tempRatio < tempCurrentRatio) {
 				tempCurrentRatio = tempRatio;
 				index = i;
-			}
-			
-			/**
-			 * Increases the counter if the current user has the same ratio as the first user
-			 */
-			if (tempRatio.equals(tempCurrentRatio)) {
-				sameCounter++;
 			}
 		}
 
@@ -456,20 +460,20 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 			tempMilliSeconds = millisecondsList.get(i);			// Stores the user's milliseconds for comparison
 
 			/**
+			 * Checks to see if everyone has the same milliseconds.
+			 * If so, increase the sameCounter.
+			 */
+			if (tempMilliSeconds.equals(tempCurrentMilliSeconds)) {
+				sameCounter++;
+			}
+			
+			/**
 			 * Check if this user's milliseconds is more than the current user's
 			 * If so, store this as the new highest found.
 			 */
 			if (tempMilliSeconds > tempCurrentMilliSeconds) {
 				tempCurrentMilliSeconds = tempMilliSeconds;
 				index = i;
-			}
-			
-			/**
-			 * Checks to see if everyone has the same milliseconds.
-			 * If so, increase the sameCounter.
-			 */
-			if (tempMilliSeconds.equals(tempCurrentMilliSeconds)) {
-				sameCounter++;
 			}
 		}
 		
@@ -502,6 +506,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 		Random generator = new Random();					// Creates a new random generator
 		int randomIndex = generator.nextInt(users.size());	// Gets a random index value with a max of the size of the users
 
+		System.out.println("Random: " + randomIndex);
 		/**
 		 * Return the random user.
 		 */
