@@ -81,11 +81,8 @@ public class MobileLoggedinController extends HttpServlet {
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn()) {
 			String url = userService.createLoginURL("/mobile/index");
-			RequestDispatcher view = request.getRequestDispatcher(url);
 			try {
-				view.forward(request, response);
-			} catch (ServletException e) {
-				e.printStackTrace();
+				response.sendRedirect(url);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

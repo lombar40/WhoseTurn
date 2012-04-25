@@ -2,8 +2,6 @@ package edu.unlv.cs.whoseturn.mobile;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,12 +25,8 @@ public class MobileLogoutController extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) {
 		UserService userService = UserServiceFactory.getUserService();
 		String url = userService.createLogoutURL("/mobile/index");
-		RequestDispatcher view = request.getRequestDispatcher(url);
 		try {
-			doStuff(request, response);
-			view.forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
+			response.sendRedirect(url);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
