@@ -65,7 +65,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
             }
 
             public void onSuccess(final Boolean isAdmin) {
-                if(isAdmin){
+                if(isAdmin) {
                     panel.add(btnAddUser, 256, 106);
                     btnAddUser.setSize("162px", "28px");
                 }
@@ -79,7 +79,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                 RootPanel.get("overall").clear();
                 UserEdit userEdit = new UserEdit();
 
-                // Check to make sure a record is selected before trying to redirect.
+                // Check to make sure a record is selected before trying to redirect
                 if(guestListBox.getSelectedIndex() > -1){
                     userEdit.setUsername(guestListBox.getItemText(guestListBox.getSelectedIndex()));
                     RootPanel.get("overall").add(userEdit.asWidget());
@@ -87,7 +87,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
             }
         });
         
-        // Shows edit user button iff user is an admin.
+        // Shows edit user button iff user is an admin
         usersService.isAdmin(new AsyncCallback<Boolean>() {
             public void onFailure(final Throwable caught) {
                 System.err.println("Error in isAdmin() when trying to check edit button.");
@@ -109,7 +109,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                 RootPanel.get("overall").clear();
                 UserProfileDisplay userProfileDisplay = new UserProfileDisplay();
                 
-                // Check to make sure a record is selected before trying to redirect.
+                // Check to make sure a record is selected before trying to redirect
                 if(guestListBox.getSelectedIndex() > -1){
                     userProfileDisplay.setUsername(guestListBox.getItemText(guestListBox.getSelectedIndex()));
                     RootPanel.get("overall").add(userProfileDisplay.asWidget());
@@ -120,7 +120,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
         panel.add(btnUserProfile, 256, 196);
         btnUserProfile.setSize("162px", "28px");
 
-        // Display list depends on if it is an admin or not. An admin see's deleted users, where a normal users does not.
+        // Display list depends on if it is an admin or not. An admin sees deleted users, where a normal users does not
         usersService.isAdmin(new AsyncCallback<Boolean>() {
             public void onFailure(final Throwable caught) {
                 System.err.println("Error in isAdmin() when trying to check edit button.");
@@ -129,7 +129,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
 
             public void onSuccess(final Boolean isAdmin) {
                 if(isAdmin){
-                    // Admin sees deleted and non-deleted users.
+                    // Admin sees deleted and non-deleted users
                     usersService.findAllUsers(new AsyncCallback<List<String>>() {
 
                         @Override
@@ -149,7 +149,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
                         }
                     });
                 } else {
-                    // Users see only non-deleted users.
+                    // Users see only non-deleted users
                     usersService.findNonDeletedUsers(new AsyncCallback<List<String>>() {
                         public void onFailure(final Throwable caught) {
                             System.err.println("Error in User List when trying to get user list");
@@ -158,7 +158,7 @@ public class UserList extends AbstractNavigationView implements NavigationView {
 
                         public void onSuccess(final List<String> results) {
                             if (results != null) {
-                                // Write all user names to the list.
+                                // Write all user names to the list
                                 for (int i = 0; i < results.size(); i++) {
                                     guestListBox.addItem(results.get(i));
                                 }

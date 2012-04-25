@@ -88,6 +88,10 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		final VerticalPanel verticalPanel_2 = new VerticalPanel();
 		horizontalPanel.add(verticalPanel_2);
 		verticalPanel_2.setSize("300px", "0");
+		
+		final Label lblNoCategoriesFound = new Label("No categories found");
+		turnAddPanel.add(lblNoCategoriesFound, 10, 73);
+		lblNoCategoriesFound.setVisible(false);
 
 		final Button btnSubmit = new Button("Select Unlucky Soul");
 		turnAddPanel.add(btnSubmit, 10, 446);
@@ -95,12 +99,8 @@ public class TurnAdd extends AbstractNavigationView implements NavigationView {
 		Label lblChooseCategory = new Label("Choose Category");
 		turnAddPanel.add(lblChooseCategory, 10, 51);
 		
-		final Label lblNoCategoriesFound = new Label("No categories found");
-		turnAddPanel.add(lblNoCategoriesFound, 10, 73);
-		
 		final Label lblDriver = new Label("");
 		turnAddPanel.add(lblDriver, 150, 452);
-		lblNoCategoriesFound.setVisible(false);
 		
 		/**
 		 * A list that we will be able to iterate through to see which buttons

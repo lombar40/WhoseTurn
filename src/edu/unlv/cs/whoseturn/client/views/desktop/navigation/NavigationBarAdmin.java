@@ -30,7 +30,7 @@ public class NavigationBarAdmin implements View {
         FlowPanel navigationBar = new FlowPanel();
 
         /**
-         * Links to list categories
+         * Links to list categories.
          */
         Button listTurnNavItem = new Button();
         listTurnNavItem.setText("Turn");

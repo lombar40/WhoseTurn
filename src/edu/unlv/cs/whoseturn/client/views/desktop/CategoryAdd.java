@@ -56,9 +56,6 @@ public class CategoryAdd extends AbstractNavigationView implements
         categoryAddPanel.add(txtbxName, 161, 48);
         txtbxName.setSize("165px", "15px");
 
-        final Button btnAdd = new Button("Add");
-        categoryAddPanel.add(btnAdd, 159, 142);
-
         final ListBox cmbobxStrategy = new ListBox();
         categoryAddPanel.add(cmbobxStrategy, 161, 81);
         cmbobxStrategy.setSize("175px", "22px");
@@ -79,6 +76,38 @@ public class CategoryAdd extends AbstractNavigationView implements
         final IntegerBox timeBoundaryInteger = new IntegerBox();
         categoryAddPanel.add(timeBoundaryInteger, 161, 109);
         timeBoundaryInteger.setSize("167px", "16px");
+        
+                final Button btnAdd = new Button("Add");
+                categoryAddPanel.add(btnAdd, 159, 142);
+                
+                        btnAdd.addClickHandler(new ClickHandler() {
+                            public void onClick(final ClickEvent event) {
+                                lblErrorLabel.setText("");
+                                lblSuccessfullyAddedCategory.setVisible(false);
+                                btnAdd.setEnabled(false);
+                                categoryService.addCategory(txtbxName.getText(), cmbobxStrategy
+                                        .getValue(cmbobxStrategy.getSelectedIndex()),
+                                        timeBoundaryInteger.getValue(),
+                                        new AsyncCallback<String>() {
+                                            public void onFailure(final Throwable caught) {
+                                            	System.err.println(caught.getStackTrace());
+                                            }
+                
+                                            public void onSuccess(final String result) {
+                                                btnAdd.setEnabled(true);
+                                                if (!result.equals("Success")) {
+                                                    txtbxName.setFocus(true);
+                                                    setStatus(result);
+                                                    lblErrorLabel.setText(result);
+                                                } else {
+                                                    txtbxName.setText("");
+                                                    lblSuccessfullyAddedCategory
+                                                            .setVisible(true);
+                                                }
+                                            }
+                                        });
+                            }
+                        });
 
         categoryService.getAllStrategies(new AsyncCallback<List<String>>() {
             public void onFailure(final Throwable caught) {
@@ -91,35 +120,6 @@ public class CategoryAdd extends AbstractNavigationView implements
                         cmbobxStrategy.addItem(results.get(i));
                     }
                 }
-            }
-        });
-
-        btnAdd.addClickHandler(new ClickHandler() {
-            public void onClick(final ClickEvent event) {
-                lblErrorLabel.setText("");
-                lblSuccessfullyAddedCategory.setVisible(false);
-                btnAdd.setEnabled(false);
-                categoryService.addCategory(txtbxName.getText(), cmbobxStrategy
-                        .getValue(cmbobxStrategy.getSelectedIndex()),
-                        timeBoundaryInteger.getValue(),
-                        new AsyncCallback<String>() {
-                            public void onFailure(final Throwable caught) {
-                            	System.err.println(caught.getStackTrace());
-                            }
-
-                            public void onSuccess(final String result) {
-                                btnAdd.setEnabled(true);
-                                if (!result.equals("Success")) {
-                                    txtbxName.setFocus(true);
-                                    setStatus(result);
-                                    lblErrorLabel.setText(result);
-                                } else {
-                                    txtbxName.setText("");
-                                    lblSuccessfullyAddedCategory
-                                            .setVisible(true);
-                                }
-                            }
-                        });
             }
         });
 

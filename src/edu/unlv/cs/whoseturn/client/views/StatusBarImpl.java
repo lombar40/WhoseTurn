@@ -33,7 +33,6 @@ public class StatusBarImpl implements StatusBar {
      * Default Constructor.
      */
     public StatusBarImpl() {
-        // status = "";
         status = "";
     }
 
@@ -56,6 +55,10 @@ public class StatusBarImpl implements StatusBar {
         panel.add(statusLabel);
         statusLabel.setWidth("451px");
         
+        /**
+         * A logout button which gets a logout URL
+         * from the UserService.
+         */
         Button btnLogout = new Button("Logout");
         btnLogout.addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
@@ -76,6 +79,8 @@ public class StatusBarImpl implements StatusBar {
         return panel;
     }
 
+    /* Getter and Setter*/
+    
     @Override
     public final String getStatus() {
         return status;
