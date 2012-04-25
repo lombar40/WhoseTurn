@@ -42,6 +42,7 @@ public class MobileCategoryScreenController extends HttpServlet {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void modelCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String dbg = "";
 		

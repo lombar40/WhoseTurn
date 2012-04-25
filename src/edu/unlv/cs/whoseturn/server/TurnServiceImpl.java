@@ -73,7 +73,7 @@ public class TurnServiceImpl extends RemoteServiceServlet implements
 	 * @param category	The category name of the turn.
 	 * @return a String which will represent the selected driver of Whose Turn
 	 */
-	public List<String> findDriver(List<String> usernames, String categoryName) {
+	public List<String> findUnluckySoul(List<String> usernames, String categoryName) {
 		User driver;
 
 		/**

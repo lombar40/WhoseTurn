@@ -152,6 +152,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements Categor
 		return strategyNames;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String[]> getCategoryInfo(String categoryName) {
 		/**
@@ -198,6 +199,7 @@ public class CategoryServiceImpl extends RemoteServiceServlet implements Categor
 		return resultStringList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String categoryUpdate(String originalCategoryName, String newCategoryName, String newStrategy, String newTimeBoundary, Boolean deleted) {
 

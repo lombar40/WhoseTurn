@@ -15,6 +15,11 @@ import edu.unlv.cs.whoseturn.server.TurnServiceImpl;
 
 public class MobileSelectionResultController extends MobileCategoryScreenController {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6242457047514025398L;
+
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		doPost(request, response);

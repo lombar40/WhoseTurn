@@ -1,10 +1,5 @@
 package edu.unlv.cs.whoseturn.domain;
 
-import java.security.DomainCombiner;
-import java.util.LinkedList;
-import java.util.List;
-
-
 /***
  * This class is for modeling users and an ephemeral selection state for use with the mobile web application
  */

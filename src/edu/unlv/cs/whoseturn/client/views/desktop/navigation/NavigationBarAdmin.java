@@ -11,7 +11,6 @@ import edu.unlv.cs.whoseturn.client.views.View;
 import edu.unlv.cs.whoseturn.client.views.desktop.CategoryList;
 import edu.unlv.cs.whoseturn.client.views.desktop.TurnAdd;
 import edu.unlv.cs.whoseturn.client.views.desktop.UserList;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * This is a navigation bar that will be seen by admin users.
